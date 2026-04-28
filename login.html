@@ -518,6 +518,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 let pendingEmail = '', pendingPassword = '';
+let isLoggingIn = false;
 
 // ── DEMO: kunci harian ──────────────────────────
 // Key localStorage: demo_used_DATE (misal demo_used_2024-06-01)
@@ -610,6 +611,7 @@ function setLoading(loading) {
 }
 
 async function doLogin() {
+  isLoggingIn = true;
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   clearMsg('login-msg');
@@ -717,6 +719,7 @@ function doDemo() {
 
 // ── AUTO REDIRECT KALAU SUDAH LOGIN ─────────────
 auth.onAuthStateChanged(async (user) => {
+  if (isLoggingIn) return; // jangan ganggu proses login
   if (user) {
     const sessionKey = localStorage.getItem('sessionKey');
     const localToken = localStorage.getItem('sessionToken');
