@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minna no Nihongo 2 — Kosa Kata N4</title>
+<title>Minna no Nihongo 2 — Kosakata, Kanji & Bunpou N4</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Serif+JP:wght@300;400;500;700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -12,6 +12,7 @@
     --accent:#4f62e8;--accent-light:#eef0fd;--accent2:#e8376e;--accent2-light:#fdeef3;
     --green:#22c55e;--green-light:#dcfce7;--amber:#f59e0b;--amber-light:#fef3c7;
     --purple:#8b5cf6;--purple-light:#f5f3ff;--red:#ef4444;--red-light:#fee2e2;
+    --teal:#0d9488;--teal-light:#ccfbf1;
     --shadow:0 1px 3px rgba(0,0,0,0.05),0 4px 12px rgba(0,0,0,0.04);
     --shadow-lg:0 4px 24px rgba(0,0,0,0.08);--radius:14px;--radius-sm:10px;
   }
@@ -19,7 +20,7 @@
     --bg:#0b0d16;--bg2:#121520;--bg3:#1a1e2e;--border:#222638;--border2:#2e334d;
     --text:#eef0f8;--text2:#a0aac4;--text3:#606880;--text4:#3e4560;
     --accent-light:#181d3a;--accent2-light:#28101e;--green-light:#091c12;
-    --amber-light:#1e1608;--purple-light:#160e28;--red-light:#1c0b0b;
+    --amber-light:#1e1608;--purple-light:#160e28;--red-light:#1c0b0b;--teal-light:#061a18;
     --shadow:0 1px 3px rgba(0,0,0,0.3),0 4px 12px rgba(0,0,0,0.2);
     --shadow-lg:0 4px 24px rgba(0,0,0,0.4);
   }
@@ -28,10 +29,15 @@
   body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;transition:background 0.3s,color 0.3s;}
 
   .topnav{position:sticky;top:0;z-index:200;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1rem;height:56px;gap:8px;box-shadow:var(--shadow);}
-  .nav-brand{display:flex;align-items:center;gap:6px;font-weight:800;font-size:0.85rem;color:var(--text);white-space:nowrap;flex-shrink:0;}
+  .nav-brand{display:flex;align-items:center;gap:6px;font-weight:800;font-size:0.85rem;color:var(--text);white-space:nowrap;flex-shrink:0;text-decoration:none;}
   .nav-brand .jp-badge{background:var(--accent2);color:#fff;font-family:'Noto Serif JP',serif;font-size:0.8rem;padding:3px 7px;border-radius:6px;}
   .nav-brand .brand-text{display:none;}
   @media(min-width:500px){.nav-brand .brand-text{display:inline;}}
+  .mode-pills{display:flex;background:var(--bg3);border-radius:9px;padding:3px;gap:2px;flex-shrink:0;}
+  .mode-pill{padding:5px 11px;border:none;background:transparent;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;font-weight:600;color:var(--text3);cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+  .mode-pill.active{background:var(--bg2);color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,0.1);}
+  .nav-link{display:flex;align-items:center;gap:5px;padding:5px 11px;border:1px solid var(--border);background:var(--bg3);border-radius:8px;font-size:0.72rem;font-weight:600;color:var(--text3);text-decoration:none;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
+  .nav-link:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
   .nav-search{flex:1;position:relative;min-width:0;}
   .nav-search svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--text3);pointer-events:none;}
   .nav-search input{width:100%;height:34px;padding:0 10px 0 30px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;color:var(--text);outline:none;transition:all 0.2s;}
@@ -45,6 +51,7 @@
     .nav-brand{order:1;}
     .nav-search{order:2;}
     .theme-btn{order:3;}
+    .mode-pills{order:4;}
     .count-chip{display:none!important;}
     .subbar{top:84px;}
   }
@@ -66,6 +73,13 @@
   .filter-pill.active .dot{background:rgba(255,255,255,0.8);}
   .dot-verb{background:var(--accent2);}.dot-adj{background:var(--purple);}.dot-noun{background:var(--accent);}
   .dot-expr{background:var(--green);}.dot-place{background:var(--amber);}
+
+  /* Kanji filter */
+  .kanji-filter-row{display:flex;align-items:center;gap:5px;padding:8px 1rem;overflow-x:auto;scrollbar-width:none;}
+  .kanji-filter-row::-webkit-scrollbar{display:none;}
+  .kcat-pill{padding:4px 10px;border:1px solid var(--border);background:transparent;border-radius:20px;font-size:0.7rem;font-weight:600;color:var(--text3);cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+  .kcat-pill:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+  .kcat-pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 
   main{max-width:900px;margin:0 auto;padding:1rem 0.75rem 6rem;}
 
@@ -99,7 +113,7 @@
   .jp-note-text{font-size:0.58rem;color:var(--text3);margin-top:1px;font-family:'JetBrains Mono',monospace;}
   .td-kanji{width:90px;font-family:'Noto Serif JP',serif;font-size:1.05rem;color:var(--accent2);font-weight:400;}
   .td-meaning{font-size:0.82rem;color:var(--text2);line-height:1.5;}
-  .td-type{width:68px;}
+  .td-type{width:80px;}
 
   .vocab-cards-wrap{display:block;}
   .vocab-card{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border-bottom:1px solid var(--border);transition:background 0.1s;}
@@ -115,30 +129,77 @@
   .vc-badge-row{display:flex;align-items:center;gap:5px;margin-top:5px;}
   .vc-num{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--text4);}
 
-  .type-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.05em;padding:2px 6px;border-radius:4px;font-weight:700;}
+  .type-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.04em;padding:2px 6px;border-radius:4px;font-weight:700;}
   .type-verb{background:var(--accent2-light);color:var(--accent2);}
   .type-adj{background:var(--purple-light);color:var(--purple);}
   .type-noun{background:var(--accent-light);color:var(--accent);}
-  .type-expr{background:var(--green-light);color:var(--green);}
-  .type-place{background:var(--amber-light);color:var(--amber);}
+  .type-expr{background:var(--green-light);color:#15803d;}
+  .type-place{background:var(--amber-light);color:#b45309;}
 
-  mark{background:var(--amber-light);color:var(--amber);border-radius:2px;padding:0 1px;}
+  /* ── KANJI GRID ── */
+  .kanji-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:14px;}
+  .kanji-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 10px;text-align:center;transition:all 0.2s;animation:fadeUp 0.3s ease both;}
+  .kanji-card:hover{border-color:var(--accent);box-shadow:var(--shadow-lg);transform:translateY(-2px);}
+  .k-char{display:block;font-family:'Noto Serif JP',serif;font-size:2.5rem;font-weight:500;color:var(--text);line-height:1.2;margin-bottom:6px;}
+  .k-on{display:block;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent2);margin-bottom:1px;}
+  .k-kun{display:block;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent);margin-bottom:5px;}
+  .k-meaning{font-size:0.72rem;color:var(--text2);font-weight:600;margin-bottom:4px;line-height:1.4;}
+  .k-stroke{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--text4);margin-bottom:3px;}
+  .k-example{font-family:'Noto Serif JP',serif;font-size:0.65rem;color:var(--text3);line-height:1.5;}
+  .kanji-section{margin-bottom:1rem;animation:fadeUp 0.3s ease both;}
+  .kanji-section-head{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm) var(--radius-sm) 0 0;}
+  .kanji-section-tag{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--accent2);color:white;font-weight:700;}
+  .kanji-section-body{background:var(--bg2);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);}
+
+  /* ── BUNPOU ── */
+  .pattern-list{padding:0;}
+  .pattern-item{border-bottom:1px solid var(--border);padding:14px 16px;transition:background 0.1s;}
+  .pattern-item:last-child{border-bottom:none;}
+  .pattern-item:hover{background:var(--bg3);}
+  .p-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+  .p-num{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text4);min-width:22px;padding-top:3px;}
+  .p-main{flex:1;}
+  .p-formula{font-family:'Noto Serif JP',serif;font-size:1rem;color:var(--text);font-weight:500;line-height:1.5;margin-bottom:4px;}
+  .p-formula .slot{color:var(--accent2);font-weight:600;}
+  .p-roma{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--accent);font-style:italic;margin-bottom:5px;}
+  .p-meaning{font-size:0.82rem;color:var(--text2);line-height:1.6;margin-bottom:8px;}
+  .p-note{font-size:0.72rem;color:var(--text3);background:var(--bg3);border-left:3px solid var(--amber);padding:6px 10px;border-radius:0 6px 6px 0;margin-bottom:8px;line-height:1.5;}
+  .p-examples{display:flex;flex-direction:column;gap:6px;}
+  .example{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;}
+  .example-jp{font-family:'Noto Serif JP',serif;font-size:0.92rem;color:var(--text);line-height:1.6;}
+  .example-jp .highlight{color:var(--accent2);font-weight:600;text-decoration:underline;text-decoration-color:rgba(232,55,110,0.3);text-underline-offset:3px;}
+  .example-rom{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent);font-style:italic;margin-top:1px;}
+  .example-id{font-size:0.78rem;color:var(--text2);margin-top:2px;}
+  .p-type-badge{display:inline-flex;align-items:center;font-size:0.56rem;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:0.04em;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;}
+  .badge-cop{background:var(--accent-light);color:var(--accent);}
+  .badge-verb{background:var(--accent2-light);color:var(--accent2);}
+  .badge-adj{background:var(--purple-light);color:var(--purple);}
+  .badge-neg{background:var(--red-light);color:var(--red);}
+  .badge-q{background:var(--amber-light);color:#b45309;}
+  .badge-part{background:var(--teal-light);color:var(--teal);}
+  .badge-conj{background:var(--green-light);color:#15803d;}
+
+  mark{background:rgba(245,158,11,0.3);color:inherit;border-radius:2px;padding:0 1px;}
   [data-theme="dark"] mark{background:#3d2e00;color:#fbbf24;}
-
   .empty-state{padding:3rem 1rem;text-align:center;color:var(--text3);}
   .empty-state .e-icon{font-size:2.5rem;margin-bottom:0.5rem;}
   .empty-state p{font-size:0.85rem;}
-
   .bab-all-btn{font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:700;padding:4px 10px;border:1px solid var(--border);background:transparent;border-radius:6px;color:var(--text3);cursor:pointer;white-space:nowrap;transition:all 0.15s;}
   .bab-all-btn:hover,.bab-all-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  footer{text-align:center;padding:1.2rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;color:var(--text4);border-top:1px solid var(--border);}
 </style>
 </head>
 <body>
 
 <nav class="topnav">
-  <div class="nav-brand">
+  <a class="nav-brand" href="javascript:void(0)">
     <span class="jp-badge">みんな２</span>
     <span class="brand-text">Minna no Nihongo 2</span>
+  </a>
+  <div class="mode-pills">
+    <button class="mode-pill active" id="tabVocab" onclick="switchMode('vocab')">📖 Kosakata</button>
+    <button class="mode-pill" id="tabKanji" onclick="switchMode('kanji')">漢字 Kanji</button>
+    <button class="mode-pill" id="tabBunpou" onclick="switchMode('bunpou')">文法 Bunpou</button>
   </div>
   <div class="nav-search">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -148,67 +209,103 @@
   <button class="theme-btn" onclick="toggleTheme()" title="Ganti tema">🌙</button>
 </nav>
 
-<div class="subbar" id="subbar">
+<!-- SUBBAR VOCAB -->
+<div class="subbar" id="subbarVocab">
   <div class="bab-row">
     <span class="bab-label">Bab</span>
     <button class="bab-all-btn active" id="babAll" onclick="selectBab('all')">Semua</button>
     <div class="bab-scroller" id="babScroller"></div>
   </div>
   <div class="filter-row" id="filterRow">
-    <button class="filter-pill active" data-filter="all" onclick="setFilter('all')">
-      <span class="dot" style="background:var(--text3)"></span>Semua
-    </button>
-    <button class="filter-pill" data-filter="verb" onclick="setFilter('verb')">
-      <span class="dot dot-verb"></span>Verba
-    </button>
-    <button class="filter-pill" data-filter="adj" onclick="setFilter('adj')">
-      <span class="dot dot-adj"></span>Adjektiva
-    </button>
-    <button class="filter-pill" data-filter="noun" onclick="setFilter('noun')">
-      <span class="dot dot-noun"></span>Nomina
-    </button>
-    <button class="filter-pill" data-filter="expr" onclick="setFilter('expr')">
-      <span class="dot dot-expr"></span>Ekspresi
-    </button>
-    <button class="filter-pill" data-filter="place" onclick="setFilter('place')">
-      <span class="dot dot-place"></span>Tempat
-    </button>
+    <button class="filter-pill active" data-filter="all" onclick="setFilter('all')"><span class="dot" style="background:var(--text3)"></span>Semua</button>
+    <button class="filter-pill" data-filter="verb" onclick="setFilter('verb')"><span class="dot dot-verb"></span>Kata Kerja</button>
+    <button class="filter-pill" data-filter="adj" onclick="setFilter('adj')"><span class="dot dot-adj"></span>Kata Sifat</button>
+    <button class="filter-pill" data-filter="noun" onclick="setFilter('noun')"><span class="dot dot-noun"></span>Kata Benda</button>
+    <button class="filter-pill" data-filter="expr" onclick="setFilter('expr')"><span class="dot dot-expr"></span>Ungkapan</button>
+    <button class="filter-pill" data-filter="place" onclick="setFilter('place')"><span class="dot dot-place"></span>Tempat</button>
+  </div>
+</div>
+
+<!-- SUBBAR KANJI -->
+<div class="subbar" id="subbarKanji" style="display:none;">
+  <div class="kanji-filter-row">
+    <span class="bab-label">Kategori</span>
+    <button class="kcat-pill active" data-kcat="all" onclick="setKcat('all')">Semua</button>
+    <button class="kcat-pill" data-kcat="orang" onclick="setKcat('orang')">Orang</button>
+    <button class="kcat-pill" data-kcat="waktu" onclick="setKcat('waktu')">Waktu</button>
+    <button class="kcat-pill" data-kcat="tempat" onclick="setKcat('tempat')">Tempat</button>
+    <button class="kcat-pill" data-kcat="kegiatan" onclick="setKcat('kegiatan')">Kegiatan</button>
+    <button class="kcat-pill" data-kcat="alam" onclick="setKcat('alam')">Alam</button>
+    <button class="kcat-pill" data-kcat="benda" onclick="setKcat('benda')">Benda</button>
+    <button class="kcat-pill" data-kcat="sifat" onclick="setKcat('sifat')">Sifat</button>
+    <button class="kcat-pill" data-kcat="angka" onclick="setKcat('angka')">Angka/Ukuran</button>
+  </div>
+</div>
+
+<!-- SUBBAR BUNPOU -->
+<div class="subbar" id="subbarBunpou" style="display:none;">
+  <div class="bab-row">
+    <span class="bab-label">Bab</span>
+    <div class="bab-scroller" id="babBtnsBunpou"></div>
   </div>
 </div>
 
 <main>
   <div class="page-hero">
     <div class="hero-badge">📗 Minna no Nihongo II · N4</div>
-    <h1 class="hero-title">
-      Kosakata & Kanji
+    <h1 class="hero-title" id="heroTitle">
+      Kosakata, Kanji & Bunpou
       <span class="jp">みんなの日本語 第二巻</span>
     </h1>
-    <p class="hero-sub">Pelajaran 26–50 · Bahasa Indonesia</p>
+    <p class="hero-sub" id="heroSub">Pelajaran 26–50 · Bahasa Indonesia</p>
   </div>
 
-  <div id="vocabSections"></div>
-  <div class="empty-state" id="emptyVocab" style="display:none">
-    <div class="e-icon">🔍</div>
-    <p>Tidak ada kosakata yang cocok.</p>
+  <!-- VOCAB PANEL -->
+  <div id="vocabPanel">
+    <div id="vocabSections"></div>
+    <div class="empty-state" id="emptyVocab" style="display:none">
+      <div class="e-icon">🔍</div>
+      <p>Tidak ada kosakata yang cocok.</p>
+    </div>
+  </div>
+
+  <!-- KANJI PANEL -->
+  <div id="kanjiPanel" style="display:none;">
+    <div id="kanjiGrid"></div>
+    <div class="empty-state" id="emptyKanji" style="display:none">
+      <div class="e-icon">🔍</div>
+      <p>Tidak ada kanji yang cocok.</p>
+    </div>
+  </div>
+
+  <!-- BUNPOU PANEL -->
+  <div id="bunpouPanel" style="display:none;">
+    <div id="patternSections"></div>
+    <div class="empty-state" id="emptyBunpou" style="display:none">
+      <div class="e-icon">🔍</div>
+      <p>Tidak ada pola kalimat yang cocok.</p>
+    </div>
   </div>
 </main>
 
+<footer>Minna no Nihongo II · N4 · Bahasa Indonesia</footer>
+
 <script>
-// ═══ DATA ═══
+// ═══════════════════ DATA KOSAKATA ═══════════════════
 const allBabs = {
 26: [{ num:'26', title:'Kosakata Utama', jp:'第26課', rows:[
   {jp:'みます II',rom:'mimasu',kanji:'見ます、診ます',meaning:'melihat, memeriksa',type:'verb'},
   {jp:'さがします I',rom:'sagashimasu',kanji:'探します、捜します',meaning:'mencari',type:'verb'},
-  {jp:'おくれます II',rom:'okuremasu',kanji:'遅れます',meaning:'terlambat [pada waktu]',type:'verb',note:'[じかんに〜]'},
-  {jp:'まに あいます I',rom:'ma ni aimasu',kanji:'間に合います',meaning:'sempat [pada waktu]',type:'verb',note:'[じかんに〜]'},
+  {jp:'おくれます II',rom:'okuremasu',kanji:'遅れます',meaning:'terlambat',type:'verb',note:'[じかんに〜]'},
+  {jp:'まに あいます I',rom:'ma ni aimasu',kanji:'間に合います',meaning:'sempat, tidak terlambat',type:'verb',note:'[じかんに〜]'},
   {jp:'やります I',rom:'yarimasu',kanji:'—',meaning:'melakukan',type:'verb'},
-  {jp:'ひろいます I',rom:'hiroimasu',kanji:'拾います',meaning:'mendapat, mengambil',type:'verb'},
+  {jp:'ひろいます I',rom:'hiroimasu',kanji:'拾います',meaning:'memungut, mengambil',type:'verb'},
   {jp:'れんらくします III',rom:'renrakushimasu',kanji:'連絡します',meaning:'menghubungi',type:'verb'},
-  {jp:'きぶんが いい',rom:'kibun ga ii',kanji:'気分が いい',meaning:'rasa enak, segar',type:'expr'},
-  {jp:'きぶんが わるい',rom:'kibun ga warui',kanji:'気分が 悪い',meaning:'rasa tidak enak',type:'expr'},
-  {jp:'うんどうかい',rom:'undoukai',kanji:'運動会',meaning:'lomba olahraga',type:'noun'},
+  {jp:'きぶんが いい',rom:'kibun ga ii',kanji:'気分が いい',meaning:'merasa enak, segar',type:'expr'},
+  {jp:'きぶんが わるい',rom:'kibun ga warui',kanji:'気分が 悪い',meaning:'merasa tidak enak',type:'expr'},
+  {jp:'うんどうかい',rom:'undoukai',kanji:'運動会',meaning:'perlombaan olahraga',type:'noun'},
   {jp:'ぼんおどり',rom:'bon odori',kanji:'盆踊り',meaning:'tarian Bon',type:'noun'},
-  {jp:'フリーマーケット',rom:'furii maaketto',kanji:'—',meaning:'pasar rombengan',type:'noun'},
+  {jp:'フリーマーケット',rom:'furii maaketto',kanji:'—',meaning:'pasar loak',type:'noun'},
   {jp:'ばしょ',rom:'basho',kanji:'場所',meaning:'tempat',type:'noun'},
   {jp:'ボランティア',rom:'borantia',kanji:'—',meaning:'sukarelawan',type:'noun'},
   {jp:'さいふ',rom:'saifu',kanji:'財布',meaning:'dompet',type:'noun'},
@@ -220,350 +317,285 @@ const allBabs = {
   {jp:'ずいぶん',rom:'zuibun',kanji:'—',meaning:'sangat, amat',type:'expr'},
   {jp:'ちょくせつ',rom:'chokusetsu',kanji:'直接',meaning:'langsung',type:'expr'},
   {jp:'いつでも',rom:'itsu demo',kanji:'—',meaning:'kapan saja',type:'expr'},
-  {jp:'どこでも',rom:'doko demo',kanji:'—',meaning:'di mana-mana',type:'expr'},
+  {jp:'どこでも',rom:'doko demo',kanji:'—',meaning:'di mana saja',type:'expr'},
   {jp:'だれでも',rom:'dare demo',kanji:'—',meaning:'siapa saja',type:'expr'},
   {jp:'なんでも',rom:'nan demo',kanji:'何でも',meaning:'apa saja',type:'expr'},
-  {jp:'こんな 〜',rom:'konna',kanji:'—',meaning:'〜 begini',type:'expr'},
-  {jp:'そんな 〜',rom:'sonna',kanji:'—',meaning:'〜 begitu (dekat dari lawan bicara)',type:'expr'},
-  {jp:'あんな 〜',rom:'anna',kanji:'—',meaning:'〜 begitu (jauh dari pembicara dan lawan bicara)',type:'expr'},
-  {jp:'かたづきます I',rom:'katadzukimasu',kanji:'片づきます',meaning:'membereskan [barang]',type:'verb',note:'《会話》'},
-  {jp:'だします I',rom:'dashimasu',kanji:'出します',meaning:'membuang [sampah], mengeluarkan',type:'verb',note:'[ごみを〜]'},
-  {jp:'もえる ごみ',rom:'moeru gomi',kanji:'燃える ごみ',meaning:'sampah organik',type:'noun'},
+  {jp:'こんな 〜',rom:'konna',kanji:'—',meaning:'〜 seperti ini',type:'expr'},
+  {jp:'そんな 〜',rom:'sonna',kanji:'—',meaning:'〜 seperti itu (dekat lawan bicara)',type:'expr'},
+  {jp:'あんな 〜',rom:'anna',kanji:'—',meaning:'〜 seperti itu (jauh dari pembicara)',type:'expr'},
+  {jp:'かたづきます I',rom:'katadzukimasu',kanji:'片づきます',meaning:'membereskan barang',type:'verb',note:'《会話》'},
+  {jp:'だします I',rom:'dashimasu',kanji:'出します',meaning:'membuang sampah, mengeluarkan',type:'verb',note:'[ごみを〜]'},
+  {jp:'もえる ごみ',rom:'moeru gomi',kanji:'燃える ごみ',meaning:'sampah organik (bisa dibakar)',type:'noun'},
   {jp:'おきば',rom:'okiba',kanji:'お置き場',meaning:'tempat meletakkan sampah',type:'noun'},
-  {jp:'よこ',rom:'yoko',kanji:'横',meaning:'sebelah, samping',type:'noun'},
+  {jp:'よこ',rom:'yoko',kanji:'横',meaning:'samping',type:'noun'},
   {jp:'びん',rom:'bin',kanji:'瓶',meaning:'botol',type:'noun'},
   {jp:'かん',rom:'kan',kanji:'缶',meaning:'kaleng',type:'noun'},
   {jp:'ガス',rom:'gasu',kanji:'—',meaning:'gas',type:'noun'},
   {jp:'〜がいしゃ',rom:'~gaisha',kanji:'〜会社',meaning:'perusahaan 〜',type:'noun'},
-  {jp:'うちゅう',rom:'uchuu',kanji:'宇宙',meaning:'angkasa',type:'noun',note:'《読み物》'},
-  {jp:'〜さま',rom:'~sama',kanji:'〜様',meaning:'kepada Yth. 〜, Bapak 〜, Ibu 〜, Sdr.〜',type:'expr'},
-  {jp:'うちゅうせん',rom:'uchuusen',kanji:'宇宙船',meaning:'wahana antariksa',type:'noun'},
-  {jp:'こわい',rom:'kowai',kanji:'怖い',meaning:'takut',type:'adj'},
+  {jp:'うちゅう',rom:'uchuu',kanji:'宇宙',meaning:'luar angkasa',type:'noun',note:'《読み物》'},
+  {jp:'〜さま',rom:'~sama',kanji:'〜様',meaning:'Kepada Yth. 〜, Bapak/Ibu 〜',type:'expr'},
+  {jp:'うちゅうせん',rom:'uchuusen',kanji:'宇宙船',meaning:'pesawat luar angkasa',type:'noun'},
+  {jp:'こわい',rom:'kowai',kanji:'怖い',meaning:'menakutkan, takut',type:'adj'},
   {jp:'うちゅうステーション',rom:'uchuu suteeshon',kanji:'宇宙ステーション',meaning:'stasiun luar angkasa',type:'noun'},
-  {jp:'ちがいます I',rom:'chigaimasu',kanji:'違います',meaning:'tidak benar',type:'verb'},
+  {jp:'ちがいます I',rom:'chigaimasu',kanji:'違います',meaning:'tidak benar, salah',type:'verb'},
   {jp:'うちゅうひこうし',rom:'uchuu hikoushi',kanji:'宇宙飛行士',meaning:'astronot',type:'noun'},
 ]}],
 
 27: [{ num:'27', title:'Kosakata Utama', jp:'第27課', rows:[
-  {jp:'かいます I',rom:'kaimasu',kanji:'飼います',meaning:'memelihara',type:'verb'},
-  {jp:'はしります I',rom:'hashirimasu',kanji:'走ります',meaning:'berlari [jalan]',type:'verb',note:'[みちを〜]'},
-  {jp:'みえます II',rom:'miemasu',kanji:'見えます',meaning:'[gunung] terlihat',type:'verb',note:'[やまが〜]'},
-  {jp:'きこえます II',rom:'kikoemasu',kanji:'聞こえます',meaning:'[bunyi] terdengar',type:'verb',note:'[おとが〜]'},
-  {jp:'できます II',rom:'dekimasu',kanji:'—',meaning:'[jalan] dibuat',type:'verb',note:'[みちが〜]'},
-  {jp:'ひらきます I',rom:'hirakimasu',kanji:'開きます',meaning:'membuka/mengadakan [kelas]',type:'verb',note:'[きょうしつを〜]'},
+  {jp:'かいます I',rom:'kaimasu',kanji:'飼います',meaning:'memelihara (hewan)',type:'verb'},
+  {jp:'はしります I',rom:'hashirimasu',kanji:'走ります',meaning:'berlari',type:'verb',note:'[みちを〜]'},
+  {jp:'みえます II',rom:'miemasu',kanji:'見えます',meaning:'(gunung) terlihat',type:'verb',note:'[やまが〜]'},
+  {jp:'きこえます II',rom:'kikoemasu',kanji:'聞こえます',meaning:'(bunyi) terdengar',type:'verb',note:'[おとが〜]'},
+  {jp:'できます II',rom:'dekimasu',kanji:'—',meaning:'(jalan) dibuat, selesai',type:'verb',note:'[みちが〜]'},
+  {jp:'ひらきます I',rom:'hirakimasu',kanji:'開きます',meaning:'membuka, mengadakan (kelas)',type:'verb',note:'[きょうしつを〜]'},
   {jp:'しんぱい [な]',rom:'shinpai [na]',kanji:'心配[な]',meaning:'khawatir',type:'adj'},
   {jp:'ペット',rom:'petto',kanji:'—',meaning:'hewan peliharaan',type:'noun'},
   {jp:'とり',rom:'tori',kanji:'鳥',meaning:'burung',type:'noun'},
   {jp:'こえ',rom:'koe',kanji:'声',meaning:'suara',type:'noun'},
   {jp:'なみ',rom:'nami',kanji:'波',meaning:'ombak, gelombang',type:'noun'},
-  {jp:'はなび',rom:'hanabi',kanji:'花火',meaning:'kembang api',type:'noun'},
-  {jp:'どうぐ',rom:'dougu',kanji:'道具',meaning:'alat',type:'noun'},
-  {jp:'クリーニング',rom:'kuriiningu',kanji:'—',meaning:'laundry',type:'noun'},
-  {jp:'いえ',rom:'ie',kanji:'家',meaning:'rumah',type:'noun'},
-  {jp:'マンション',rom:'manshon',kanji:'—',meaning:'apartmen',type:'noun'},
-  {jp:'キッチン',rom:'kicchin',kanji:'—',meaning:'dapur',type:'noun'},
-  {jp:'〜きょうしつ',rom:'~kyoushitsu',kanji:'〜教室',meaning:'les 〜, kelas 〜',type:'noun'},
-  {jp:'パーティールーム',rom:'paatii ruumu',kanji:'—',meaning:'ruang pesta',type:'noun'},
-  {jp:'かた',rom:'kata',kanji:'方',meaning:'orang (Kata Hormat dari ひと)',type:'noun'},
-  {jp:'〜ご',rom:'~go',kanji:'—',meaning:'setelah 〜, sesudah 〜',type:'expr'},
-  {jp:'〜しか',rom:'~shika',kanji:'—',meaning:'hanya 〜 (dipakai bersama kata bentuk negatif)',type:'expr'},
-  {jp:'ほかの',rom:'hoka no',kanji:'—',meaning:'lain',type:'expr'},
-  {jp:'はっきり',rom:'hakkiri',kanji:'—',meaning:'jelas',type:'expr'},
-  {jp:'かぐ',rom:'kagu',kanji:'家具',meaning:'perabot rumah, mebel',type:'noun',note:'《会話》'},
-  {jp:'ほんだな',rom:'hon dana',kanji:'本棚',meaning:'lemari buku',type:'noun'},
-  {jp:'いつか',rom:'itsuka',kanji:'—',meaning:'kapan-kapan',type:'expr'},
-  {jp:'たてます II',rom:'tatemasu',kanji:'建てます',meaning:'membangun',type:'verb'},
-  {jp:'すばらしい',rom:'subarashii',kanji:'—',meaning:'bagus',type:'adj'},
-  {jp:'こどもたち',rom:'kodomo tachi',kanji:'子どもたち',meaning:'anak-anak',type:'noun',note:'《読み物》'},
-  {jp:'だいすき [な]',rom:'daisuki [na]',kanji:'大好き[な]',meaning:'kesukaan',type:'adj'},
-  {jp:'しゅじんこう',rom:'shujinkou',kanji:'主人公',meaning:'pelaku utama',type:'noun'},
-  {jp:'かたち',rom:'katachi',kanji:'形',meaning:'sosok, bentuk',type:'noun'},
-  {jp:'ふしぎ [な]',rom:'fushigi [na]',kanji:'不思議[な]',meaning:'ajaib',type:'adj'},
+  {jp:'においがします',rom:'nioi ga shimasu',kanji:'においが します',meaning:'tercium bau 〜',type:'expr'},
+  {jp:'おとがします',rom:'oto ga shimasu',kanji:'音が します',meaning:'terdengar suara 〜',type:'expr'},
+  {jp:'あじがします',rom:'aji ga shimasu',kanji:'味が します',meaning:'terasa rasa 〜',type:'expr'},
+  {jp:'ラジオたいそう',rom:'rajio taisou',kanji:'ラジオ体操',meaning:'senam radio',type:'noun'},
+  {jp:'プール',rom:'puuru',kanji:'—',meaning:'kolam renang',type:'noun'},
+  {jp:'ちかく',rom:'chikaku',kanji:'近く',meaning:'dekat, sekitar',type:'noun'},
+  {jp:'えき',rom:'eki',kanji:'駅',meaning:'stasiun',type:'noun'},
+  {jp:'とちゅう',rom:'tochuu',kanji:'途中',meaning:'di tengah jalan',type:'noun'},
+  {jp:'ふしぎ [な]',rom:'fushigi [na]',kanji:'不思議[な]',meaning:'ajaib, aneh',type:'adj'},
   {jp:'ポケット',rom:'poketto',kanji:'—',meaning:'kantong',type:'noun'},
   {jp:'たとえば',rom:'tatoeba',kanji:'例えば',meaning:'misalnya',type:'expr'},
   {jp:'つけます II',rom:'tsukemasu',kanji:'付けます',meaning:'memasang',type:'verb'},
   {jp:'じゆうに',rom:'jiyuu ni',kanji:'自由に',meaning:'dengan bebas',type:'expr'},
   {jp:'そら',rom:'sora',kanji:'空',meaning:'langit',type:'noun'},
   {jp:'とびます I',rom:'tobimasu',kanji:'飛びます',meaning:'terbang',type:'verb'},
-  {jp:'むかし',rom:'mukashi',kanji:'昔',meaning:'dulu',type:'expr'},
+  {jp:'むかし',rom:'mukashi',kanji:'昔',meaning:'dulu, dahulu kala',type:'expr'},
   {jp:'じぶん',rom:'jibun',kanji:'自分',meaning:'diri sendiri',type:'noun'},
   {jp:'しょうらい',rom:'shōrai',kanji:'将来',meaning:'masa depan',type:'noun'},
 ]}],
 
 28: [{ num:'28', title:'Kosakata Utama', jp:'第28課', rows:[
-  {jp:'うります I',rom:'urimasu',kanji:'売り手',meaning:'menari',type:'verb'},
-  {jp:'たべます II',rom:'tabemasu',kanji:'—',meaning:'makan, mengigit',type:'verb'},
-  {jp:'えらびます I',rom:'erabimasu',kanji:'—',meaning:'memilih',type:'verb'},
-  {jp:'かよいます I',rom:'kayoimasu',kanji:'—',meaning:'mencatat',type:'verb',note:'[バンクへ〜]'},
-  {jp:'すります I',rom:'surimasu',kanji:'—',meaning:'pergi [ke universitas]',type:'verb'},
-  {jp:'かわいい',rom:'kawaii',kanji:'—',meaning:'hebat',type:'adj'},
-  {jp:'まじめ [な]',rom:'majime [na]',kanji:'—',meaning:'tekun',type:'adj'},
-  {jp:'#むいている [な]',rom:'muiteiru [na]',kanji:'—',meaning:'serius',type:'adj'},
-  {jp:'すごい',rom:'sugoi',kanji:'—',meaning:'hebat',type:'adj'},
-  {jp:'チョコレート',rom:'chokoreeto',kanji:'—',meaning:'pas, cocok',type:'noun'},
-  {jp:'メールアドレス [な]',rom:'meeru adoresu [na]',kanji:'—',meaning:'pemandangan',type:'noun'},
-  {jp:'びしょ',rom:'bisho',kanji:'—',meaning:'salon kecantikan',type:'noun'},
+  {jp:'うります I',rom:'urimasu',kanji:'売ります',meaning:'menjual',type:'verb'},
+  {jp:'えらびます I',rom:'erabimasu',kanji:'選びます',meaning:'memilih',type:'verb'},
+  {jp:'かよいます I',rom:'kayoimasu',kanji:'通います',meaning:'pergi-pulang, berlangganan',type:'verb',note:'[がっこうへ〜]'},
+  {jp:'かわいい',rom:'kawaii',kanji:'可愛い',meaning:'lucu, manis',type:'adj'},
+  {jp:'まじめ [な]',rom:'majime [na]',kanji:'真面目[な]',meaning:'serius, tekun',type:'adj'},
+  {jp:'すごい',rom:'sugoi',kanji:'—',meaning:'luar biasa, hebat',type:'adj'},
+  {jp:'チョコレート',rom:'chokoreeto',kanji:'—',meaning:'coklat',type:'noun'},
+  {jp:'メールアドレス',rom:'meeru adoresu',kanji:'—',meaning:'alamat e-mail',type:'noun'},
+  {jp:'びよういん',rom:'biyouin',kanji:'美容院',meaning:'salon kecantikan',type:'noun'},
   {jp:'キッチン',rom:'kicchin',kanji:'—',meaning:'dapur',type:'noun'},
-  {jp:'けいけん',rom:'keiken',kanji:'経験',meaning:'pengalaman (〜があります: berpengalaman), 〜を します: mengalami',type:'noun'},
-  {jp:'ちから',rom:'chikara',kanji:'力',meaning:'tenaga',type:'noun'},
-  {jp:'にんき',rom:'ninki',kanji:'人気',meaning:'populer/disenagi [di kalangan mahasiswa]',type:'noun'},
-  {jp:'にんきがある',rom:'ninki ga aru',kanji:'—',meaning:'populer/disenagi [di kalangan mahasiswa]',type:'expr'},
-  {jp:'キャラクター',rom:'kyarakutaa',kanji:'—',meaning:'bentuk, sosok',type:'noun'},
-  {jp:'あじ',rom:'aji',kanji:'—',meaning:'rasa',type:'noun'},
-  {jp:'いろ',rom:'iro',kanji:'—',meaning:'warna',type:'noun'},
+  {jp:'けいけん',rom:'keiken',kanji:'経験',meaning:'pengalaman',type:'noun'},
+  {jp:'ちから',rom:'chikara',kanji:'力',meaning:'tenaga, kekuatan',type:'noun'},
+  {jp:'にんき',rom:'ninki',kanji:'人気',meaning:'populer',type:'noun'},
+  {jp:'にんきがある',rom:'ninki ga aru',kanji:'人気がある',meaning:'populer, disukai',type:'expr'},
+  {jp:'キャラクター',rom:'kyarakutaa',kanji:'—',meaning:'karakter, tokoh',type:'noun'},
+  {jp:'あじ',rom:'aji',kanji:'味',meaning:'rasa',type:'noun'},
+  {jp:'いろ',rom:'iro',kanji:'色',meaning:'warna',type:'noun'},
   {jp:'ガム',rom:'gamu',kanji:'—',meaning:'permen karet',type:'noun'},
-  {jp:'ねだん',rom:'nedan',kanji:'—',meaning:'barang',type:'noun'},
-  {jp:'きゅうりょう',rom:'kyuuryou',kanji:'—',meaning:'gaji',type:'noun'},
+  {jp:'ねだん',rom:'nedan',kanji:'値段',meaning:'harga',type:'noun'},
+  {jp:'きゅうりょう',rom:'kyuuryou',kanji:'給料',meaning:'gaji',type:'noun'},
   {jp:'ボーナス',rom:'boonasu',kanji:'—',meaning:'bonus',type:'noun'},
   {jp:'ゲーム',rom:'geemu',kanji:'—',meaning:'permainan, game',type:'noun'},
   {jp:'ドラマ',rom:'dorama',kanji:'ドラマ',meaning:'drama',type:'noun'},
-  {jp:'かしゅ',rom:'kashu',kanji:'—',meaning:'penyanyi',type:'noun'},
-  {jp:'テレビばんぐみ',rom:'terebi bangumi',kanji:'—',meaning:'acara TV, game',type:'noun'},
-  {jp:'しょうせつ',rom:'shousetsu',kanji:'—',meaning:'novel',type:'noun'},
-  {jp:'しょうせつか',rom:'shousetsu ka',kanji:'—',meaning:'novelis',type:'noun'},
-  {jp:'りゅう',rom:'ryuu',kanji:'—',meaning:'aliran 〜',type:'noun'},
-  {jp:'〜けい',rom:'~kei',kanji:'—',meaning:'〜',type:'noun'},
-  {jp:'むすこ',rom:'musuko',kanji:'—',meaning:'anak laki-laki',type:'noun'},
-  {jp:'むすめ',rom:'musume',kanji:'—',meaning:'anak perempuan',type:'noun'},
-  {jp:'むすこさん',rom:'musukosan',kanji:'—',meaning:'putra',type:'noun'},
-  {jp:'むすめさん',rom:'musumesan',kanji:'—',meaning:'putri',type:'noun'},
-  {jp:'しばらく',rom:'shibaraku',kanji:'—',meaning:'sebentar, sementara',type:'expr'},
-  {jp:'かれ',rom:'kare',kanji:'—',meaning:'dan juga',type:'expr'},
-  {jp:'それに',rom:'sorenimo',kanji:'—',meaning:'dan, lalu',type:'expr'},
-  {jp:'だいたい',rom:'daitai',kanji:'—',meaning:'kebanyakan',type:'expr'},
-  {jp:'そのうち',rom:'sono uchi',kanji:'—',meaning:'masa depan',type:'expr'},
-  {jp:'ちょっと',rom:'chotto',kanji:'—',meaning:'diri sendiri',type:'expr'},
-  {jp:'Minta sesuatu',rom:'~wo kudasai',kanji:'—',meaning:'Minta sesuatu [sebentar].',type:'expr'},
-  {jp:'まあまあ',rom:'maa maa',kanji:'—',meaning:'mmm...',type:'expr'},
-  {jp:'そうですね',rom:'sou desu ne',kanji:'—',meaning:'percakapan/sebenarnya',type:'expr'},
-  {jp:'solanya',rom:'soredewa',kanji:'—',meaning:'solanya/sebenarnya',type:'expr'},
-  {jp:'にち',rom:'nichi',kanji:'日',meaning:'pemberitahuan, pengumuman',type:'noun'},
-  {jp:'にちようび',rom:'nichiyoubi',kanji:'—',meaning:'hari Sabtu',type:'noun'},
-  {jp:'たてもの',rom:'tatemono',kanji:'—',meaning:'gedung olahraga',type:'noun'},
-  {jp:'む料',rom:'muryou',kanji:'—',meaning:'gratis, cuma-cuma',type:'expr'},
-  {jp:'さそいます I',rom:'sasoimasu',kanji:'—',meaning:'mengajak',type:'verb'},
-  {jp:'イベント',rom:'ibento',kanji:'—',meaning:'acara',type:'noun'},
+  {jp:'かしゅ',rom:'kashu',kanji:'歌手',meaning:'penyanyi',type:'noun'},
+  {jp:'テレビばんぐみ',rom:'terebi bangumi',kanji:'テレビ番組',meaning:'acara TV',type:'noun'},
+  {jp:'しょうせつ',rom:'shousetsu',kanji:'小説',meaning:'novel',type:'noun'},
+  {jp:'しょうせつか',rom:'shousetsu ka',kanji:'小説家',meaning:'novelis',type:'noun'},
+  {jp:'むすこ',rom:'musuko',kanji:'息子',meaning:'anak laki-laki (milik sendiri)',type:'noun'},
+  {jp:'むすめ',rom:'musume',kanji:'娘',meaning:'anak perempuan (milik sendiri)',type:'noun'},
+  {jp:'むすこさん',rom:'musukosan',kanji:'息子さん',meaning:'putra (orang lain)',type:'noun'},
+  {jp:'むすめさん',rom:'musumesan',kanji:'娘さん',meaning:'putri (orang lain)',type:'noun'},
+  {jp:'しばらく',rom:'shibaraku',kanji:'—',meaning:'sebentar, sementara waktu',type:'expr'},
+  {jp:'かれ',rom:'kare',kanji:'彼',meaning:'dia (laki-laki)',type:'noun'},
+  {jp:'それに',rom:'sorenimo',kanji:'それに',meaning:'selain itu, dan lagi',type:'expr'},
+  {jp:'だいたい',rom:'daitai',kanji:'大体',meaning:'kira-kira, sebagian besar',type:'expr'},
+  {jp:'そのうち',rom:'sono uchi',kanji:'—',meaning:'suatu saat nanti',type:'expr'},
+  {jp:'まあまあ',rom:'maa maa',kanji:'—',meaning:'lumayan, biasa saja',type:'expr'},
+  {jp:'そうですね',rom:'sou desu ne',kanji:'—',meaning:'Begitu ya, memang ya',type:'expr'},
+  {jp:'さそいます I',rom:'sasoimasu',kanji:'誘います',meaning:'mengajak',type:'verb'},
+  {jp:'イベント',rom:'ibento',kanji:'—',meaning:'acara, event',type:'noun'},
+  {jp:'むりょう',rom:'muryou',kanji:'無料',meaning:'gratis, cuma-cuma',type:'expr'},
 ]}],
 
 29: [{ num:'29', title:'Kosakata Utama', jp:'第29課', rows:[
-  {jp:'あきます I',rom:'akimasu',kanji:'開きます',meaning:'[pintu] terbuka',type:'verb',note:'[ドアが〜]'},
-  {jp:'しまります I',rom:'shimarimasu',kanji:'閉まります',meaning:'[pintu] tertutup',type:'verb',note:'[ドアが〜]'},
-  {jp:'つきます I',rom:'tsukimasu',kanji:'—',meaning:'[lampu] menyala',type:'verb',note:'[でんきが〜]'},
-  {jp:'きえます II',rom:'kiemasu',kanji:'消えます',meaning:'[lampu] terpadam',type:'verb',note:'[でんきが〜]'},
-  {jp:'こわれます II',rom:'kowaremasu',kanji:'壊れます',meaning:'[kursi] rusak',type:'verb',note:'[いすが〜]'},
-  {jp:'われます II',rom:'waremasu',kanji:'割れます',meaning:'[gelas] pecah',type:'verb',note:'[コップが〜]'},
-  {jp:'おれます II',rom:'oremasu',kanji:'折れます',meaning:'[pohon] patah',type:'verb',note:'[きが〜]'},
-  {jp:'やぶれます II',rom:'yaburemasu',kanji:'破れます',meaning:'[kertas] robek',type:'verb',note:'[かみが〜]'},
-  {jp:'よごれます II',rom:'yogoremasu',kanji:'汚れます',meaning:'[baju] menjadi kotor',type:'verb',note:'[ふくが〜]'},
-  {jp:'つきます I',rom:'tsukimasu',kanji:'付きます',meaning:'[kantong] terpasang',type:'verb',note:'[ポケットが〜]'},
-  {jp:'はずれます II',rom:'hazuremasu',kanji:'外れます',meaning:'[kancing] terlepas',type:'verb',note:'[ボタンが〜]'},
-  {jp:'とまります I',rom:'tomarimasu',kanji:'止まります',meaning:'[mobil] berhenti',type:'verb',note:'[くるまが〜]'},
-  {jp:'まちがえます II',rom:'machigaemasu',kanji:'—',meaning:'bersalah',type:'verb'},
+  {jp:'あきます I',rom:'akimasu',kanji:'開きます',meaning:'(pintu) terbuka',type:'verb',note:'[ドアが〜]'},
+  {jp:'しまります I',rom:'shimarimasu',kanji:'閉まります',meaning:'(pintu) tertutup',type:'verb',note:'[ドアが〜]'},
+  {jp:'つきます I',rom:'tsukimasu',kanji:'—',meaning:'(lampu) menyala',type:'verb',note:'[でんきが〜]'},
+  {jp:'きえます II',rom:'kiemasu',kanji:'消えます',meaning:'(lampu) padam',type:'verb',note:'[でんきが〜]'},
+  {jp:'こわれます II',rom:'kowaremasu',kanji:'壊れます',meaning:'(barang) rusak',type:'verb',note:'[いすが〜]'},
+  {jp:'われます II',rom:'waremasu',kanji:'割れます',meaning:'(gelas) pecah',type:'verb',note:'[コップが〜]'},
+  {jp:'おれます II',rom:'oremasu',kanji:'折れます',meaning:'(pohon) patah',type:'verb',note:'[きが〜]'},
+  {jp:'やぶれます II',rom:'yaburemasu',kanji:'破れます',meaning:'(kertas) robek',type:'verb',note:'[かみが〜]'},
+  {jp:'よごれます II',rom:'yogoremasu',kanji:'汚れます',meaning:'(baju) menjadi kotor',type:'verb',note:'[ふくが〜]'},
+  {jp:'つきます I',rom:'tsukimasu',kanji:'付きます',meaning:'(kantong) terpasang',type:'verb',note:'[ポケットが〜]'},
+  {jp:'はずれます II',rom:'hazuremasu',kanji:'外れます',meaning:'(kancing) terlepas',type:'verb',note:'[ボタンが〜]'},
+  {jp:'とまります I',rom:'tomarimasu',kanji:'止まります',meaning:'(mobil) berhenti',type:'verb',note:'[くるまが〜]'},
+  {jp:'まちがえます II',rom:'machigaemasu',kanji:'間違えます',meaning:'melakukan kesalahan',type:'verb'},
   {jp:'おとします I',rom:'otoshimasu',kanji:'落とします',meaning:'menjatuhkan, kehilangan',type:'verb'},
   {jp:'かかります I',rom:'kakarimasu',kanji:'掛かります',meaning:'terkunci',type:'verb',note:'[かぎが〜]'},
-  {jp:'ふきます I',rom:'fukimasu',kanji:'—',meaning:'mengelap',type:'verb'},
+  {jp:'ふきます I',rom:'fukimasu',kanji:'拭きます',meaning:'mengelap',type:'verb'},
   {jp:'とりかえます II',rom:'torikaemasu',kanji:'取り替えます',meaning:'mengganti',type:'verb'},
   {jp:'かたづけます II',rom:'katadukemasu',kanji:'片づけます',meaning:'membereskan',type:'verb'},
   {jp:'[お]さら',rom:'osara',kanji:'[お]皿',meaning:'piring',type:'noun'},
-  {jp:'[お]ちゃわん',rom:'ochawan',kanji:'—',meaning:'mangkuk',type:'noun'},
+  {jp:'[お]ちゃわん',rom:'ochawan',kanji:'[お]茶碗',meaning:'mangkuk',type:'noun'},
   {jp:'コップ',rom:'koppu',kanji:'—',meaning:'gelas',type:'noun'},
   {jp:'ガラス',rom:'garasu',kanji:'—',meaning:'kaca',type:'noun'},
-  {jp:'ふくろ',rom:'fukuro',kanji:'袋',meaning:'kantong',type:'noun'},
+  {jp:'ふくろ',rom:'fukuro',kanji:'袋',meaning:'kantong, tas',type:'noun'},
   {jp:'しょるい',rom:'shorui',kanji:'書類',meaning:'dokumen',type:'noun'},
   {jp:'えだ',rom:'eda',kanji:'枝',meaning:'ranting',type:'noun'},
   {jp:'えきいん',rom:'ekiin',kanji:'駅員',meaning:'petugas stasiun',type:'noun'},
   {jp:'こうばん',rom:'kouban',kanji:'交番',meaning:'pos polisi',type:'noun'},
-  {jp:'スピーチ',rom:'supiichu',kanji:'—',meaning:'pidato (〜をします: berpidato)',type:'noun'},
-  {jp:'へんじ',rom:'henji',kanji:'返事',meaning:'jawaban (〜をします: memberi jawaban)',type:'noun'},
+  {jp:'スピーチ',rom:'supiichu',kanji:'—',meaning:'pidato',type:'noun'},
+  {jp:'へんじ',rom:'henji',kanji:'返事',meaning:'jawaban (〜をします: menjawab)',type:'noun'},
   {jp:'おさきに どうぞ。',rom:'osaki ni douzo',kanji:'お先に どうぞ。',meaning:'Silakan duluan!',type:'expr'},
-  {jp:'いまの でんしゃ',rom:'ima no densha',kanji:'今の 電車',meaning:'kereta tadi',type:'noun',note:'《会話》'},
-  {jp:'わすれもの',rom:'wasuremono',kanji:'忘れ物',meaning:'barang yang tertinggal/ketinggalan',type:'noun'},
+  {jp:'わすれもの',rom:'wasuremono',kanji:'忘れ物',meaning:'barang tertinggal',type:'noun'},
   {jp:'このくらい',rom:'kono kurai',kanji:'—',meaning:'segini',type:'expr'},
   {jp:'〜がわ',rom:'~gawa',kanji:'〜側',meaning:'sebelah 〜',type:'noun'},
-  {jp:'ポケット',rom:'poketto',kanji:'—',meaning:'kantong',type:'noun'},
   {jp:'〜へん',rom:'~hen',kanji:'〜 辺',meaning:'sekitar 〜',type:'noun'},
   {jp:'あみだな',rom:'amidana',kanji:'網棚',meaning:'rak bagasi',type:'noun'},
   {jp:'たしか',rom:'tashika',kanji:'—',meaning:'kalau tidak salah',type:'expr'},
-  {jp:'[ああ、] よかった。',rom:'aa, yokatta',kanji:'—',meaning:'[O,] syukur. (dipakai ketika merasa lega)',type:'expr'},
+  {jp:'[ああ、] よかった。',rom:'aa, yokatta',kanji:'—',meaning:'[O,] syukurlah.',type:'expr'},
   {jp:'じしん',rom:'jishin',kanji:'地震',meaning:'gempa bumi',type:'noun',note:'《読み物》'},
   {jp:'かべ',rom:'kabe',kanji:'壁',meaning:'dinding',type:'noun'},
-  {jp:'はり',rom:'hari',kanji:'針',meaning:'jarum',type:'noun'},
-  {jp:'さします I',rom:'sashimasu',kanji:'指します',meaning:'menunjuk',type:'verb'},
   {jp:'えきまえ',rom:'ekimae',kanji:'駅前',meaning:'depan stasiun',type:'noun'},
-  {jp:'たおれます II',rom:'taoremasu',kanji:'倒れます',meaning:'jatuh',type:'verb'},
+  {jp:'たおれます II',rom:'taoremasu',kanji:'倒れます',meaning:'jatuh, roboh',type:'verb'},
   {jp:'にし',rom:'nishi',kanji:'西',meaning:'barat',type:'noun'},
-  {jp:'〜のほう',rom:'~no hou',kanji:'〜の 方',meaning:'sebelah 〜',type:'noun'},
   {jp:'もえます II',rom:'moemasu',kanji:'燃えます',meaning:'terbakar',type:'verb'},
-  {jp:'レポーター',rom:'repoota',kanji:'—',meaning:'wartawan, jurnalis, pelapor',type:'noun'},
+  {jp:'レポーター',rom:'repoota',kanji:'—',meaning:'wartawan, jurnalis',type:'noun'},
 ]}],
 
 30: [{ num:'30', title:'Kosakata Utama', jp:'第30課', rows:[
-  {jp:'はります I',rom:'harimasu',kanji:'掛けます',meaning:'menempelkan',type:'verb'},
-  {jp:'かけます II',rom:'kakemasu',kanji:'飾ります',meaning:'menggantungkan',type:'verb'},
-  {jp:'かざります I',rom:'kazarimasu',kanji:'並べます',meaning:'menghiasi',type:'verb'},
-  {jp:'ならべます II',rom:'narabemasu',kanji:'植えます',meaning:'menata',type:'verb'},
-  {jp:'うえます II',rom:'uemasu',kanji:'戻します',meaning:'menanam',type:'verb'},
-  {jp:'もどします I',rom:'modoshimasu',kanji:'—',meaning:'mengembalikan',type:'verb'},
-  {jp:'まとめます II',rom:'matomemasu',kanji:'—',meaning:'merangkumkan',type:'verb'},
+  {jp:'はります I',rom:'harimasu',kanji:'貼ります',meaning:'menempelkan',type:'verb'},
+  {jp:'かけます II',rom:'kakemasu',kanji:'掛けます',meaning:'menggantungkan',type:'verb'},
+  {jp:'かざります I',rom:'kazarimasu',kanji:'飾ります',meaning:'menghiasi',type:'verb'},
+  {jp:'ならべます II',rom:'narabemasu',kanji:'並べます',meaning:'menata, menjajarkan',type:'verb'},
+  {jp:'うえます II',rom:'uemasu',kanji:'植えます',meaning:'menanam',type:'verb'},
+  {jp:'もどします I',rom:'modoshimasu',kanji:'戻します',meaning:'mengembalikan',type:'verb'},
+  {jp:'まとめます II',rom:'matomemasu',kanji:'—',meaning:'merangkum',type:'verb'},
   {jp:'しまいます I',rom:'shimaimasu',kanji:'—',meaning:'menyimpan',type:'verb'},
-  {jp:'きめます II',rom:'kimemasu',kanji:'決めます',meaning:'menentukan',type:'verb'},
+  {jp:'きめます II',rom:'kimemasu',kanji:'決めます',meaning:'menentukan, memutuskan',type:'verb'},
   {jp:'よしゅうします III',rom:'yoshuushimasu',kanji:'予習します',meaning:'belajar persiapan',type:'verb'},
-  {jp:'ふくしゅうします III',rom:'fukushūshimasu',kanji:'復習します',meaning:'belajar pengulangan',type:'verb'},
-  {jp:'そのままに します III',rom:'sono mama ni shimasu',kanji:'—',meaning:'membiarkan begitu',type:'verb'},
+  {jp:'ふくしゅうします III',rom:'fukushūshimasu',kanji:'復習します',meaning:'mengulang pelajaran',type:'verb'},
+  {jp:'そのままに します',rom:'sono mama ni shimasu',kanji:'—',meaning:'membiarkan begitu saja',type:'verb'},
   {jp:'じゅぎょう',rom:'jugyou',kanji:'授業',meaning:'kelas, pelajaran',type:'noun'},
   {jp:'こうぎ',rom:'kougi',kanji:'講義',meaning:'kuliah',type:'noun'},
   {jp:'ミーティング',rom:'miitingu',kanji:'—',meaning:'rapat',type:'noun'},
-  {jp:'よてい',rom:'yotei',kanji:'予定',meaning:'acara',type:'noun'},
+  {jp:'よてい',rom:'yotei',kanji:'予定',meaning:'rencana, jadwal',type:'noun'},
   {jp:'おしらせ',rom:'oshirase',kanji:'お知らせ',meaning:'pengumuman',type:'noun'},
-  {jp:'ガイドブック',rom:'gaido bukku',kanji:'—',meaning:'buku petunjuk',type:'noun'},
+  {jp:'ガイドブック',rom:'gaido bukku',kanji:'—',meaning:'buku panduan',type:'noun'},
   {jp:'カレンダー',rom:'karendaa',kanji:'—',meaning:'kalender',type:'noun'},
-  {jp:'ポスター',rom:'posutaa',kanji:'—',meaning:'plakat, poster',type:'noun'},
+  {jp:'ポスター',rom:'posutaa',kanji:'—',meaning:'poster',type:'noun'},
   {jp:'よていひょう',rom:'yotei hyou',kanji:'予定表',meaning:'jadwal acara',type:'noun'},
-  {jp:'ごみばこ',rom:'gomibako',kanji:'ごみ箱',meaning:'tempat sampah, tong sampah',type:'noun'},
-  {jp:'にんぎょう',rom:'ningyou',kanji:'人形',meaning:'boneka, orang-orangan',type:'noun'},
-  {jp:'かびん',rom:'kabin',kanji:'花瓶',meaning:'vas',type:'noun'},
+  {jp:'ごみばこ',rom:'gomibako',kanji:'ごみ箱',meaning:'tempat sampah',type:'noun'},
+  {jp:'にんぎょう',rom:'ningyou',kanji:'人形',meaning:'boneka',type:'noun'},
+  {jp:'かびん',rom:'kabin',kanji:'花瓶',meaning:'vas bunga',type:'noun'},
   {jp:'かがみ',rom:'kagami',kanji:'鏡',meaning:'cermin',type:'noun'},
   {jp:'ひきだし',rom:'hikidashi',kanji:'引き出し',meaning:'laci',type:'noun'},
-  {jp:'げんかん',rom:'genkan',kanji:'玄関',meaning:'ruang depan',type:'noun'},
+  {jp:'げんかん',rom:'genkan',kanji:'玄関',meaning:'ruang depan (pintu masuk rumah)',type:'noun'},
   {jp:'ろうか',rom:'rouka',kanji:'廊下',meaning:'koridor, gang',type:'noun'},
-  {jp:'かべ',rom:'kabe',kanji:'壁',meaning:'dinding',type:'noun'},
   {jp:'いけ',rom:'ike',kanji:'池',meaning:'kolam',type:'noun'},
-  {jp:'もとの ところ',rom:'moto no tokoro',kanji:'元の 所',meaning:'tempat semula',type:'noun'},
   {jp:'まわり',rom:'mawari',kanji:'周り',meaning:'sekitar',type:'noun'},
   {jp:'まんなか',rom:'mannaka',kanji:'真ん中',meaning:'tengah',type:'noun'},
   {jp:'すみ',rom:'sumi',kanji:'隅',meaning:'pojok, sudut',type:'noun'},
-  {jp:'まだ',rom:'mada',kanji:'—',meaning:'masih',type:'expr'},
-  {jp:'リュック',rom:'ryukku',kanji:'—',meaning:'ransel',type:'noun',note:'《会話》'},
-  {jp:'ひじょうぶくろ',rom:'hijou bukuro',kanji:'非常 袋',meaning:'kantong darurat',type:'noun'},
-  {jp:'ひじょうじ',rom:'hijouji',kanji:'非常時',meaning:'saat darurat',type:'noun'},
-  {jp:'せいかつします III',rom:'seikatsushimasu',kanji:'生活します',meaning:'hidup',type:'verb'},
+  {jp:'まだ',rom:'mada',kanji:'—',meaning:'masih, belum',type:'expr'},
+  {jp:'ひじょうぶくろ',rom:'hijou bukuro',kanji:'非常袋',meaning:'tas darurat',type:'noun'},
+  {jp:'ひじょうじ',rom:'hijouji',kanji:'非常時',meaning:'keadaan darurat',type:'noun'},
   {jp:'かいちゅうでんとう',rom:'kaichuu dento',kanji:'懐中電灯',meaning:'senter',type:'noun'},
-  {jp:'〜とか、〜とか',rom:'~toka, ~toka',kanji:'—',meaning:'〜 atau 〜',type:'expr'},
-  {jp:'まるい',rom:'marui',kanji:'—',meaning:'bundar, bulat',type:'adj',note:'《読み物》'},
-  {jp:'ある 〜',rom:'aru',kanji:'—',meaning:'suatu 〜',type:'expr'},
-  {jp:'ゆめを みます II',rom:'yume wo mimasu',kanji:'夢を 見ます',meaning:'bermimpi',type:'verb'},
-  {jp:'うれしい',rom:'ureshii',kanji:'—',meaning:'senang',type:'adj'},
-  {jp:'いや [な]',rom:'iya [na]',kanji:'嫌[な]',meaning:'tidak senang, tidak suka',type:'adj'},
-  {jp:'すると',rom:'suru to',kanji:'—',meaning:'kemudian',type:'expr'},
-  {jp:'めが さめます II',rom:'me ga samemasu',kanji:'目が 覚めます',meaning:'bangun, sadar',type:'verb'},
+  {jp:'〜とか、〜とか',rom:'~toka, ~toka',kanji:'—',meaning:'〜 atau 〜 dan sebagainya',type:'expr'},
+  {jp:'まるい',rom:'marui',kanji:'—',meaning:'bulat',type:'adj',note:'《読み物》'},
+  {jp:'うれしい',rom:'ureshii',kanji:'—',meaning:'senang, gembira',type:'adj'},
+  {jp:'いや [な]',rom:'iya [na]',kanji:'嫌[な]',meaning:'tidak suka, tidak mau',type:'adj'},
+  {jp:'めが さめます II',rom:'me ga samemasu',kanji:'目が 覚めます',meaning:'terbangun, sadar',type:'verb'},
 ]}],
 
 31: [{ num:'31', title:'Kosakata Utama', jp:'第31課', rows:[
   {jp:'つづけます II',rom:'tsudukemasu',kanji:'続けます',meaning:'melanjutkan',type:'verb'},
   {jp:'みつけます II',rom:'mitsukemasu',kanji:'見つけます',meaning:'menemukan',type:'verb'},
-  {jp:'とります I',rom:'torimasu',kanji:'取ります',meaning:'mengambil [cuti]',type:'verb',note:'[やすみを〜]'},
-  {jp:'うけます II',rom:'ukemasu',kanji:'受けます',meaning:'mengikuti [ujian]',type:'verb',note:'[しけんを〜]'},
+  {jp:'とります I',rom:'torimasu',kanji:'取ります',meaning:'mengambil (cuti)',type:'verb',note:'[やすみを〜]'},
+  {jp:'うけます II',rom:'ukemasu',kanji:'受けます',meaning:'mengikuti (ujian)',type:'verb',note:'[しけんを〜]'},
   {jp:'もうしこみます I',rom:'mōshikomimasu',kanji:'申し込みます',meaning:'mendaftar',type:'verb'},
   {jp:'きゅうけいします III',rom:'kyūkeishimasu',kanji:'休憩します',meaning:'beristirahat',type:'verb'},
   {jp:'れんきゅう',rom:'renkyuu',kanji:'連休',meaning:'liburan berturutan',type:'noun'},
   {jp:'さくぶん',rom:'sakubun',kanji:'作文',meaning:'karangan',type:'noun'},
-  {jp:'はっぴょう',rom:'happyou',kanji:'発表',meaning:'presentasi (〜します: mempresentasikan)',type:'noun'},
+  {jp:'はっぴょう',rom:'happyou',kanji:'発表',meaning:'presentasi',type:'noun'},
   {jp:'てんらんかい',rom:'tenrankai',kanji:'展覧会',meaning:'pameran',type:'noun'},
   {jp:'けっこんしき',rom:'kekkonshiki',kanji:'結婚式',meaning:'upacara pernikahan',type:'noun'},
-  {jp:'[お]そうしき',rom:'osōshiki',kanji:'[お]葬式',meaning:'upacara kematian',type:'noun'},
+  {jp:'[お]そうしき',rom:'osōshiki',kanji:'[お]葬式',meaning:'upacara pemakaman',type:'noun'},
   {jp:'しき',rom:'shiki',kanji:'式',meaning:'upacara',type:'noun'},
   {jp:'ほんしゃ',rom:'honsha',kanji:'本社',meaning:'kantor pusat',type:'noun'},
   {jp:'してん',rom:'shiten',kanji:'支店',meaning:'kantor cabang',type:'noun'},
   {jp:'きょうかい',rom:'kyōkai',kanji:'教会',meaning:'gereja',type:'noun'},
-  {jp:'だいがくいん',rom:'daigakuin',kanji:'大学院',meaning:'Program S2, S3 Universitas',type:'noun'},
+  {jp:'だいがくいん',rom:'daigakuin',kanji:'大学院',meaning:'program pascasarjana (S2/S3)',type:'noun'},
   {jp:'どうぶつえん',rom:'dōbutsuen',kanji:'動物園',meaning:'kebun binatang',type:'noun'},
-  {jp:'おんせん',rom:'onsen',kanji:'温泉',meaning:'tempat pemandian air panas',type:'noun'},
-  {jp:'かえり',rom:'kaeri',kanji:'帰り',meaning:'pulang',type:'noun'},
-  {jp:'おこさん',rom:'okosan',kanji:'お子さん',meaning:'anak orang lain',type:'noun'},
-  {jp:'〜ごう',rom:'~gou',kanji:'〜号',meaning:'nomor 〜 (nomor yang dipakai untuk kereta, angin topan dan lain-lain)',type:'noun'},
-  {jp:'〜のほう',rom:'~no hou',kanji:'〜の 方',meaning:'sebelah 〜',type:'noun'},
-  {jp:'ずっと',rom:'zutto',kanji:'—',meaning:'seterusnya',type:'expr'},
-  {jp:'のこります I',rom:'nokorimasu',kanji:'—',meaning:'tinggal',type:'verb',note:'《会話》'},
+  {jp:'おんせん',rom:'onsen',kanji:'温泉',meaning:'pemandian air panas',type:'noun'},
+  {jp:'かえり',rom:'kaeri',kanji:'帰り',meaning:'pulang, perjalanan pulang',type:'noun'},
+  {jp:'おこさん',rom:'okosan',kanji:'お子さん',meaning:'anak (orang lain)',type:'noun'},
+  {jp:'〜ごう',rom:'~gou',kanji:'〜号',meaning:'nomor 〜 (kereta, angin topan, dll)',type:'noun'},
+  {jp:'ずっと',rom:'zutto',kanji:'—',meaning:'seterusnya, terus-menerus',type:'expr'},
   {jp:'にゅうがくしけん',rom:'nyūgaku shiken',kanji:'入学試験',meaning:'ujian masuk',type:'noun'},
-  {jp:'つきに',rom:'tsuki ni',kanji:'月に',meaning:'dalam sebulan',type:'expr'},
   {jp:'むら',rom:'mura',kanji:'村',meaning:'desa, kampung',type:'noun',note:'《読み物》'},
   {jp:'そつぎょうします III',rom:'sotsugyōshimasu',kanji:'卒業します',meaning:'lulus, tamat',type:'verb'},
   {jp:'えいがかん',rom:'eigakan',kanji:'映画館',meaning:'gedung bioskop',type:'noun'},
-  {jp:'いや [な]',rom:'iya [na]',kanji:'嫌[な]',meaning:'tidak senang, tidak suka',type:'adj'},
-  {jp:'そら',rom:'sora',kanji:'空',meaning:'langit',type:'noun'},
-  {jp:'とじます II',rom:'tojimasu',kanji:'閉じます',meaning:'tutup',type:'verb'},
+  {jp:'とじます II',rom:'tojimasu',kanji:'閉じます',meaning:'menutup (buku, mata)',type:'verb'},
   {jp:'とかい',rom:'tokai',kanji:'都会',meaning:'kota besar',type:'noun'},
-  {jp:'こどもたち',rom:'kodomo tachi',kanji:'子どもたち',meaning:'anak-anak',type:'noun'},
-  {jp:'じゆうに',rom:'jiyuu ni',kanji:'自由に',meaning:'dengan bebas',type:'expr'},
 ]}],
 
 32: [{ num:'32', title:'Kosakata Utama', jp:'第32課', rows:[
   {jp:'うんどうします III',rom:'undoushimasu',kanji:'運動します',meaning:'berolahraga',type:'verb'},
   {jp:'せいこうします III',rom:'seikōshimasu',kanji:'成功します',meaning:'berhasil',type:'verb'},
-  {jp:'しっぱいします III',rom:'shippai shimasu',kanji:'失敗します',meaning:'gagal [ujian]',type:'verb',note:'[しけんに〜]'},
-  {jp:'ごうかくします III',rom:'gōkakushimasu',kanji:'合格します',meaning:'lulus [ujian]',type:'verb',note:'[しけんに〜]'},
-  {jp:'やみます I',rom:'yamimasu',kanji:'—',meaning:'[hujan] berhenti',type:'verb',note:'[あめが〜]'},
+  {jp:'しっぱいします III',rom:'shippai shimasu',kanji:'失敗します',meaning:'gagal',type:'verb',note:'[しけんに〜]'},
+  {jp:'ごうかくします III',rom:'gōkakushimasu',kanji:'合格します',meaning:'lulus (ujian)',type:'verb',note:'[しけんに〜]'},
+  {jp:'やみます I',rom:'yamimasu',kanji:'止みます',meaning:'(hujan) berhenti',type:'verb',note:'[あめが〜]'},
   {jp:'はれます II',rom:'haremasu',kanji:'晴れます',meaning:'cerah',type:'verb'},
   {jp:'くもります I',rom:'kumorimasu',kanji:'曇ります',meaning:'mendung',type:'verb'},
-  {jp:'つづきます I',rom:'tsudukimasu',kanji:'続きます',meaning:'[demam] berlangsung',type:'verb',note:'[ねつが〜]'},
-  {jp:'ひきます I',rom:'hikimasu',kanji:'—',meaning:'masuk [angin]',type:'verb',note:'[かぜを〜]'},
+  {jp:'つづきます I',rom:'tsudukimasu',kanji:'続きます',meaning:'(demam) berlangsung',type:'verb',note:'[ねつが〜]'},
+  {jp:'ひきます I',rom:'hikimasu',kanji:'引きます',meaning:'masuk angin',type:'verb',note:'[かぜを〜]'},
   {jp:'ひやします I',rom:'hiyashimasu',kanji:'冷やします',meaning:'mendinginkan',type:'verb'},
-  {jp:'こみます I',rom:'komimasu',kanji:'込みます',meaning:'[jalan] macet',type:'verb',note:'[みちが〜]'},
-  {jp:'すきます I',rom:'sukimasu',kanji:'—',meaning:'[jalan] sepi',type:'verb',note:'[みちが〜]'},
-  {jp:'でます II',rom:'demasu',kanji:'出ます',meaning:'mengikutsertakan [pertandingan]',type:'verb',note:'[しあいに〜]'},
+  {jp:'こみます I',rom:'komimasu',kanji:'込みます',meaning:'(jalan) macet',type:'verb',note:'[みちが〜]'},
+  {jp:'すきます I',rom:'sukimasu',kanji:'—',meaning:'(jalan) sepi',type:'verb',note:'[みちが〜]'},
+  {jp:'でます II',rom:'demasu',kanji:'出ます',meaning:'ikut serta (pertandingan)',type:'verb',note:'[しあいに〜]'},
   {jp:'むりを します III',rom:'muri wo shimasu',kanji:'無理を します',meaning:'memaksakan diri',type:'verb'},
-  {jp:'じゅうぶん [な]',rom:'jūbun [na]',kanji:'十分[な]',meaning:'dengan cukup',type:'adj'},
-  {jp:'おかしい',rom:'okashii',kanji:'—',meaning:'aneh, menarik',type:'adj'},
-  {jp:'うるさい',rom:'urusai',kanji:'—',meaning:'bising',type:'adj'},
-  {jp:'せんせい',rom:'sensei',kanji:'先生',meaning:'dokter',type:'noun'},
-  {jp:'やけど',rom:'yakedo',kanji:'—',meaning:'luka bakar (〜をします: menderita luka bakar)',type:'noun'},
-  {jp:'けが',rom:'kega',kanji:'—',meaning:'luka (〜をします: terluka)',type:'noun'},
-  {jp:'せき',rom:'seki',kanji:'—',meaning:'batuk (〜をします/〜がでます: batuk)',type:'noun'},
+  {jp:'じゅうぶん [な]',rom:'jūbun [na]',kanji:'十分[な]',meaning:'cukup',type:'adj'},
+  {jp:'おかしい',rom:'okashii',kanji:'—',meaning:'aneh, lucu',type:'adj'},
+  {jp:'うるさい',rom:'urusai',kanji:'—',meaning:'bising, berisik',type:'adj'},
+  {jp:'やけど',rom:'yakedo',kanji:'—',meaning:'luka bakar',type:'noun'},
+  {jp:'けが',rom:'kega',kanji:'—',meaning:'luka',type:'noun'},
+  {jp:'せき',rom:'seki',kanji:'—',meaning:'batuk',type:'noun'},
   {jp:'インフルエンザ',rom:'infuruenza',kanji:'—',meaning:'influenza',type:'noun'},
-  {jp:'そら',rom:'sora',kanji:'空',meaning:'langit',type:'noun'},
   {jp:'たいよう',rom:'taiyou',kanji:'太陽',meaning:'matahari',type:'noun'},
   {jp:'ほし',rom:'hoshi',kanji:'星',meaning:'bintang',type:'noun'},
   {jp:'かぜ',rom:'kaze',kanji:'風',meaning:'angin',type:'noun'},
   {jp:'ひがし',rom:'higashi',kanji:'東',meaning:'timur',type:'noun'},
-  {jp:'にし',rom:'nishi',kanji:'西',meaning:'barat',type:'noun'},
   {jp:'みなみ',rom:'minami',kanji:'南',meaning:'selatan',type:'noun'},
   {jp:'きた',rom:'kita',kanji:'北',meaning:'utara',type:'noun'},
-  {jp:'こくさい〜',rom:'kokusai~',kanji:'国際〜',meaning:'internasional 〜',type:'noun'},
   {jp:'すいどう',rom:'suidou',kanji:'水道',meaning:'air PAM',type:'noun'},
-  {jp:'エンジン',rom:'enjin',kanji:'—',meaning:'mesin',type:'noun'},
-  {jp:'チーム',rom:'chiimu',kanji:'—',meaning:'regu',type:'noun'},
-  {jp:'こんや',rom:'kon ya',kanji:'今夜',meaning:'nanti malam, malam ini',type:'noun'},
-  {jp:'ゆうがた',rom:'yuugata',kanji:'夕方',meaning:'sore',type:'noun'},
-  {jp:'まえ',rom:'mae',kanji:'—',meaning:'sebelum',type:'expr'},
-  {jp:'おそく',rom:'osoku',kanji:'遅く',meaning:'kemalaman',type:'expr'},
-  {jp:'こんなに',rom:'konnani',kanji:'—',meaning:'begini',type:'expr'},
-  {jp:'そんなに',rom:'sonnani',kanji:'—',meaning:'begitu (mengenai barang atau hal tentang lawan bicara)',type:'expr'},
-  {jp:'あんなに',rom:'annani',kanji:'—',meaning:'begitu (mengenai barang atau hal tentang tidak ada hubungan dengan pembicara dan lawan bicara)',type:'expr'},
-  {jp:'げんき',rom:'genki',kanji:'元気',meaning:'sehat',type:'adj',note:'《会話》'},
-  {jp:'い',rom:'i',kanji:'胃',meaning:'lambung',type:'noun'},
-  {jp:'ストレス',rom:'sutoresu',kanji:'—',meaning:'stres',type:'noun'},
-  {jp:'ほしうらない',rom:'hoshi uranai',kanji:'星占い',meaning:'horoskop',type:'noun',note:'《読み物》'},
-  {jp:'おうしざ',rom:'oushiza',kanji:'牡牛座',meaning:'Taurus',type:'noun'},
-  {jp:'はたらきすぎ',rom:'hataraki sugi',kanji:'働きすぎ',meaning:'terlalu banyak pekerjaan',type:'noun'},
-  {jp:'こまります I',rom:'komarimasu',kanji:'困ります',meaning:'bingung',type:'verb'},
-  {jp:'たからくじ',rom:'takara kuji',kanji:'宝くじ',meaning:'lotre',type:'noun'},
-  {jp:'あたります I',rom:'atarimasu',kanji:'当たります',meaning:'memenangi [lotre]',type:'verb'},
-  {jp:'けんこう',rom:'kenkou',kanji:'健康',meaning:'kesehatan',type:'noun'},
-  {jp:'れんあい',rom:'renai',kanji:'恋愛',meaning:'asmara',type:'noun'},
-  {jp:'こいびと',rom:'koibito',kanji:'恋人',meaning:'pacar',type:'noun'},
-  {jp:'ラッキーアイテム',rom:'rakkii aitemu',kanji:'—',meaning:'benda yang mujur',type:'noun'},
-  {jp:'いし',rom:'ishi',kanji:'石',meaning:'batu',type:'noun'},
+  {jp:'チーム',rom:'chiimu',kanji:'—',meaning:'regu, tim',type:'noun'},
+  {jp:'ゆうがた',rom:'yuugata',kanji:'夕方',meaning:'sore hari',type:'noun'},
+  {jp:'おそく',rom:'osoku',kanji:'遅く',meaning:'terlambat, larut',type:'expr'},
+  {jp:'こんなに',rom:'konnani',kanji:'—',meaning:'sebegini',type:'expr'},
+  {jp:'たからくじ',rom:'takara kuji',kanji:'宝くじ',meaning:'lotre',type:'noun',note:'《読み物》'},
+  {jp:'あたります I',rom:'atarimasu',kanji:'当たります',meaning:'memenangkan (lotre)',type:'verb'},
+  {jp:'こいびと',rom:'koibito',kanji:'恋人',meaning:'pacar, kekasih',type:'noun'},
 ]}],
 
 33: [{ num:'33', title:'Kosakata Utama', jp:'第33課', rows:[
-  {jp:'にげます II',rom:'nigemasu',kanji:'逃げます',meaning:'berlari',type:'verb'},
-  {jp:'さわぎます I',rom:'sawagimasu',kanji:'騒ぎます',meaning:'menghebohkan',type:'verb'},
-  {jp:'あきらめます II',rom:'akiramemasu',kanji:'—',meaning:'putus asa',type:'verb'},
+  {jp:'にげます II',rom:'nigemasu',kanji:'逃げます',meaning:'melarikan diri',type:'verb'},
+  {jp:'さわぎます I',rom:'sawagimasu',kanji:'騒ぎます',meaning:'membuat keributan',type:'verb'},
+  {jp:'あきらめます II',rom:'akiramemasu',kanji:'—',meaning:'menyerah, putus asa',type:'verb'},
   {jp:'なげます II',rom:'nagemasu',kanji:'投げます',meaning:'melempar',type:'verb'},
-  {jp:'まもります I',rom:'mamorimasu',kanji:'守ります',meaning:'menjaga',type:'verb'},
-  {jp:'はじまります I',rom:'hajimarimasu',kanji:'始まります',meaning:'[upacara] dimulai',type:'verb',note:'[しきが〜]'},
-  {jp:'しゅっせきします III',rom:'shussekishimasu',kanji:'出席します',meaning:'menghadiri [rapat]',type:'verb',note:'[かいぎに〜]'},
+  {jp:'まもります I',rom:'mamorimasu',kanji:'守ります',meaning:'menjaga, melindungi',type:'verb'},
+  {jp:'はじまります I',rom:'hajimarimasu',kanji:'始まります',meaning:'(upacara) dimulai',type:'verb',note:'[しきが〜]'},
+  {jp:'しゅっせきします III',rom:'shussekishimasu',kanji:'出席します',meaning:'menghadiri (rapat)',type:'verb',note:'[かいぎに〜]'},
   {jp:'つたえます II',rom:'tsutaemasu',kanji:'伝えます',meaning:'menyampaikan',type:'verb'},
-  {jp:'ちゅういします III',rom:'chuuishimasu',kanji:'注意します',meaning:'berhati-hati [pada mobil]',type:'verb',note:'[くるまに〜]'},
-  {jp:'はずします I',rom:'hazushimasu',kanji:'外します',meaning:'meninggalkan [tempat]',type:'verb',note:'[せきを〜]'},
+  {jp:'ちゅういします III',rom:'chuuishimasu',kanji:'注意します',meaning:'berhati-hati, memperingatkan',type:'verb'},
+  {jp:'はずします I',rom:'hazushimasu',kanji:'外します',meaning:'meninggalkan tempat',type:'verb'},
   {jp:'もどります I',rom:'modorimasu',kanji:'戻ります',meaning:'kembali',type:'verb'},
-  {jp:'あります I',rom:'arimasu',kanji:'—',meaning:'ada [telepon]',type:'verb',note:'[でんわが〜]'},
   {jp:'リサイクルします III',rom:'risaikurushimasu',kanji:'—',meaning:'mendaur ulang',type:'verb'},
-  {jp:'だめ [な]',rom:'dame [na]',kanji:'—',meaning:'tidak baik',type:'adj'},
+  {jp:'だめ [な]',rom:'dame [na]',kanji:'—',meaning:'tidak baik, tidak boleh',type:'adj'},
   {jp:'おなじ',rom:'onaji',kanji:'同じ',meaning:'sama',type:'adj'},
   {jp:'けいさつ',rom:'keisatsu',kanji:'警察',meaning:'polisi',type:'noun'},
-  {jp:'せき',rom:'seki',kanji:'席',meaning:'tempat, kursi',type:'noun'},
-  {jp:'マーク',rom:'maaku',kanji:'—',meaning:'tanda, cap',type:'noun'},
+  {jp:'せき',rom:'seki',kanji:'席',meaning:'tempat duduk, kursi',type:'noun'},
+  {jp:'マーク',rom:'maaku',kanji:'—',meaning:'tanda, lambang',type:'noun'},
   {jp:'ボール',rom:'booru',kanji:'—',meaning:'bola',type:'noun'},
   {jp:'しめきり',rom:'shimekiri',kanji:'締め切り',meaning:'batas waktu',type:'noun'},
   {jp:'きそく',rom:'kisoku',kanji:'規則',meaning:'peraturan',type:'noun'},
@@ -577,175 +609,114 @@ const allBabs = {
   {jp:'むりょう',rom:'muryou',kanji:'無料',meaning:'gratis, cuma-cuma',type:'expr'},
   {jp:'わりびき',rom:'waribiki',kanji:'割引',meaning:'diskon',type:'noun'},
   {jp:'のみほうだい',rom:'nomi hōdai',kanji:'飲み放題',meaning:'minum sepuasnya',type:'expr'},
-  {jp:'しようちゅう',rom:'shiyou chuu',kanji:'使用中',meaning:'sedang dipakai',type:'expr'},
-  {jp:'ぼしゅうちゅう',rom:'boshuu chuu',kanji:'募集中',meaning:'sedang dicari',type:'expr'},
-  {jp:'〜ちゅう',rom:'~chuu',kanji:'〜中',meaning:'sedang 〜',type:'expr'},
-  {jp:'どういう 〜',rom:'dou iu',kanji:'—',meaning:'bagaimana 〜',type:'expr'},
-  {jp:'いくら [〜ても]',rom:'ikura [~temo]',kanji:'—',meaning:'bagaimana pun',type:'expr'},
-  {jp:'もう',rom:'mou',kanji:'—',meaning:'lagi (digunakan bersama dengan bentuk negatif)',type:'expr'},
-  {jp:'あと 〜',rom:'ato',kanji:'—',meaning:'sisa 〜',type:'expr'},
-  {jp:'〜ほど',rom:'~hodo',kanji:'—',meaning:'kira-kira 〜',type:'expr'},
-  {jp:'ちゅうしゃいはん',rom:'chuusha ihan',kanji:'駐車違反',meaning:'pelanggaran lalu lintas',type:'noun',note:'《会話》'},
-  {jp:'ばっきん',rom:'bakkin',kanji:'罰金',meaning:'denda',type:'noun'},
-  {jp:'じしん',rom:'jishin',kanji:'地震',meaning:'gempa bumi',type:'noun',note:'《読み物》'},
-  {jp:'おきます II',rom:'okimasu',kanji:'起きます',meaning:'terjadi',type:'verb'},
-  {jp:'たすけあいます I',rom:'tasuke aimasu',kanji:'助け合います',meaning:'bantu-membantu',type:'verb'},
-  {jp:'もともと',rom:'moto moto',kanji:'—',meaning:'memang',type:'expr'},
-  {jp:'かなしい',rom:'kanashii',kanji:'悲しい',meaning:'sedih',type:'adj'},
-  {jp:'もっと',rom:'motto',kanji:'—',meaning:'lebih',type:'expr'},
-  {jp:'あいさつ',rom:'aisatsu',kanji:'—',meaning:'salam (〜をします: memberi salam sepatah kata pada)',type:'noun'},
-  {jp:'あいて',rom:'aite',kanji:'相手',meaning:'kawan, pasangan',type:'noun'},
+  {jp:'いくら [〜ても]',rom:'ikura [~temo]',kanji:'—',meaning:'bagaimana pun juga',type:'expr'},
   {jp:'きもち',rom:'kimochi',kanji:'気持ち',meaning:'perasaan',type:'noun'},
 ]}],
 
 34: [{ num:'34', title:'Kosakata Utama', jp:'第34課', rows:[
-  {jp:'みがきます I',rom:'migakimasu',kanji:'磨きます',meaning:'menggosok [gigi]',type:'verb',note:'[はを〜]'},
-  {jp:'くみたてます II',rom:'kumitatamasu',kanji:'組み立てます',meaning:'memasang',type:'verb'},
+  {jp:'みがきます I',rom:'migakimasu',kanji:'磨きます',meaning:'menggosok (gigi)',type:'verb',note:'[はを〜]'},
+  {jp:'くみたてます II',rom:'kumitatamasu',kanji:'組み立てます',meaning:'memasang, merakit',type:'verb'},
   {jp:'おります I',rom:'orimasu',kanji:'折ります',meaning:'melipat',type:'verb'},
-  {jp:'きがつきます I',rom:'ki ga tsukimasu',kanji:'気が つきます',meaning:'teringat [barang ketinggalan]',type:'verb',note:'[わすれものに〜]'},
-  {jp:'つけます II',rom:'tsukemasu',kanji:'—',meaning:'membubuhkan [kecap asin]',type:'verb',note:'[しょうゆを〜]'},
-  {jp:'みつかります I',rom:'mitsukаrimasu',kanji:'見つかります',meaning:'[kunci] ditemukan',type:'verb',note:'[かぎが〜]'},
+  {jp:'きがつきます I',rom:'ki ga tsukimasu',kanji:'気が つきます',meaning:'teringat, menyadari',type:'verb'},
+  {jp:'つけます II',rom:'tsukemasu',kanji:'付けます',meaning:'membubuhkan (kecap)',type:'verb'},
+  {jp:'みつかります I',rom:'mitsukаrimasu',kanji:'見つかります',meaning:'(kunci) ditemukan',type:'verb'},
   {jp:'しつもんします III',rom:'shitsumonshimasu',kanji:'質問します',meaning:'bertanya',type:'verb'},
-  {jp:'さします I',rom:'sashimasu',kanji:'—',meaning:'memakai [payung], berpayung',type:'verb',note:'[かさを〜]'},
-  {jp:'スポーツクラブ',rom:'supootsu kurabu',kanji:'—',meaning:'sports club',type:'noun'},
+  {jp:'さします I',rom:'sashimasu',kanji:'差します',meaning:'memakai payung, berpayung',type:'verb'},
   {jp:'[お]しろ',rom:'oshiro',kanji:'[お]城',meaning:'istana',type:'noun'},
-  {jp:'せつめいしょ',rom:'setsumeisho',kanji:'説明書',meaning:'petunjuk',type:'noun'},
-  {jp:'ず',rom:'zu',kanji:'図',meaning:'gambar',type:'noun'},
+  {jp:'せつめいしょ',rom:'setsumeisho',kanji:'説明書',meaning:'petunjuk, buku panduan',type:'noun'},
+  {jp:'ず',rom:'zu',kanji:'図',meaning:'gambar, diagram',type:'noun'},
   {jp:'せん',rom:'sen',kanji:'線',meaning:'garis',type:'noun'},
-  {jp:'やじるし',rom:'yajirushi',kanji:'矢印',meaning:'tanda panah (aksara)',type:'noun'},
-  {jp:'くろ',rom:'kuro',kanji:'黒',meaning:'hitam (kata benda)',type:'noun'},
-  {jp:'しろ',rom:'shiro',kanji:'白',meaning:'putih (kata benda)',type:'noun'},
-  {jp:'あか',rom:'aka',kanji:'赤',meaning:'merah (kata benda)',type:'noun'},
-  {jp:'あお',rom:'ao',kanji:'青',meaning:'biru (kata benda)',type:'noun'},
-  {jp:'こん',rom:'kon',kanji:'紺',meaning:'biru tua (kata benda)',type:'noun'},
-  {jp:'きいろ',rom:'kiiro',kanji:'黄色',meaning:'kuning (kata benda)',type:'noun'},
-  {jp:'ちゃいろ',rom:'chairo',kanji:'茶色',meaning:'coklat (kata benda)',type:'noun'},
-  {jp:'しょうゆ',rom:'shouyu',kanji:'—',meaning:'kecap asin',type:'noun'},
-  {jp:'ソース',rom:'soosu',kanji:'—',meaning:'kecap Inggris, Kecap saos putih',type:'noun'},
-  {jp:'おきゃく [さん]',rom:'okyaku san',kanji:'お客[さん]',meaning:'tamu',type:'noun'},
-  {jp:'〜か 〜',rom:'~ka~',kanji:'—',meaning:'〜 atau 〜',type:'expr'},
+  {jp:'やじるし',rom:'yajirushi',kanji:'矢印',meaning:'tanda panah',type:'noun'},
+  {jp:'くろ',rom:'kuro',kanji:'黒',meaning:'hitam',type:'noun'},
+  {jp:'しろ',rom:'shiro',kanji:'白',meaning:'putih',type:'noun'},
+  {jp:'あか',rom:'aka',kanji:'赤',meaning:'merah',type:'noun'},
+  {jp:'あお',rom:'ao',kanji:'青',meaning:'biru',type:'noun'},
+  {jp:'こん',rom:'kon',kanji:'紺',meaning:'biru tua',type:'noun'},
+  {jp:'きいろ',rom:'kiiro',kanji:'黄色',meaning:'kuning',type:'noun'},
+  {jp:'ちゃいろ',rom:'chairo',kanji:'茶色',meaning:'cokelat',type:'noun'},
+  {jp:'しょうゆ',rom:'shouyu',kanji:'醤油',meaning:'kecap asin',type:'noun'},
   {jp:'ゆうべ',rom:'yuube',kanji:'—',meaning:'tadi malam',type:'expr'},
-  {jp:'さっき',rom:'sakki',kanji:'—',meaning:'tadi',type:'expr'},
-  {jp:'さどう',rom:'sadou',kanji:'茶道',meaning:'upacara teh',type:'noun',note:'《会話》'},
-  {jp:'おちゃを たてます II',rom:'ocha wo tatemasu',kanji:'お茶を たてます',meaning:'membuat teh pada upacara minum teh',type:'verb'},
-  {jp:'さきに',rom:'saki ni',kanji:'先に',meaning:'duluan',type:'expr'},
-  {jp:'のせます II',rom:'nosemasu',kanji:'載せます',meaning:'memuatkan',type:'verb'},
-  {jp:'これで いいですか。',rom:'kore de ii desu ka',kanji:'—',meaning:'Boleh begini?',type:'expr'},
-  {jp:'いかがですか。',rom:'ikaga desu ka',kanji:'—',meaning:'Bagaimana?',type:'expr'},
-  {jp:'にがい',rom:'nigai',kanji:'苦い',meaning:'pahit',type:'adj'},
-  {jp:'おやこどんぶり',rom:'oyakodon buri',kanji:'親子どんぶり',meaning:'Oyakodonburi (nama menu, daging ayam masak bersama telur dan disiram di atas nasi putih)',type:'noun',note:'《読み物》'},
-  {jp:'ざいりょう',rom:'zairyou',kanji:'材料',meaning:'bahan',type:'noun'},
+  {jp:'さっき',rom:'sakki',kanji:'—',meaning:'tadi, barusan',type:'expr'},
+  {jp:'ざいりょう',rom:'zairyou',kanji:'材料',meaning:'bahan',type:'noun',note:'《読み物》'},
   {jp:'たまねぎ',rom:'tamanegi',kanji:'—',meaning:'bawang bombai',type:'noun'},
-  {jp:'ちょうみりょう',rom:'choumiryou',kanji:'調味料',meaning:'bumbu',type:'noun'},
-  {jp:'なべ',rom:'nabe',kanji:'—',meaning:'panci',type:'noun'},
-  {jp:'ひ',rom:'hi',kanji:'火',meaning:'api',type:'noun'},
-  {jp:'ひに かけます II',rom:'hi ni kakemasu',kanji:'火に かけます',meaning:'memasak, memanaskan, menaruh di atas api',type:'verb'},
+  {jp:'ちょうみりょう',rom:'choumiryou',kanji:'調味料',meaning:'bumbu masakan',type:'noun'},
   {jp:'にます II',rom:'nimasu',kanji:'煮ます',meaning:'merebus',type:'verb'},
-  {jp:'にえます II',rom:'niemasu',kanji:'煮えます',meaning:'telah matang',type:'verb'},
-  {jp:'どんぶり',rom:'donburi',kanji:'—',meaning:'mangkuk',type:'noun'},
-  {jp:'たちます I',rom:'tachimasu',kanji:'—',meaning:'lewat, berlalu',type:'verb'},
 ]}],
 
 35: [{ num:'35', title:'Kosakata Utama', jp:'第35課', rows:[
-  {jp:'さきます I',rom:'sakimasu',kanji:'咲きます',meaning:'[bunga] mekar',type:'verb',note:'[はなが〜]'},
-  {jp:'かわります I',rom:'kawarimasu',kanji:'変わります',meaning:'[warna] berubah',type:'verb',note:'[いろが〜]'},
-  {jp:'こまります I',rom:'komarimasu',kanji:'困ります',meaning:'bingung',type:'verb'},
-  {jp:'つけます II',rom:'tsukemasu',kanji:'付けます',meaning:'memberikan [tanda (benar)]',type:'verb',note:'[まるを〜]'},
-  {jp:'なおります I',rom:'naorimasu',kanji:'治ります、直ります',meaning:'[penyakit] sembuh / [kerusakan] membaik',type:'verb',note:'[びょうきが〜]'},
+  {jp:'さきます I',rom:'sakimasu',kanji:'咲きます',meaning:'(bunga) mekar',type:'verb',note:'[はなが〜]'},
+  {jp:'かわります I',rom:'kawarimasu',kanji:'変わります',meaning:'(warna) berubah',type:'verb'},
+  {jp:'こまります I',rom:'komarimasu',kanji:'困ります',meaning:'bingung, kesulitan',type:'verb'},
+  {jp:'なおります I',rom:'naorimasu',kanji:'治ります、直ります',meaning:'(penyakit) sembuh / (kerusakan) membaik',type:'verb'},
   {jp:'クリックします III',rom:'kurikkushimasu',kanji:'—',meaning:'klik',type:'verb'},
-  {jp:'にゅうりょくします III',rom:'nyūryokushimasu',kanji:'入力します',meaning:'mengisi',type:'verb'},
+  {jp:'にゅうりょくします III',rom:'nyūryokushimasu',kanji:'入力します',meaning:'menginput, mengisi data',type:'verb'},
   {jp:'ただしい',rom:'tadashii',kanji:'正しい',meaning:'benar',type:'adj'},
-  {jp:'むこう',rom:'mukou',kanji:'向こう',meaning:'(di) sana, seberang',type:'noun'},
+  {jp:'むこう',rom:'mukou',kanji:'向こう',meaning:'sana, seberang',type:'noun'},
   {jp:'しま',rom:'shima',kanji:'島',meaning:'pulau',type:'noun'},
   {jp:'みなと',rom:'minato',kanji:'港',meaning:'pelabuhan',type:'noun'},
-  {jp:'きんじょ',rom:'kinjo',kanji:'近所',meaning:'tetangga',type:'noun'},
-  {jp:'おくじょう',rom:'okujou',kanji:'屋上',meaning:'loteng',type:'noun'},
+  {jp:'きんじょ',rom:'kinjo',kanji:'近所',meaning:'tetangga, lingkungan sekitar',type:'noun'},
+  {jp:'おくじょう',rom:'okujou',kanji:'屋上',meaning:'atap, loteng',type:'noun'},
   {jp:'かいがい',rom:'kaigai',kanji:'海外',meaning:'luar negeri',type:'noun'},
-  {jp:'やまのぼり',rom:'yama nobori',kanji:'山登り',meaning:'mendaki gunung',type:'noun'},
   {jp:'れきし',rom:'rekishi',kanji:'歴史',meaning:'sejarah',type:'noun'},
   {jp:'きかい',rom:'kikai',kanji:'機会',meaning:'kesempatan',type:'noun'},
   {jp:'きょか',rom:'kyoka',kanji:'許可',meaning:'izin',type:'noun'},
-  {jp:'まる',rom:'maru',kanji:'丸',meaning:'bulat',type:'noun'},
-  {jp:'ふりがな',rom:'furigana',kanji:'—',meaning:'(huruf yang menyatakan cara membaca huruf Kanji)',type:'noun'},
+  {jp:'ふりがな',rom:'furigana',kanji:'—',meaning:'huruf bacaan kanji (furigana)',type:'noun'},
   {jp:'せつび',rom:'setsubi',kanji:'設備',meaning:'fasilitas',type:'noun'},
-  {jp:'レバー',rom:'rebaa',kanji:'—',meaning:'tuas',type:'noun'},
-  {jp:'キー',rom:'kii',kanji:'—',meaning:'keyboard, tombol',type:'noun'},
-  {jp:'カーテン',rom:'kaaten',kanji:'—',meaning:'gorden, tirai',type:'noun'},
-  {jp:'ひも',rom:'himo',kanji:'—',meaning:'tali',type:'noun'},
-  {jp:'すいはんき',rom:'suihanki',kanji:'炊飯器',meaning:'rice cooker',type:'noun'},
   {jp:'は',rom:'ha',kanji:'葉',meaning:'daun',type:'noun'},
-  {jp:'むかし',rom:'mukashi',kanji:'昔',meaning:'dulu',type:'expr'},
-  {jp:'もっと',rom:'motto',kanji:'—',meaning:'lebih',type:'expr'},
-  {jp:'これで おわりましょう。',rom:'kore de owarimashō',kanji:'これで 終わりましょう。',meaning:'Mari kita selesai sampai di sini.',type:'expr'},
+  {jp:'むかし',rom:'mukashi',kanji:'昔',meaning:'dulu, dahulu kala',type:'expr'},
+  {jp:'もっと',rom:'motto',kanji:'—',meaning:'lebih (lagi)',type:'expr'},
   {jp:'それなら',rom:'sorenara',kanji:'—',meaning:'kalau begitu',type:'expr',note:'《会話》'},
-  {jp:'やこうバス',rom:'yakō basu',kanji:'夜行バス',meaning:'bus malam',type:'noun'},
-  {jp:'さあ',rom:'saa',kanji:'—',meaning:'Yaaa... (dipakai ketika kurang mengerti mengenai sesuatu hal)',type:'expr'},
-  {jp:'りょこうしゃ',rom:'ryokosha',kanji:'旅行社',meaning:'agen perjalanan',type:'noun'},
-  {jp:'くわしい',rom:'kuwashii',kanji:'—',meaning:'teliti',type:'adj'},
-  {jp:'スキーじょう',rom:'sukii jou',kanji:'スキー場',meaning:'lapangan ski',type:'noun'},
+  {jp:'くわしい',rom:'kuwashii',kanji:'—',meaning:'teliti, detail',type:'adj'},
 ]}],
 
 36: [{ num:'36', title:'Kosakata Utama', jp:'第36課', rows:[
-  {jp:'あいます I',rom:'aimasu',kanji:'—',meaning:'tertimpa [kecelakaan]',type:'verb',note:'[じこに〜]'},
   {jp:'ちょきんします III',rom:'chokinshimasu',kanji:'貯金します',meaning:'menabung',type:'verb'},
-  {jp:'すぎます II',rom:'sugimasu',kanji:'過ぎます',meaning:'lewat [pukul tujuh]',type:'verb',note:'[7じを〜]'},
-  {jp:'なれます II',rom:'naremasu',kanji:'慣れます',meaning:'terbiasa [dengan tugas]',type:'verb',note:'[しごとに〜]'},
-  {jp:'くさります I',rom:'kusarimasu',kanji:'腐ります',meaning:'[makanan] busuk',type:'verb',note:'[たべものが〜]'},
+  {jp:'すぎます II',rom:'sugimasu',kanji:'過ぎます',meaning:'lewat (pukul tujuh)',type:'verb'},
+  {jp:'なれます II',rom:'naremasu',kanji:'慣れます',meaning:'terbiasa',type:'verb'},
+  {jp:'くさります I',rom:'kusarimasu',kanji:'腐ります',meaning:'(makanan) busuk',type:'verb'},
   {jp:'けんどう',rom:'kendou',kanji:'剣道',meaning:'kendo (anggar gaya Jepang)',type:'noun'},
   {jp:'じゅうどう',rom:'juudou',kanji:'柔道',meaning:'judo',type:'noun'},
-  {jp:'ラッシュ',rom:'rasshu',kanji:'—',meaning:'keramaian, kesibukan',type:'noun'},
-  {jp:'うちゅう',rom:'uchuu',kanji:'宇宙',meaning:'angkasa',type:'noun'},
-  {jp:'きょく',rom:'kyoku',kanji:'曲',meaning:'musik',type:'noun'},
+  {jp:'ラッシュ',rom:'rasshu',kanji:'—',meaning:'jam sibuk, jam padat',type:'noun'},
+  {jp:'うちゅう',rom:'uchuu',kanji:'宇宙',meaning:'luar angkasa',type:'noun'},
+  {jp:'きょく',rom:'kyoku',kanji:'曲',meaning:'lagu, musik',type:'noun'},
   {jp:'まいしゅう',rom:'maishuu',kanji:'毎週',meaning:'setiap minggu',type:'noun'},
   {jp:'まいつき',rom:'maitsuki',kanji:'毎月',meaning:'setiap bulan',type:'noun'},
   {jp:'まいとし',rom:'maitoshi',kanji:'毎年',meaning:'setiap tahun',type:'noun'},
   {jp:'このごろ',rom:'kono goro',kanji:'—',meaning:'akhir-akhir ini',type:'expr'},
   {jp:'やっと',rom:'yatto',kanji:'—',meaning:'akhirnya',type:'expr'},
-  {jp:'かなり',rom:'kanari',kanji:'—',meaning:'cukup',type:'expr'},
-  {jp:'かならず',rom:'kanarazu',kanji:'必ず',meaning:'pasti',type:'expr'},
-  {jp:'ぜったいに',rom:'zettaini',kanji:'絶対に',meaning:'mutlak',type:'expr'},
-  {jp:'じょうずに',rom:'jouzu ni',kanji:'上手に',meaning:'dengan pandai',type:'expr'},
+  {jp:'かなり',rom:'kanari',kanji:'—',meaning:'cukup, lumayan',type:'expr'},
+  {jp:'かならず',rom:'kanarazu',kanji:'必ず',meaning:'pasti, tentu',type:'expr'},
+  {jp:'ぜったいに',rom:'zettaini',kanji:'絶対に',meaning:'mutlak, pasti',type:'expr'},
   {jp:'できるだけ',rom:'dekiru dake',kanji:'—',meaning:'sedapat mungkin',type:'expr'},
-  {jp:'ほとんど',rom:'hotondo',kanji:'—',meaning:'sebagian besar',type:'expr'},
-  {jp:'おきゃくさま',rom:'okyaku sama',kanji:'お客様',meaning:'tamu (Kata Hormat dari おきゃくさん)',type:'noun',note:'《会話》'},
+  {jp:'ほとんど',rom:'hotondo',kanji:'—',meaning:'hampir, sebagian besar',type:'expr'},
   {jp:'とくべつ [な]',rom:'tokubetsu [na]',kanji:'特別[な]',meaning:'khusus, spesial',type:'adj'},
-  {jp:'していらっしゃいます',rom:'shite irasshaimasu',kanji:'—',meaning:'melakukan (Kata Hormat dari していいます)',type:'verb'},
   {jp:'すいえい',rom:'suiei',kanji:'水泳',meaning:'renang',type:'noun'},
-  {jp:'ちがいます I',rom:'chigaimasu',kanji:'—',meaning:'salah, tidak benar',type:'verb'},
-  {jp:'チャレンジします III',rom:'charenji shimasu',kanji:'—',meaning:'menantang',type:'verb'},
-  {jp:'きもち',rom:'kimochi',kanji:'気持ち',meaning:'sikap',type:'noun'},
+  {jp:'チャレンジします III',rom:'charenji shimasu',kanji:'—',meaning:'menantang, mencoba',type:'verb'},
   {jp:'のりもの',rom:'norimono',kanji:'乗り物',meaning:'kendaraan',type:'noun',note:'《読み物》'},
-  {jp:'〜せいき',rom:'~seiki',kanji:'〜世紀',meaning:'abad ke 〜',type:'noun'},
-  {jp:'とおく',rom:'tooku',kanji:'遠く',meaning:'jauh',type:'noun'},
-  {jp:'めずらしい',rom:'mezurashii',kanji:'珍しい',meaning:'langka',type:'adj'},
-  {jp:'きしゃ',rom:'kisha',kanji:'汽車',meaning:'kereta api',type:'noun'},
-  {jp:'きせん',rom:'kisen',kanji:'汽船',meaning:'kapal api',type:'noun'},
-  {jp:'おおぜいの 〜',rom:'ōzei no',kanji:'大勢の 〜',meaning:'banyak 〜',type:'expr'},
+  {jp:'めずらしい',rom:'mezurashii',kanji:'珍しい',meaning:'langka, jarang',type:'adj'},
   {jp:'はこびます I',rom:'hakobimasu',kanji:'運びます',meaning:'mengangkut',type:'verb'},
-  {jp:'りようします III',rom:'riyōshimasu',kanji:'利用します',meaning:'menggunakan',type:'verb'},
-  {jp:'じゆうに',rom:'jiyuuni',kanji:'自由に',meaning:'dengan bebas',type:'expr'},
+  {jp:'りようします III',rom:'riyōshimasu',kanji:'利用します',meaning:'menggunakan, memanfaatkan',type:'verb'},
 ]}],
 
 37: [{ num:'37', title:'Kosakata Utama', jp:'第37課', rows:[
   {jp:'ほめます II',rom:'homemasu',kanji:'褒めます',meaning:'memuji',type:'verb'},
-  {jp:'しかります I',rom:'shikarimasu',kanji:'—',meaning:'memarahi',type:'verb'},
+  {jp:'しかります I',rom:'shikarimasu',kanji:'叱ります',meaning:'memarahi',type:'verb'},
   {jp:'さそいます I',rom:'sasoimasu',kanji:'誘います',meaning:'mengajak',type:'verb'},
   {jp:'しょうたいします III',rom:'shōtaishimasu',kanji:'招待します',meaning:'mengundang',type:'verb'},
-  {jp:'たのみます I',rom:'tanomimasu',kanji:'頼みます',meaning:'meminta',type:'verb'},
-  {jp:'ちゅういします III',rom:'chuuishimasu',kanji:'注意します',meaning:'menasihati',type:'verb'},
-  {jp:'とります I',rom:'torimasu',kanji:'—',meaning:'mencuri',type:'verb'},
+  {jp:'たのみます I',rom:'tanomimasu',kanji:'頼みます',meaning:'meminta, memohon',type:'verb'},
+  {jp:'ちゅういします III',rom:'chuuishimasu',kanji:'注意します',meaning:'menasihati, memperingatkan',type:'verb'},
   {jp:'ふみます I',rom:'fumimasu',kanji:'踏みます',meaning:'menginjak',type:'verb'},
   {jp:'こわします I',rom:'kowashimasu',kanji:'壊します',meaning:'merusak',type:'verb'},
   {jp:'よごします I',rom:'yogoshimasu',kanji:'汚します',meaning:'mengotori',type:'verb'},
-  {jp:'おこないます I',rom:'okonaimasu',kanji:'行います',meaning:'mengadakan',type:'verb'},
+  {jp:'おこないます I',rom:'okonaimasu',kanji:'行います',meaning:'mengadakan, melaksanakan',type:'verb'},
   {jp:'ゆしゅつします III',rom:'yushūtsushimasu',kanji:'輸出します',meaning:'mengekspor',type:'verb'},
   {jp:'ゆにゅうします III',rom:'yunyūshimasu',kanji:'輸入します',meaning:'mengimpor',type:'verb'},
   {jp:'ほんやくします III',rom:'hon yakushimasu',kanji:'翻訳します',meaning:'menerjemahkan',type:'verb'},
-  {jp:'はつめいします III',rom:'hatsumei shimasu',kanji:'発明します',meaning:'menciptakan',type:'verb'},
-  {jp:'はっけんします III',rom:'hakkenshimasu',kanji:'発見します',meaning:'menemukan',type:'verb'},
+  {jp:'はつめいします III',rom:'hatsumei shimasu',kanji:'発明します',meaning:'menciptakan, menemukan',type:'verb'},
+  {jp:'はっけんします III',rom:'hakkenshimasu',kanji:'発見します',meaning:'menemukan, memperoleh temuan',type:'verb'},
   {jp:'こめ',rom:'kome',kanji:'米',meaning:'beras',type:'noun'},
   {jp:'むぎ',rom:'mugi',kanji:'麦',meaning:'gandum',type:'noun'},
-  {jp:'せきゆ',rom:'sekiyu',kanji:'石油',meaning:'minyak tanah',type:'noun'},
+  {jp:'せきゆ',rom:'sekiyu',kanji:'石油',meaning:'minyak tanah, petroleum',type:'noun'},
   {jp:'げんりょう',rom:'genryou',kanji:'原料',meaning:'bahan baku',type:'noun'},
   {jp:'インスタントラーメン',rom:'insutanto raamen',kanji:'—',meaning:'mie instan',type:'noun'},
   {jp:'デート',rom:'deeto',kanji:'—',meaning:'kencan',type:'noun'},
@@ -753,531 +724,743 @@ const allBabs = {
   {jp:'けいかん',rom:'keikan',kanji:'警官',meaning:'polisi',type:'noun'},
   {jp:'せかいじゅう',rom:'sekai juu',kanji:'世界中',meaning:'seluruh dunia',type:'noun'},
   {jp:'〜じゅう',rom:'~juu',kanji:'〜中',meaning:'seluruh 〜',type:'expr'},
-  {jp:'〜せいき',rom:'~seiki',kanji:'〜世紀',meaning:'abad ke 〜',type:'noun'},
-  {jp:'なにご',rom:'nani go',kanji:'何語',meaning:'bahasa apa',type:'expr'},
-  {jp:'だれか',rom:'dare ka',kanji:'—',meaning:'siapa',type:'expr'},
-  {jp:'よかったですね。',rom:'yokatta desu ne',kanji:'—',meaning:'Bagus, ya.',type:'expr'},
+  {jp:'よかったですね。',rom:'yokatta desu ne',kanji:'—',meaning:'Bagus ya.',type:'expr'},
 ]}],
 
 38: [{ num:'38', title:'Kosakata Utama', jp:'第38課', rows:[
-  {jp:'さんかします III',rom:'sankashimasu',kanji:'参加します',meaning:'mengikuti [perjalanan]',type:'verb',note:'[りょこうに〜]'},
-  {jp:'そだてます II',rom:'sodatemasu',kanji:'有てます',meaning:'memelihara',type:'verb'},
+  {jp:'さんかします III',rom:'sankashimasu',kanji:'参加します',meaning:'mengikuti',type:'verb'},
+  {jp:'そだてます II',rom:'sodatemasu',kanji:'育てます',meaning:'membesarkan, memelihara',type:'verb'},
   {jp:'はこびます I',rom:'hakobimasu',kanji:'運びます',meaning:'mengangkut',type:'verb'},
-  {jp:'にゅういんします III',rom:'nyuuinshimasu',kanji:'入院します',meaning:'opname',type:'verb'},
+  {jp:'にゅういんします III',rom:'nyuuinshimasu',kanji:'入院します',meaning:'dirawat (opname)',type:'verb'},
   {jp:'たいいんします III',rom:'taiinshimasu',kanji:'退院します',meaning:'keluar dari rumah sakit',type:'verb'},
-  {jp:'いれます II',rom:'iremasu',kanji:'入れます',meaning:'menghidupkan [power supply]',type:'verb',note:'[でんげんを〜]'},
-  {jp:'きります I',rom:'kirimasu',kanji:'切ります',meaning:'mematikan [power supply]',type:'verb',note:'[でんげんを〜]'},
+  {jp:'いれます II',rom:'iremasu',kanji:'入れます',meaning:'menghidupkan (power supply)',type:'verb'},
+  {jp:'きります I',rom:'kirimasu',kanji:'切ります',meaning:'mematikan (power supply)',type:'verb'},
   {jp:'かけます II',rom:'kakemasu',kanji:'掛けます',meaning:'mengunci',type:'verb',note:'[かぎを〜]'},
-  {jp:'つきます I',rom:'tsukimasu',kanji:'—',meaning:'berbohong',type:'verb',note:'[うそを〜]'},
-  {jp:'きもちが いい',rom:'kimochi ga ii',kanji:'気持ちが いい',meaning:'rasa enak',type:'expr'},
-  {jp:'きもちが わるい',rom:'kimochi ga warui',kanji:'気持ちが 悪い',meaning:'rasa tidak enak, jijik',type:'expr'},
+  {jp:'きもちが いい',rom:'kimochi ga ii',kanji:'気持ちが いい',meaning:'merasa enak',type:'expr'},
+  {jp:'きもちが わるい',rom:'kimochi ga warui',kanji:'気持ちが 悪い',meaning:'merasa tidak enak, jijik',type:'expr'},
   {jp:'おおきな 〜',rom:'ōkina',kanji:'大きな 〜',meaning:'besar 〜',type:'adj'},
   {jp:'ちいさな 〜',rom:'chiisana',kanji:'小さな 〜',meaning:'kecil 〜',type:'adj'},
   {jp:'あかちゃん',rom:'akachan',kanji:'赤ちゃん',meaning:'bayi',type:'noun'},
-  {jp:'しょうがっこう',rom:'shōgakkō',kanji:'小学校',meaning:'SD',type:'noun'},
-  {jp:'ちゅうがっこう',rom:'chūgakkō',kanji:'中学校',meaning:'SMP',type:'noun'},
-  {jp:'えきまえ',rom:'ekimae',kanji:'駅前',meaning:'depan stasiun',type:'noun'},
-  {jp:'かいがん',rom:'kaigan',kanji:'海岸',meaning:'pantai laut',type:'noun'},
+  {jp:'しょうがっこう',rom:'shōgakkō',kanji:'小学校',meaning:'Sekolah Dasar (SD)',type:'noun'},
+  {jp:'ちゅうがっこう',rom:'chūgakkō',kanji:'中学校',meaning:'Sekolah Menengah Pertama (SMP)',type:'noun'},
+  {jp:'かいがん',rom:'kaigan',kanji:'海岸',meaning:'pantai',type:'noun'},
   {jp:'こうじょう',rom:'koujou',kanji:'工場',meaning:'pabrik',type:'noun'},
-  {jp:'むら',rom:'mura',kanji:'村',meaning:'desa, kampung',type:'noun'},
-  {jp:'かな',rom:'kana',kanji:'—',meaning:'huruf Hiragana, huruf Katakana',type:'noun'},
   {jp:'ゆびわ',rom:'yubiwa',kanji:'指輪',meaning:'cincin',type:'noun'},
-  {jp:'でんげん',rom:'dengen',kanji:'電源',meaning:'power supply',type:'noun'},
+  {jp:'でんげん',rom:'dengen',kanji:'電源',meaning:'sumber listrik, tombol power',type:'noun'},
   {jp:'しゅうかん',rom:'shuukan',kanji:'習慣',meaning:'kebiasaan',type:'noun'},
   {jp:'けんこう',rom:'kenkou',kanji:'健康',meaning:'kesehatan',type:'noun'},
   {jp:'〜せい',rom:'~sei',kanji:'〜製',meaning:'buatan 〜',type:'noun'},
   {jp:'おととし',rom:'ototoshi',kanji:'—',meaning:'dua tahun yang lalu',type:'expr'},
-  {jp:'[あ、] いけない。',rom:'a, ikenai',kanji:'—',meaning:'[Ah,] Salah! (memakai ketika bersalah atau gagal)',type:'expr'},
-  {jp:'おさきに [しつれいします]。',rom:'osaki ni shitsureishimasu',kanji:'お先に [失礼します]。',meaning:'[Permisi] duluan.',type:'expr'},
-  {jp:'ふたご',rom:'futago',kanji:'双子',meaning:'anak kembar',type:'noun',note:'《読み物》'},
-  {jp:'しまい',rom:'shimai',kanji:'姉妹',meaning:'saudara perempuan',type:'noun'},
-  {jp:'にています II',rom:'nite imasu',kanji:'似て います',meaning:'mirip',type:'verb'},
-  {jp:'せいかく',rom:'seikaku',kanji:'性格',meaning:'sifat',type:'noun'},
-  {jp:'おとなしい',rom:'otonashii',kanji:'—',meaning:'pendiam',type:'adj'},
-  {jp:'やさしい',rom:'yasashii',kanji:'優しい',meaning:'baik hati',type:'adj'},
-  {jp:'せわを します III',rom:'sewa wo shimasu',kanji:'世話を します',meaning:'merawat',type:'verb'},
-  {jp:'じかんが たちます I',rom:'jikan ga tachimasu',kanji:'時間が たちます',meaning:'waktu berlalu',type:'verb'},
+  {jp:'やさしい',rom:'yasashii',kanji:'優しい',meaning:'baik hati, lembut',type:'adj'},
+  {jp:'おとなしい',rom:'otonashii',kanji:'—',meaning:'pendiam, tenang',type:'adj'},
   {jp:'だいすき [な]',rom:'daisuki [na]',kanji:'大好き[な]',meaning:'suka sekali',type:'adj'},
-  {jp:'きがつよい',rom:'ki ga tsuyoi',kanji:'気が 強い',meaning:'bersifat keras, galak',type:'expr'},
-  {jp:'けんかします III',rom:'kenkashimasu',kanji:'—',meaning:'bertengkar',type:'verb'},
-  {jp:'ふしぎ [な]',rom:'fushigi [na]',kanji:'不思議[な]',meaning:'aneh',type:'adj'},
-  {jp:'ねんれい',rom:'nenrei',kanji:'年齢',meaning:'usia, umur',type:'noun'},
-  {jp:'しかた',rom:'shikata',kanji:'—',meaning:'cara',type:'noun'},
+  {jp:'でんとうてき [な]',rom:'dentōteki [na]',kanji:'伝統的[な]',meaning:'tradisional',type:'adj'},
 ]}],
 
 39: [{ num:'39', title:'Kosakata Utama', jp:'第39課', rows:[
-  {jp:'こたえます II',rom:'kotaemasu',kanji:'答えます',meaning:'menjawab [pada pertanyaan]',type:'verb',note:'[しつもんに〜]'},
-  {jp:'たおれます II',rom:'taoremasu',kanji:'倒れます',meaning:'[bangunan] roboh',type:'verb',note:'[ビルが〜]'},
-  {jp:'とおります I',rom:'tōrimasu',kanji:'通ります',meaning:'lewat, melalui [jalan]',type:'verb',note:'[みちを〜]'},
+  {jp:'こたえます II',rom:'kotaemasu',kanji:'答えます',meaning:'menjawab',type:'verb'},
+  {jp:'たおれます II',rom:'taoremasu',kanji:'倒れます',meaning:'(bangunan) roboh, jatuh',type:'verb'},
+  {jp:'とおります I',rom:'tōrimasu',kanji:'通ります',meaning:'lewat, melalui',type:'verb'},
   {jp:'しにます I',rom:'shinimasu',kanji:'死にます',meaning:'meninggal dunia',type:'verb'},
-  {jp:'びっくりします III',rom:'bikkurishimasu',kanji:'—',meaning:'kaget',type:'verb'},
-  {jp:'がっかりします III',rom:'gakkari shimasu',kanji:'—',meaning:'putus asa',type:'verb'},
-  {jp:'あんしんします III',rom:'anshinshimasu',kanji:'安心します',meaning:'lega',type:'verb'},
+  {jp:'びっくりします III',rom:'bikkurishimasu',kanji:'—',meaning:'kaget, terkejut',type:'verb'},
+  {jp:'がっかりします III',rom:'gakkari shimasu',kanji:'—',meaning:'kecewa',type:'verb'},
+  {jp:'あんしんします III',rom:'anshinshimasu',kanji:'安心します',meaning:'lega, tenang',type:'verb'},
   {jp:'けんかします III',rom:'kenkashimasu',kanji:'—',meaning:'bertengkar',type:'verb'},
   {jp:'りこんします III',rom:'rikonshimasu',kanji:'離婚します',meaning:'bercerai',type:'verb'},
   {jp:'ふとります I',rom:'futorimasu',kanji:'太ります',meaning:'menjadi gemuk',type:'verb'},
   {jp:'やせます II',rom:'yasemasu',kanji:'—',meaning:'menjadi kurus',type:'verb'},
-  {jp:'ふくざつ [な]',rom:'fukuzatsu [na]',kanji:'複雑[な]',meaning:'rumit',type:'adj'},
-  {jp:'じゃま [な]',rom:'jama [na]',kanji:'邪魔[な]',meaning:'gangguan',type:'adj'},
+  {jp:'ふくざつ [な]',rom:'fukuzatsu [na]',kanji:'複雑[な]',meaning:'rumit, kompleks',type:'adj'},
+  {jp:'じゃま [な]',rom:'jama [na]',kanji:'邪魔[な]',meaning:'mengganggu',type:'adj'},
   {jp:'かたい',rom:'katai',kanji:'硬い',meaning:'keras',type:'adj'},
   {jp:'やわらかい',rom:'yawarakai',kanji:'軟らかい',meaning:'lembut',type:'adj'},
   {jp:'きたない',rom:'kitanai',kanji:'汚い',meaning:'kotor',type:'adj'},
-  {jp:'うれしい',rom:'ureshii',kanji:'—',meaning:'senang',type:'adj'},
+  {jp:'うれしい',rom:'ureshii',kanji:'—',meaning:'senang, gembira',type:'adj'},
   {jp:'かなしい',rom:'kanashii',kanji:'悲しい',meaning:'sedih',type:'adj'},
   {jp:'はずかしい',rom:'hazukashii',kanji:'恥ずかしい',meaning:'malu',type:'adj'},
-  {jp:'しゅしょう',rom:'shuushō',kanji:'首相',meaning:'perdana menteri',type:'noun'},
   {jp:'じしん',rom:'jishin',kanji:'地震',meaning:'gempa bumi',type:'noun'},
   {jp:'つなみ',rom:'tsunami',kanji:'津波',meaning:'tsunami',type:'noun'},
   {jp:'たいふう',rom:'taifuu',kanji:'台風',meaning:'angin topan',type:'noun'},
   {jp:'かみなり',rom:'kaminari',kanji:'雷',meaning:'petir',type:'noun'},
   {jp:'かじ',rom:'kaji',kanji:'火事',meaning:'kebakaran',type:'noun'},
   {jp:'じこ',rom:'jiko',kanji:'事故',meaning:'kecelakaan',type:'noun'},
-  {jp:'ハイキング',rom:'haikingu',kanji:'—',meaning:'hiking',type:'noun'},
   {jp:'[お]みあい',rom:'omiai',kanji:'[お]見合い',meaning:'perjodohan',type:'noun'},
-  {jp:'そうさ',rom:'sousa',kanji:'操作',meaning:'operasi (〜します: mengoperasi)',type:'noun'},
-  {jp:'かいじょう',rom:'kaijou',kanji:'会場',meaning:'tempat',type:'noun'},
-  {jp:'〜だい',rom:'~dai',kanji:'〜代',meaning:'biaya untuk 〜',type:'noun'},
-  {jp:'〜や',rom:'~ya',kanji:'〜屋',meaning:'penjual 〜',type:'noun'},
-  {jp:'フロント',rom:'furonto',kanji:'—',meaning:'resepsionis',type:'noun'},
-  {jp:'〜ごうしつ',rom:'~gōshitsu',kanji:'〜号室',meaning:'kamar nomor 〜',type:'noun'},
   {jp:'タオル',rom:'taoru',kanji:'—',meaning:'handuk',type:'noun'},
   {jp:'せっけん',rom:'sekken',kanji:'—',meaning:'sabun',type:'noun'},
-  {jp:'おおぜい',rom:'ōzei',kanji:'大勢',meaning:'banyak',type:'noun'},
   {jp:'おつかれさまでした。',rom:'otsukaresama deshita',kanji:'お疲れさまでした。',meaning:'Terima kasih atas kerja samanya.',type:'expr'},
-  {jp:'うかがいます。',rom:'ukagaimasu',kanji:'伺います。',meaning:'pergi (Kata Merendahkan Diri dari いきます)',type:'verb'},
-  {jp:'とちゅうで',rom:'tochuu de',kanji:'途中で',meaning:'di tengah',type:'expr',note:'《会話》'},
-  {jp:'トラック',rom:'torakku',kanji:'—',meaning:'truk',type:'noun'},
-  {jp:'ぶつかります I',rom:'butsukаrimasu',kanji:'—',meaning:'menabrak',type:'verb'},
-  {jp:'おとな',rom:'otona',kanji:'大人',meaning:'orang dewasa',type:'noun',note:'《読み物》'},
-  {jp:'ようふく',rom:'yōfuku',kanji:'洋服',meaning:'baju',type:'noun'},
-  {jp:'せいようかします III',rom:'seiyōkashimasu',kanji:'西洋化します',meaning:'kebarat-baratan',type:'verb'},
-  {jp:'あいます I',rom:'aimasu',kanji:'—',meaning:'cocok',type:'verb'},
-  {jp:'せいじんしき',rom:'seijinshiki',kanji:'成人式',meaning:'upacara pendewasaan',type:'noun'},
-  {jp:'でんとうてき [な]',rom:'dentōteki [na]',kanji:'伝統的[な]',meaning:'secara tradisional',type:'adj'},
 ]}],
 
 40: [{ num:'40', title:'Kosakata Utama', jp:'第40課', rows:[
   {jp:'かぞえます II',rom:'kazoemasu',kanji:'数えます',meaning:'menghitung',type:'verb'},
   {jp:'はかります I',rom:'hakarimasu',kanji:'測ります、量ります',meaning:'mengukur, menimbang',type:'verb'},
-  {jp:'たしかめます II',rom:'tashikamemasu',kanji:'確かめます',meaning:'mengecek',type:'verb'},
-  {jp:'あいます I',rom:'aimasu',kanji:'合います',meaning:'cocok [ukurannya]',type:'verb',note:'[サイズが〜]'},
+  {jp:'たしかめます II',rom:'tashikamemasu',kanji:'確かめます',meaning:'mengecek, memastikan',type:'verb'},
+  {jp:'あいます I',rom:'aimasu',kanji:'合います',meaning:'cocok (ukurannya)',type:'verb'},
   {jp:'しゅっぱつします III',rom:'shuppatsu shimasu',kanji:'出発します',meaning:'berangkat',type:'verb'},
-  {jp:'とうちゃくします III',rom:'touchaku shimasu',kanji:'到着します',meaning:'tiba',type:'verb'},
+  {jp:'とうちゃくします III',rom:'touchaku shimasu',kanji:'到着します',meaning:'tiba, sampai',type:'verb'},
   {jp:'よいます I',rom:'yoimasu',kanji:'酔います',meaning:'mabuk',type:'verb'},
   {jp:'うまくいきます I',rom:'umaku ikimasu',kanji:'—',meaning:'berhasil dengan baik',type:'verb'},
-  {jp:'でます II',rom:'demasu',kanji:'出ます',meaning:'diberikan [soal di ujian]',type:'verb',note:'[もんだいが〜]'},
   {jp:'そうだんします III',rom:'soudan shimasu',kanji:'相談します',meaning:'berkonsultasi',type:'verb'},
-  {jp:'ひつよう [な]',rom:'hitsuyou [na]',kanji:'必要[な]',meaning:'perlu',type:'adj'},
+  {jp:'ひつよう [な]',rom:'hitsuyou [na]',kanji:'必要[な]',meaning:'perlu, dibutuhkan',type:'adj'},
   {jp:'てんきよほう',rom:'tenki yohou',kanji:'天気予報',meaning:'prakiraan cuaca',type:'noun'},
   {jp:'ぼうねんかい',rom:'bounenkai',kanji:'忘年会',meaning:'pesta akhir tahun',type:'noun'},
   {jp:'しんねんかい',rom:'shinnenkai',kanji:'新年会',meaning:'pesta tahun baru',type:'noun'},
-  {jp:'にじかい',rom:'nijikai',kanji:'二次会',meaning:'pesta untuk kedua kalinya',type:'noun'},
-  {jp:'はっぴょうかい',rom:'happyokai',kanji:'発表会',meaning:'mempresentasi',type:'noun'},
-  {jp:'たいかい',rom:'taikai',kanji:'大会',meaning:'lomba',type:'noun'},
+  {jp:'たいかい',rom:'taikai',kanji:'大会',meaning:'perlombaan besar',type:'noun'},
   {jp:'マラソン',rom:'marason',kanji:'—',meaning:'maraton',type:'noun'},
-  {jp:'コンテスト',rom:'kontesuto',kanji:'—',meaning:'pertandingan',type:'noun'},
-  {jp:'おもて',rom:'omote',kanji:'表',meaning:'muka',type:'noun'},
+  {jp:'コンテスト',rom:'kontesuto',kanji:'—',meaning:'lomba, kontes',type:'noun'},
+  {jp:'おもて',rom:'omote',kanji:'表',meaning:'muka, depan',type:'noun'},
   {jp:'うら',rom:'ura',kanji:'裏',meaning:'belakang',type:'noun'},
-  {jp:'まちがい',rom:'machigai',kanji:'—',meaning:'kesalahan',type:'noun'},
+  {jp:'まちがい',rom:'machigai',kanji:'間違い',meaning:'kesalahan',type:'noun'},
   {jp:'きず',rom:'kizu',kanji:'傷',meaning:'cacat, luka',type:'noun'},
   {jp:'ズボン',rom:'zubon',kanji:'—',meaning:'celana',type:'noun'},
-  {jp:'[お]としより',rom:'otoshiyori',kanji:'[お]年寄り',meaning:'orang lanjut usia',type:'noun'},
   {jp:'ながさ',rom:'nagasa',kanji:'長さ',meaning:'panjangnya',type:'noun'},
   {jp:'おもさ',rom:'omosa',kanji:'重さ',meaning:'beratnya',type:'noun'},
   {jp:'たかさ',rom:'takasa',kanji:'高さ',meaning:'tingginya',type:'noun'},
   {jp:'おおきさ',rom:'ōkisa',kanji:'大きさ',meaning:'besarnya',type:'noun'},
-  {jp:'どうでしょうか。',rom:'dou deshou ka',kanji:'—',meaning:'Bagaimana? (Kata Sopan dari どうですか)',type:'expr',note:'《会話》'},
-  {jp:'テスト',rom:'tesuto',kanji:'—',meaning:'ujian',type:'noun'},
-  {jp:'せいせき',rom:'seiseki',kanji:'成績',meaning:'nilai',type:'noun'},
+  {jp:'テスト',rom:'tesuto',kanji:'—',meaning:'ujian, tes',type:'noun'},
+  {jp:'せいせき',rom:'seiseki',kanji:'成績',meaning:'nilai, prestasi',type:'noun'},
   {jp:'ところで',rom:'tokoro de',kanji:'—',meaning:'ngomong-ngomong',type:'expr'},
-  {jp:'じけん',rom:'jiken',kanji:'事件',meaning:'kejadian',type:'noun',note:'《読み物》'},
-  {jp:'オートバイ',rom:'ōtobai',kanji:'—',meaning:'sepeda motor',type:'noun'},
-  {jp:'ばくだん',rom:'bakudan',kanji:'爆弾',meaning:'bom',type:'noun'},
-  {jp:'つみます I',rom:'tsumimasu',kanji:'積みます',meaning:'memuatkan',type:'verb'},
-  {jp:'うんてんしゅ',rom:'untensha',kanji:'運転手',meaning:'sopir',type:'noun'},
-  {jp:'はなれた',rom:'hanareta',kanji:'—',meaning:'terpisah',type:'adj'},
   {jp:'きゅうに',rom:'kyuu ni',kanji:'急に',meaning:'mendadak, tiba-tiba',type:'expr'},
-  {jp:'うごかします I',rom:'ugokashimasu',kanji:'動かします',meaning:'menggerakkan',type:'verb'},
-  {jp:'はんにん',rom:'hannin',kanji:'犯人',meaning:'pelaku',type:'noun'},
-  {jp:'おとこ',rom:'otoko',kanji:'男',meaning:'laki-laki',type:'noun'},
-  {jp:'てに いれます II',rom:'te ni iremasu',kanji:'—',meaning:'mendapatkan',type:'verb'},
-  {jp:'いまでも',rom:'ima demo',kanji:'—',meaning:'sampai sekarang',type:'expr'},
 ]}],
 
 41: [{ num:'41', title:'Kosakata Utama', jp:'第41課', rows:[
-  {jp:'いただきます I',rom:'itadakimasu',kanji:'—',meaning:'menerima (Kata Merendahkan Diri dari もらいます)',type:'verb'},
-  {jp:'くださいます I',rom:'kudasaimasu',kanji:'—',meaning:'memberikan (Kata Hormat dari くれます)',type:'verb'},
-  {jp:'やります I',rom:'yarimasu',kanji:'—',meaning:'memberi (terhadap orang yang lebih mudah, bawahan, binatang dan tanaman)',type:'verb'},
-  {jp:'あげます II',rom:'agemasu',kanji:'上げます',meaning:'menaikkan',type:'verb'},
+  {jp:'いただきます I',rom:'itadakimasu',kanji:'頂きます',meaning:'menerima (Bahasa Rendah dari もらいます)',type:'verb'},
+  {jp:'くださいます I',rom:'kudasaimasu',kanji:'下さいます',meaning:'memberikan (Bahasa Hormat dari くれます)',type:'verb'},
+  {jp:'やります I',rom:'yarimasu',kanji:'—',meaning:'memberi (ke orang lebih muda, hewan, tanaman)',type:'verb'},
+  {jp:'あげます II',rom:'agemasu',kanji:'上げます',meaning:'menaikkan, memberi',type:'verb'},
   {jp:'さげます II',rom:'sagemasu',kanji:'下げます',meaning:'menurunkan',type:'verb'},
-  {jp:'しんせつに します III',rom:'shinsetsu ni shimasu',kanji:'親切に します',meaning:'berbaik hati',type:'verb'},
-  {jp:'かわいい',rom:'kawaii',kanji:'—',meaning:'manis',type:'adj'},
-  {jp:'めずらしい',rom:'mezurashii',kanji:'珍しい',meaning:'langka',type:'adj'},
-  {jp:'おいわい',rom:'oiwai',kanji:'お祝い',meaning:'perayaan, hadiah (〜をします: merayakan)',type:'noun'},
-  {jp:'おとしだま',rom:'otoshidama',kanji:'お年玉',meaning:'otoshidama (angpao)',type:'noun'},
-  {jp:'[お]みまい',rom:'omimаi',kanji:'[お]見舞い',meaning:'pembesukan, barang bantuan',type:'noun'},
-  {jp:'きょうみ',rom:'kyōmi',kanji:'興味',meaning:'minat ([コンピューターに] 〜があります: berminat pada [komputer])',type:'noun'},
+  {jp:'かわいい',rom:'kawaii',kanji:'可愛い',meaning:'lucu, manis',type:'adj'},
+  {jp:'めずらしい',rom:'mezurashii',kanji:'珍しい',meaning:'langka, jarang ada',type:'adj'},
+  {jp:'おいわい',rom:'oiwai',kanji:'お祝い',meaning:'perayaan, hadiah',type:'noun'},
+  {jp:'おとしだま',rom:'otoshidama',kanji:'お年玉',meaning:'angpao tahun baru (otoshidama)',type:'noun'},
+  {jp:'[お]みまい',rom:'omimаi',kanji:'[お]見舞い',meaning:'besukan, barang kunjungan',type:'noun'},
+  {jp:'きょうみ',rom:'kyōmi',kanji:'興味',meaning:'minat, ketertarikan',type:'noun'},
   {jp:'じょうほう',rom:'jōhō',kanji:'情報',meaning:'informasi',type:'noun'},
   {jp:'ぶんぽう',rom:'bunpou',kanji:'文法',meaning:'tata bahasa',type:'noun'},
-  {jp:'はつおん',rom:'hatsuon',kanji:'発音',meaning:'ungkapan',type:'noun'},
+  {jp:'はつおん',rom:'hatsuon',kanji:'発音',meaning:'pengucapan',type:'noun'},
   {jp:'さる',rom:'saru',kanji:'猿',meaning:'monyet',type:'noun'},
-  {jp:'えさ',rom:'esa',kanji:'—',meaning:'makanan',type:'noun'},
+  {jp:'えさ',rom:'esa',kanji:'—',meaning:'makanan (untuk hewan)',type:'noun'},
   {jp:'おもちゃ',rom:'omocha',kanji:'—',meaning:'mainan',type:'noun'},
   {jp:'えほん',rom:'ehon',kanji:'絵本',meaning:'buku gambar',type:'noun'},
-  {jp:'えはがき',rom:'ehagaki',kanji:'絵はがき',meaning:'kartu pos bergambar',type:'noun'},
   {jp:'ドライバー',rom:'doraibaa',kanji:'—',meaning:'obeng',type:'noun'},
   {jp:'ハンカチ',rom:'hankachi',kanji:'—',meaning:'sapu tangan',type:'noun'},
   {jp:'くつした',rom:'kutsushita',kanji:'靴下',meaning:'kaus kaki',type:'noun'},
   {jp:'てぶくろ',rom:'tebukuro',kanji:'手袋',meaning:'sarung tangan',type:'noun'},
-  {jp:'ようちえん',rom:'yōchien',kanji:'幼稚園',meaning:'TK',type:'noun'},
-  {jp:'だんぼう',rom:'danbou',kanji:'暖房',meaning:'alat pemanas',type:'noun'},
-  {jp:'れいぼう',rom:'reibou',kanji:'冷房',meaning:'AC',type:'noun'},
+  {jp:'ようちえん',rom:'yōchien',kanji:'幼稚園',meaning:'Taman Kanak-kanak (TK)',type:'noun'},
+  {jp:'だんぼう',rom:'danbou',kanji:'暖房',meaning:'pemanas ruangan',type:'noun'},
+  {jp:'れいぼう',rom:'reibou',kanji:'冷房',meaning:'pendingin ruangan (AC)',type:'noun'},
   {jp:'おんど',rom:'ondo',kanji:'温度',meaning:'suhu',type:'noun'},
-  {jp:'そふ',rom:'sofu',kanji:'祖父',meaning:'kakek',type:'noun'},
-  {jp:'そぼ',rom:'sobo',kanji:'祖母',meaning:'nenek',type:'noun'},
+  {jp:'そふ',rom:'sofu',kanji:'祖父',meaning:'kakek (milik sendiri)',type:'noun'},
+  {jp:'そぼ',rom:'sobo',kanji:'祖母',meaning:'nenek (milik sendiri)',type:'noun'},
   {jp:'まご',rom:'mago',kanji:'孫',meaning:'cucu',type:'noun'},
-  {jp:'おまごさん',rom:'omagosan',kanji:'お孫さん',meaning:'cucu (untuk orang lain)',type:'noun'},
-  {jp:'おじ',rom:'oji',kanji:'—',meaning:'om',type:'noun'},
-  {jp:'おじさん',rom:'ojisan',kanji:'—',meaning:'om (untuk orang lain)',type:'noun'},
-  {jp:'おば',rom:'oba',kanji:'—',meaning:'tante',type:'noun'},
-  {jp:'おばさん',rom:'obasan',kanji:'—',meaning:'tante (untuk orang lain)',type:'noun'},
-  {jp:'かんりにん',rom:'kanrinin',kanji:'管理人',meaning:'penjaga (contoh: penjaga apartmen)',type:'noun'},
-  {jp:'このあいだ',rom:'kono aida',kanji:'この間',meaning:'beberapa saat lalu',type:'expr'},
-  {jp:'ひとこと',rom:'hitokoto',kanji:'—',meaning:'sepatah kata',type:'expr',note:'《会話》'},
-  {jp:'〜ずつ',rom:'~zutsu',kanji:'—',meaning:'setiap 〜 (contoh: setiap sepatah kata, setiap dua orang, setiap tiga lembar)',type:'expr'},
-  {jp:'ふたり',rom:'futari',kanji:'二人',meaning:'pasangan',type:'noun'},
-  {jp:'おたく',rom:'otaku',kanji:'お宅',meaning:'rumah (Kata Hormat dari うち atau いえ)',type:'noun'},
+  {jp:'おじ',rom:'oji',kanji:'叔父',meaning:'om (milik sendiri)',type:'noun'},
+  {jp:'おじさん',rom:'ojisan',kanji:'叔父さん',meaning:'om (orang lain)',type:'noun'},
+  {jp:'おば',rom:'oba',kanji:'叔母',meaning:'tante (milik sendiri)',type:'noun'},
+  {jp:'おばさん',rom:'obasan',kanji:'叔母さん',meaning:'tante (orang lain)',type:'noun'},
+  {jp:'このあいだ',rom:'kono aida',kanji:'この間',meaning:'beberapa waktu lalu',type:'expr'},
   {jp:'どうぞ お幸せに。',rom:'douzo o-shiawase ni',kanji:'—',meaning:'Selamat berbahagia!',type:'expr'},
-  {jp:'むかしばなし',rom:'mukashi banashi',kanji:'昔話',meaning:'cerita dongeng',type:'noun',note:'《読み物》'},
-  {jp:'ある 〜',rom:'aru',kanji:'—',meaning:'suatu 〜',type:'expr'},
-  {jp:'おとこ',rom:'otoko',kanji:'男',meaning:'laki-laki',type:'noun'},
-  {jp:'こどもたち',rom:'kodomotachi',kanji:'子どもたち',meaning:'anak-anak',type:'noun'},
-  {jp:'いじめます II',rom:'ijimemasu',kanji:'—',meaning:'menyiksa, menganiayai',type:'verb'},
-  {jp:'かめ',rom:'kame',kanji:'—',meaning:'kura-kura',type:'noun'},
-  {jp:'たすけます II',rom:'tasukemasu',kanji:'助けます',meaning:'membantu, menolong',type:'verb'},
-  {jp:'やさしい',rom:'yasashii',kanji:'優しい',meaning:'baik hati',type:'adj'},
-  {jp:'おひめさま',rom:'ohimesama',kanji:'お姫様',meaning:'putri',type:'noun'},
-  {jp:'くらします I',rom:'kurashimasu',kanji:'暮らします',meaning:'hidup',type:'verb'},
-  {jp:'りく',rom:'riku',kanji:'陸',meaning:'daratan',type:'noun'},
-  {jp:'すると',rom:'suru to',kanji:'—',meaning:'kemudian',type:'expr'},
-  {jp:'けむり',rom:'kemuri',kanji:'煙',meaning:'asap',type:'noun'},
-  {jp:'まっしろ [な]',rom:'masshiro [na]',kanji:'真っ白[な]',meaning:'putih',type:'adj'},
-  {jp:'なかみ',rom:'nakami',kanji:'中身',meaning:'isi',type:'noun'},
 ]}],
 
 42: [{ num:'42', title:'Kosakata Utama', jp:'第42課', rows:[
   {jp:'つつみます I',rom:'tsutsumimasu',kanji:'包みます',meaning:'membungkus',type:'verb'},
-  {jp:'わかします I',rom:'wakashimasu',kanji:'沸かします',meaning:'memasak',type:'verb'},
+  {jp:'わかします I',rom:'wakashimasu',kanji:'沸かします',meaning:'merebus air',type:'verb'},
   {jp:'まぜます II',rom:'mazemasu',kanji:'混ぜます',meaning:'mencampur',type:'verb'},
   {jp:'けいさんします III',rom:'keisanshimasu',kanji:'計算します',meaning:'menghitung',type:'verb'},
-  {jp:'ならびます I',rom:'narabimasu',kanji:'並びます',meaning:'berbaris',type:'verb'},
-  {jp:'じょうぶ [な]',rom:'joubu [na]',kanji:'丈夫[な]',meaning:'kuat',type:'adj'},
-  {jp:'アパート',rom:'apaato',kanji:'—',meaning:'apartmen',type:'noun'},
+  {jp:'ならびます I',rom:'narabimasu',kanji:'並びます',meaning:'berbaris, mengantri',type:'verb'},
+  {jp:'じょうぶ [な]',rom:'joubu [na]',kanji:'丈夫[な]',meaning:'kuat, kokoh',type:'adj'},
   {jp:'べんごし',rom:'bengoshi',kanji:'弁護士',meaning:'pengacara',type:'noun'},
   {jp:'おんがくか',rom:'ongakuka',kanji:'音楽家',meaning:'musisi',type:'noun'},
-  {jp:'こどもたち',rom:'kodomotachi',kanji:'子どもたち',meaning:'anak-anak',type:'noun'},
   {jp:'しぜん',rom:'shizen',kanji:'自然',meaning:'alam',type:'noun'},
   {jp:'きょういく',rom:'kyōiku',kanji:'教育',meaning:'pendidikan',type:'noun'},
   {jp:'ぶんか',rom:'bunka',kanji:'文化',meaning:'budaya',type:'noun'},
-  {jp:'しゃかい',rom:'shakai',kanji:'社会',meaning:'sosial',type:'noun'},
+  {jp:'しゃかい',rom:'shakai',kanji:'社会',meaning:'masyarakat, sosial',type:'noun'},
   {jp:'せいじ',rom:'seiji',kanji:'政治',meaning:'politik',type:'noun'},
   {jp:'ほうりつ',rom:'houritsu',kanji:'法律',meaning:'hukum',type:'noun'},
   {jp:'せんそう',rom:'sensou',kanji:'戦争',meaning:'perang',type:'noun'},
   {jp:'へいわ',rom:'heiwa',kanji:'平和',meaning:'damai, perdamaian',type:'noun'},
   {jp:'もくてき',rom:'mokuteki',kanji:'目的',meaning:'tujuan',type:'noun'},
-  {jp:'ろんぶん',rom:'ronbun',kanji:'論文',meaning:'tesis',type:'noun'},
-  {jp:'たのしみ',rom:'tanoshimi',kanji:'楽しみ',meaning:'kesenangan',type:'noun'},
+  {jp:'ろんぶん',rom:'ronbun',kanji:'論文',meaning:'karya tulis ilmiah, tesis',type:'noun'},
   {jp:'ミキサー',rom:'mikisaa',kanji:'—',meaning:'mixer, alat pencampur listrik',type:'noun'},
-  {jp:'やかん',rom:'yakan',kanji:'—',meaning:'ceret, ketel',type:'noun'},
-  {jp:'ふた',rom:'futa',kanji:'—',meaning:'tutup',type:'noun'},
-  {jp:'せんぬき',rom:'sennuki',kanji:'栓抜き',meaning:'pembuka botol',type:'noun'},
-  {jp:'かんきり',rom:'kankiri',kanji:'缶切り',meaning:'pembuka kaleng',type:'noun'},
+  {jp:'やかん',rom:'yakan',kanji:'—',meaning:'cerek, ketel',type:'noun'},
   {jp:'かんづめ',rom:'kanzume',kanji:'缶詰',meaning:'makanan kaleng',type:'noun'},
-  {jp:'のしぶくろ',rom:'noshi bukuro',kanji:'のし袋',meaning:'amplop khusus untuk mengisi uang',type:'noun'},
-  {jp:'ふろしき',rom:'furoshiki',kanji:'—',meaning:'kain untuk membungkus barang',type:'noun'},
-  {jp:'そろばん',rom:'soroban',kanji:'—',meaning:'sempoa',type:'noun'},
-  {jp:'たいおんけい',rom:'taionkei',kanji:'体温計',meaning:'termometer',type:'noun'},
-  {jp:'ざいりょう',rom:'zairyou',kanji:'材料',meaning:'bahan',type:'noun'},
-  {jp:'ある 〜',rom:'aru',kanji:'—',meaning:'suatu 〜',type:'expr'},
-  {jp:'いっしょうけんめい',rom:'isshoukenmei',kanji:'一生懸命',meaning:'sungguh-sungguh',type:'expr'},
-  {jp:'なぜ',rom:'naze',kanji:'—',meaning:'kenapa',type:'expr'},
-  {jp:'どのくらい',rom:'dono kurai',kanji:'—',meaning:'berapa banyak',type:'expr'},
-  {jp:'カップめん',rom:'kappu men',kanji:'—',meaning:'mie instan (diisi di dalam tempat sekali pakai seperti mangkuk plastik)',type:'noun',note:'《読み物》'},
-  {jp:'せかいはつ',rom:'sekai hatsu',kanji:'世界初',meaning:'pertama di dunia',type:'expr'},
-  {jp:'〜によって',rom:'~ni yotte',kanji:'—',meaning:'oleh 〜',type:'expr'},
-  {jp:'どんぶり',rom:'donburi',kanji:'—',meaning:'mangkuk',type:'noun'},
-  {jp:'めん',rom:'men',kanji:'—',meaning:'mie',type:'noun'},
-  {jp:'ひろめます II',rom:'hiromemasu',kanji:'広めます',meaning:'menyebarluaskan',type:'verb'},
-  {jp:'わります I',rom:'warimasu',kanji:'割ります',meaning:'membagi',type:'verb'},
-  {jp:'そそぎます I',rom:'sosogimasu',kanji:'注ぎます',meaning:'menyiram',type:'verb'},
+  {jp:'いっしょうけんめい',rom:'isshoukenmei',kanji:'一生懸命',meaning:'sungguh-sungguh, sepenuh hati',type:'expr'},
+  {jp:'なぜ',rom:'naze',kanji:'—',meaning:'kenapa, mengapa',type:'expr'},
 ]}],
 
 43: [{ num:'43', title:'Kosakata Utama', jp:'第43課', rows:[
-  {jp:'ふえます II',rom:'fuemasu',kanji:'増えます',meaning:'[ekspor] bertambah',type:'verb',note:'[ゆしゅつが〜]'},
-  {jp:'へります I',rom:'herimasu',kanji:'減ります',meaning:'[ekspor] berkurang',type:'verb',note:'[ゆしゅつが〜]'},
-  {jp:'あがります I',rom:'agarimasu',kanji:'上がります',meaning:'[harga] meningkat',type:'verb',note:'[ねだんが〜]'},
-  {jp:'さがります I',rom:'sagarimasu',kanji:'下がります',meaning:'[harga] menurun',type:'verb',note:'[ねだんが〜]'},
-  {jp:'きれます II',rom:'kiremasu',kanji:'切れます',meaning:'[tali] terputus',type:'verb',note:'[ひもが〜]'},
-  {jp:'とれます II',rom:'toremasu',kanji:'—',meaning:'[kancing] terlepas',type:'verb',note:'[ボタンが〜]'},
-  {jp:'おちます II',rom:'ochimasu',kanji:'落ちます',meaning:'[barang] terjatuh',type:'verb',note:'[にもつが〜]'},
-  {jp:'なくなります I',rom:'nakunarimasu',kanji:'—',meaning:'[bensin] habis',type:'verb',note:'[ガソリンが〜]'},
-  {jp:'へん [な]',rom:'hen [na]',kanji:'変[な]',meaning:'aneh',type:'adj'},
-  {jp:'しあわせ [な]',rom:'shiawase [na]',kanji:'幸せ[な]',meaning:'bahagia',type:'adj'},
-  {jp:'らく [な]',rom:'raku [na]',kanji:'楽[な]',meaning:'ringan',type:'adj'},
-  {jp:'うまい',rom:'umai',kanji:'—',meaning:'enak, lezat',type:'adj'},
-  {jp:'まずい',rom:'mazui',kanji:'—',meaning:'tidak enak, tidak sedap',type:'adj'},
-  {jp:'つまらない',rom:'tsumaranai',kanji:'—',meaning:'tidak menarik, tidak berguna, percuma',type:'adj'},
-  {jp:'やさしい',rom:'yasashii',kanji:'優しい',meaning:'baik hati',type:'adj'},
-  {jp:'ガソリン',rom:'gasorin',kanji:'—',meaning:'bensin',type:'noun'},
-  {jp:'ひ',rom:'hi',kanji:'火',meaning:'api',type:'noun'},
-  {jp:'パンフレット',rom:'panfuretto',kanji:'—',meaning:'pamflet',type:'noun'},
-  {jp:'いまにも',rom:'ima ni mo',kanji:'今にも',meaning:'sekarang juga (dipakai untuk menggambarkan kondisi persisi akan terjadi perubahan)',type:'expr'},
-  {jp:'わあ',rom:'waa',kanji:'—',meaning:'Wah!',type:'expr'},
-  {jp:'ばら',rom:'bara',kanji:'—',meaning:'bunga mawar',type:'noun',note:'《読み物》'},
-  {jp:'ドライブ',rom:'doraibu',kanji:'—',meaning:'berjalan-jalan dengan mobil',type:'noun'},
-  {jp:'りゆう',rom:'riyuu',kanji:'理由',meaning:'alasan',type:'noun'},
-  {jp:'あやまります I',rom:'ayamarimasu',kanji:'謝ります',meaning:'memohon maaf',type:'verb'},
-  {jp:'しりあいます I',rom:'shiriarimasu',kanji:'知り合います',meaning:'berkenalan',type:'verb'},
+  {jp:'かんがえます II',rom:'kangaemasu',kanji:'考えます',meaning:'memikirkan, berencana',type:'verb'},
+  {jp:'すてます II',rom:'sutemasu',kanji:'捨てます',meaning:'membuang',type:'verb'},
+  {jp:'ひっこします I',rom:'hikkoshimasu',kanji:'引っ越します',meaning:'pindah rumah',type:'verb'},
+  {jp:'わかれます II',rom:'wakaremasu',kanji:'別れます',meaning:'berpisah',type:'verb'},
+  {jp:'ほんやく',rom:'hon yaku',kanji:'翻訳',meaning:'terjemahan',type:'noun'},
+  {jp:'いけん',rom:'iken',kanji:'意見',meaning:'pendapat',type:'noun'},
+  {jp:'よしゅう',rom:'yoshuu',kanji:'予習',meaning:'belajar persiapan',type:'noun'},
+  {jp:'ふくしゅう',rom:'fukushuu',kanji:'復習',meaning:'mengulang pelajaran',type:'noun'},
+  {jp:'ふるさと',rom:'furusato',kanji:'故郷',meaning:'kampung halaman',type:'noun'},
+  {jp:'うんめい',rom:'unmei',kanji:'運命',meaning:'nasib, takdir',type:'noun'},
+  {jp:'ゆめ',rom:'yume',kanji:'夢',meaning:'mimpi, impian',type:'noun'},
+  {jp:'まじめ [な]',rom:'majime [na]',kanji:'真面目[な]',meaning:'serius, tekun',type:'adj'},
+  {jp:'だんだん',rom:'dandan',kanji:'—',meaning:'semakin lama semakin',type:'expr'},
+  {jp:'もしかしたら',rom:'moshi kashitara',kanji:'—',meaning:'mungkin saja',type:'expr'},
+  {jp:'きっと',rom:'kitto',kanji:'—',meaning:'pasti, tentu saja',type:'expr'},
 ]}],
 
 44: [{ num:'44', title:'Kosakata Utama', jp:'第44課', rows:[
-  {jp:'なきます I',rom:'nakimasu',kanji:'泣きます',meaning:'menangis',type:'verb'},
-  {jp:'わらいます I',rom:'waraimasu',kanji:'笑います',meaning:'tertawa',type:'verb'},
-  {jp:'ねむります I',rom:'nemurimasu',kanji:'眠ります',meaning:'tidur',type:'verb'},
-  {jp:'かわきます I',rom:'kawakimasu',kanji:'乾きます',meaning:'[kemeja] mengering',type:'verb',note:'[シャツが〜]'},
-  {jp:'ぬれます II',rom:'nuremasu',kanji:'—',meaning:'[kemeja] basah',type:'verb',note:'[シャツが〜]'},
-  {jp:'すべります I',rom:'suberimasu',kanji:'滑ります',meaning:'licin',type:'verb'},
-  {jp:'おきます I',rom:'okimasu',kanji:'起きます',meaning:'terjadi [kecelakaan]',type:'verb',note:'[じこが〜]'},
-  {jp:'ちょうせつします III',rom:'chousestu shimasu',kanji:'調節します',meaning:'mengontrol',type:'verb'},
-  {jp:'あんぜん [な]',rom:'anzen [na]',kanji:'安全[な]',meaning:'aman',type:'adj'},
-  {jp:'きけん [な]',rom:'kiken [na]',kanji:'危険[な]',meaning:'bahaya',type:'adj'},
-  {jp:'こい',rom:'koi',kanji:'濃い',meaning:'kental (rasa makanan atau minuman), tua (warna)',type:'adj'},
-  {jp:'うすい',rom:'usui',kanji:'薄い',meaning:'tawar (rasa makanan atau minuman), muda (warna), tipis (barang)',type:'adj'},
-  {jp:'あつい',rom:'atsui',kanji:'厚い',meaning:'tebal',type:'adj'},
-  {jp:'ふとい',rom:'futoi',kanji:'太い',meaning:'gemuk',type:'adj'},
-  {jp:'ほそい',rom:'hosoi',kanji:'細い',meaning:'kurus',type:'adj'},
-  {jp:'くうき',rom:'kuuki',kanji:'空気',meaning:'udara',type:'noun'},
-  {jp:'なみだ',rom:'namida',kanji:'涙',meaning:'air mata',type:'noun'},
-  {jp:'わしょく',rom:'washoku',kanji:'和食',meaning:'makanan Jepang',type:'noun'},
-  {jp:'ようしょく',rom:'youshoku',kanji:'洋食',meaning:'makanan Barat',type:'noun'},
-  {jp:'おかず',rom:'okazu',kanji:'—',meaning:'lauk-pauk',type:'noun'},
-  {jp:'りょう',rom:'ryou',kanji:'量',meaning:'kuantitas',type:'noun'},
-  {jp:'〜ばい',rom:'~bai',kanji:'〜倍',meaning:'〜 kali',type:'expr'},
-  {jp:'シングル',rom:'shinguru',kanji:'—',meaning:'single',type:'noun'},
-  {jp:'ツイン',rom:'tsuin',kanji:'—',meaning:'twin',type:'noun'},
-  {jp:'せんたくもの',rom:'sentakumono',kanji:'洗濯物',meaning:'cucian',type:'noun'},
-  {jp:'DVD',rom:'dii bui dii',kanji:'—',meaning:'DVD',type:'noun'},
-  {jp:'いやがります I',rom:'iyagarimasu',kanji:'—',meaning:'tidak mau',type:'verb',note:'《読み物》'},
-  {jp:'また',rom:'mata',kanji:'—',meaning:'dan, lalu',type:'expr'},
-  {jp:'うまく',rom:'umaku',kanji:'—',meaning:'pandai, pintar',type:'expr'},
-  {jp:'じゅんじょ',rom:'junjo',kanji:'順序',meaning:'urutan',type:'noun'},
-  {jp:'あんしん [な]',rom:'anshin [na]',kanji:'安心[な]',meaning:'kelegaan',type:'adj'},
-  {jp:'ひょうげん',rom:'hyōgen',kanji:'表現',meaning:'ungkapan, ekspresi',type:'noun'},
-  {jp:'たとえば',rom:'tatoeba',kanji:'例えば',meaning:'misalnya',type:'expr'},
-  {jp:'わかれます II',rom:'wakaremasu',kanji:'別れます',meaning:'berpisah',type:'verb'},
-  {jp:'えんきが わるい',rom:'enki ga warui',kanji:'縁起が 悪い',meaning:'tidak menyenangkan',type:'expr'},
+  {jp:'いのります I',rom:'inorimasu',kanji:'祈ります',meaning:'berdoa',type:'verb'},
+  {jp:'かみます I',rom:'kamimasu',kanji:'噛みます',meaning:'mengunyah, menggigit',type:'verb'},
+  {jp:'おまいりします III',rom:'omairishimasu',kanji:'お参りします',meaning:'berziarah',type:'verb'},
+  {jp:'まいります I',rom:'mairimasu',kanji:'参ります',meaning:'pergi (Bahasa Rendah dari いきます)',type:'verb'},
+  {jp:'じんじゃ',rom:'jinja',kanji:'神社',meaning:'kuil Shinto',type:'noun'},
+  {jp:'てら',rom:'tera',kanji:'寺',meaning:'kuil Buddha',type:'noun'},
+  {jp:'おまもり',rom:'omamori',kanji:'お守り',meaning:'jimat',type:'noun'},
+  {jp:'おみくじ',rom:'omikuji',kanji:'おみくじ',meaning:'kertas ramalan nasib',type:'noun'},
+  {jp:'えんぎ',rom:'engi',kanji:'縁起',meaning:'pertanda',type:'noun'},
+  {jp:'えんぎが いい',rom:'enki ga ii',kanji:'縁起が いい',meaning:'pertanda baik',type:'expr'},
+  {jp:'えんぎが わるい',rom:'enki ga warui',kanji:'縁起が 悪い',meaning:'pertanda buruk',type:'expr'},
 ]}],
 
 45: [{ num:'45', title:'Kosakata Utama', jp:'第45課', rows:[
   {jp:'しんじます II',rom:'shinjimasu',kanji:'信じます',meaning:'percaya',type:'verb'},
   {jp:'キャンセルします III',rom:'kyanseru shimasu',kanji:'—',meaning:'membatalkan',type:'verb'},
   {jp:'しらせます II',rom:'shirasemasu',kanji:'知らせます',meaning:'memberitahukan',type:'verb'},
+  {jp:'ゆうしょうします III',rom:'yūshōshimasu',kanji:'優勝します',meaning:'menang, juara',type:'verb'},
   {jp:'ほしょうしょ',rom:'hoshōsho',kanji:'保証書',meaning:'surat garansi',type:'noun'},
   {jp:'りょうしゅうしょ',rom:'ryōshūsho',kanji:'領収書',meaning:'kuitansi',type:'noun'},
   {jp:'キャンプ',rom:'kyanpu',kanji:'—',meaning:'kemah',type:'noun'},
   {jp:'ちゅうし',rom:'chuushi',kanji:'中止',meaning:'pembatalan',type:'noun'},
-  {jp:'てん',rom:'ten',kanji:'点',meaning:'poin',type:'noun'},
   {jp:'うめ',rom:'ume',kanji:'梅',meaning:'bunga plum',type:'noun'},
-  {jp:'110ばん',rom:'hyaku juu ban',kanji:'110番',meaning:'nomor telepon polisi untuk saat darurat',type:'noun'},
-  {jp:'119ばん',rom:'hyaku juu kyuu ban',kanji:'119番',meaning:'nomor telepon departmen pemadam kebakaran dan penanggulangan bencana untuk saat darurat',type:'noun'},
   {jp:'きゅうに',rom:'kyuu ni',kanji:'急に',meaning:'mendadak, tiba-tiba',type:'expr'},
-  {jp:'むりに',rom:'muri ni',kanji:'無理に',meaning:'dengan paksa',type:'expr'},
-  {jp:'たのしみに しています',rom:'tanoshimi ni shite imasu',kanji:'楽しみに して います',meaning:'menikmati',type:'expr'},
   {jp:'いじょうです。',rom:'ijō desu',kanji:'以上です。',meaning:'Sekian.',type:'expr'},
-  {jp:'かかりいん',rom:'kakari in',kanji:'—',meaning:'staf, petugas',type:'noun',note:'《会話》'},
-  {jp:'コース',rom:'koosu',kanji:'—',meaning:'jalur, jalan, rute',type:'noun'},
-  {jp:'スタート',rom:'sutaato',kanji:'—',meaning:'mulai',type:'noun'},
-  {jp:'〜い',rom:'~i',kanji:'〜位',meaning:'juara ke 〜',type:'noun'},
-  {jp:'ゆうしょうします III',rom:'yūshōshimasu',kanji:'優勝します',meaning:'menang',type:'verb'},
-  {jp:'なやみ',rom:'nayami',kanji:'悩み',meaning:'masalah',type:'noun',note:'《読み物》'},
-  {jp:'めざましどけい',rom:'mezamashi dokei',kanji:'目覚まし[時計]',meaning:'weker',type:'noun'},
-  {jp:'めが さめます II',rom:'me ga samemasu',kanji:'目が 覚めます',meaning:'terbangun',type:'verb'},
-  {jp:'だいがくせい',rom:'daigakusei',kanji:'大学生',meaning:'mahasiswa',type:'noun'},
-  {jp:'かいとう',rom:'kaitou',kanji:'回答',meaning:'jawaban (〜します: menjawab)',type:'noun'},
-  {jp:'なります I',rom:'narimasu',kanji:'—',meaning:'berbunyi',type:'verb'},
-  {jp:'セットします III',rom:'setto shimasu',kanji:'—',meaning:'memasang, mengatur',type:'verb'},
-  {jp:'それでも',rom:'soredemo',kanji:'—',meaning:'masih',type:'expr'},
+  {jp:'たのしみに しています',rom:'tanoshimi ni shite imasu',kanji:'楽しみに して います',meaning:'menantikan, menunggu dengan senang',type:'expr'},
 ]}],
 
 46: [{ num:'46', title:'Kosakata Utama', jp:'第46課', rows:[
-  {jp:'わたします I',rom:'watashimasu',kanji:'渡します',meaning:'menyerahkan',type:'verb'},
+  {jp:'わたします I',rom:'watashimasu',kanji:'渡します',meaning:'menyerahkan, memberikan',type:'verb'},
   {jp:'かえって きます III',rom:'kaette kimasu',kanji:'帰って 来ます',meaning:'pulang',type:'verb'},
-  {jp:'でます II',rom:'demasu',kanji:'出ます',meaning:'[bus] berangkat',type:'verb'},
-  {jp:'とどきます II',rom:'todokimasu',kanji:'届きます',meaning:'[barang] sampai',type:'verb',note:'[にもつが〜]'},
-  {jp:'にゅうがくします III',rom:'nyūgakushimasu',kanji:'入学します',meaning:'masuk [universitas]',type:'verb',note:'[だいがくに〜]'},
-  {jp:'そつぎょうします III',rom:'sotsugyōshimasu',kanji:'卒業します',meaning:'lulus/tamat [dari universitas]',type:'verb',note:'[だいがくを〜]'},
-  {jp:'やきます I',rom:'yakimasu',kanji:'焼きます',meaning:'membakar',type:'verb'},
-  {jp:'やけます II',rom:'yakemasu',kanji:'焼けます',meaning:'[roti] dibakar / [daging] dibakar',type:'verb',note:'[パンが〜]/[にくが〜]'},
-  {jp:'るす',rom:'rusu',kanji:'留守',meaning:'ketidakadaan',type:'noun'},
-  {jp:'たくはいびん',rom:'takuhai bin',kanji:'宅配便',meaning:'titipan kilat',type:'noun'},
-  {jp:'げんいん',rom:'gen in',kanji:'原因',meaning:'sebab',type:'noun'},
-  {jp:'こちら',rom:'kochira',kanji:'—',meaning:'sini',type:'noun'},
-  {jp:'〜のところ',rom:'~no tokoro',kanji:'〜の 所',meaning:'tempat 〜',type:'noun'},
+  {jp:'とどきます II',rom:'todokimasu',kanji:'届きます',meaning:'(barang) sampai, tiba',type:'verb'},
+  {jp:'にゅうがくします III',rom:'nyūgakushimasu',kanji:'入学します',meaning:'masuk (sekolah/universitas)',type:'verb'},
+  {jp:'そつぎょうします III',rom:'sotsugyōshimasu',kanji:'卒業します',meaning:'lulus, tamat',type:'verb'},
+  {jp:'やきます I',rom:'yakimasu',kanji:'焼きます',meaning:'membakar, memanggang',type:'verb'},
+  {jp:'やけます II',rom:'yakemasu',kanji:'焼けます',meaning:'(roti/daging) matang dibakar',type:'verb'},
+  {jp:'るす',rom:'rusu',kanji:'留守',meaning:'tidak ada di rumah',type:'noun'},
+  {jp:'たくはいびん',rom:'takuhai bin',kanji:'宅配便',meaning:'layanan pengiriman paket',type:'noun'},
+  {jp:'げんいん',rom:'gen in',kanji:'原因',meaning:'sebab, penyebab',type:'noun'},
   {jp:'はんとし',rom:'hantoshi',kanji:'半年',meaning:'setengah tahun',type:'noun'},
-  {jp:'ちょうど',rom:'chōdo',kanji:'—',meaning:'pas',type:'expr'},
-  {jp:'たったいま',rom:'tatta ima',kanji:'たった今',meaning:'baru saja (memakai bersama bentuk Lampa, menyatakan hal yang sudah selesai dilakukan)',type:'expr'},
-  {jp:'いま いいですか。',rom:'ima ii desu ka',kanji:'今 いいですか。',meaning:'Sekarang boleh mengganggu?',type:'expr'},
-  {jp:'ガスサービスセンター',rom:'gasu saabisu sentaa',kanji:'—',meaning:'pusat pelayanan gas',type:'noun',note:'《会話》'},
-  {jp:'ガスレンジ',rom:'gasu renji',kanji:'—',meaning:'kompor gas',type:'noun'},
-  {jp:'ぐあい',rom:'guai',kanji:'真合',meaning:'kondisi',type:'noun'},
-  {jp:'もうしわけありません。',rom:'mōshiwake arimasen',kanji:'—',meaning:'Maaf.',type:'expr'},
-  {jp:'どちらさまでしょうか。',rom:'dochira sama deshō ka',kanji:'—',meaning:'Atas nama siapa?',type:'expr'},
-  {jp:'おまたせしました。',rom:'omatase shimashita',kanji:'—',meaning:'Maaf lama menunggu.',type:'expr'},
-  {jp:'むかいます I',rom:'mukaimasu',kanji:'向かいます',meaning:'menuju',type:'verb'},
-  {jp:'ついています II',rom:'tsuite imasu',kanji:'—',meaning:'mujur, untung',type:'verb',note:'《読み物》'},
-  {jp:'ゆか',rom:'yuka',kanji:'床',meaning:'lantai',type:'noun'},
-  {jp:'ころびます I',rom:'korobimasu',kanji:'転びます',meaning:'jatuh',type:'verb'},
-  {jp:'べる',rom:'beru',kanji:'ベル',meaning:'bel',type:'noun'},
-  {jp:'なります I',rom:'narimasu',kanji:'鳴ります',meaning:'berbunyi',type:'verb'},
-  {jp:'あわてて',rom:'awatete',kanji:'慌てて',meaning:'tergesa-gesa',type:'expr'},
-  {jp:'じゅんばんに',rom:'junban ni',kanji:'順番に',meaning:'sesuai dengan urutan',type:'expr'},
-  {jp:'できごと',rom:'dekigoto',kanji:'出来事',meaning:'peristiwa',type:'noun'},
+  {jp:'ちょうど',rom:'chōdo',kanji:'—',meaning:'tepat, pas',type:'expr'},
+  {jp:'たったいま',rom:'tatta ima',kanji:'たった今',meaning:'baru saja',type:'expr'},
+  {jp:'もうしわけありません。',rom:'mōshiwake arimasen',kanji:'—',meaning:'Maaf (sangat).',type:'expr'},
+  {jp:'おまたせしました。',rom:'omatase shimashita',kanji:'—',meaning:'Maaf telah membuat menunggu.',type:'expr'},
 ]}],
 
 47: [{ num:'47', title:'Kosakata Utama', jp:'第47課', rows:[
-  {jp:'ふきます I',rom:'fukimasu',kanji:'吹きます',meaning:'[angin] bertiup',type:'verb',note:'[かぜが〜]'},
-  {jp:'もえます II',rom:'moemasu',kanji:'燃えます',meaning:'[sampah] terbakar',type:'verb',note:'[ごみが〜]'},
-  {jp:'なくなります I',rom:'nakunarimasu',kanji:'亡くなります',meaning:'meninggal dunia (kata yang tidak langsung untuk しにます)',type:'verb'},
-  {jp:'あつまります I',rom:'atsumarimasu',kanji:'集まります',meaning:'[orang] berkumpul',type:'verb',note:'[ひとが〜]'},
-  {jp:'わかれます II',rom:'wakaremasu',kanji:'別れます',meaning:'[orang] berpisah',type:'verb',note:'[ひとが〜]'},
-  {jp:'します III',rom:'shimasu',kanji:'—',meaning:'dalam keadaan berbunyi/bersuara / terasa / berbau',type:'verb',note:'[おと/こえが〜]/[あじが〜]/[においが〜]'},
-  {jp:'きびしい',rom:'kibishii',kanji:'厳しい',meaning:'keras, berat',type:'adj'},
-  {jp:'ひどい',rom:'hidoi',kanji:'—',meaning:'kejam',type:'adj'},
-  {jp:'こわい',rom:'kowai',kanji:'怖い',meaning:'takut',type:'adj'},
+  {jp:'ふきます I',rom:'fukimasu',kanji:'吹きます',meaning:'(angin) bertiup',type:'verb'},
+  {jp:'もえます II',rom:'moemasu',kanji:'燃えます',meaning:'(sampah) terbakar',type:'verb'},
+  {jp:'なくなります I',rom:'nakunarimasu',kanji:'亡くなります',meaning:'meninggal dunia (halus)',type:'verb'},
+  {jp:'あつまります I',rom:'atsumarimasu',kanji:'集まります',meaning:'(orang) berkumpul',type:'verb'},
+  {jp:'わかれます II',rom:'wakaremasu',kanji:'別れます',meaning:'berpisah',type:'verb'},
+  {jp:'きびしい',rom:'kibishii',kanji:'厳しい',meaning:'keras, ketat, berat',type:'adj'},
+  {jp:'ひどい',rom:'hidoi',kanji:'—',meaning:'kejam, sangat buruk',type:'adj'},
+  {jp:'こわい',rom:'kowai',kanji:'怖い',meaning:'menakutkan',type:'adj'},
   {jp:'じっけん',rom:'jikken',kanji:'実験',meaning:'percobaan, eksperimen',type:'noun'},
   {jp:'データ',rom:'deeta',kanji:'—',meaning:'data',type:'noun'},
-  {jp:'じんこう',rom:'jinkō',kanji:'人口',meaning:'penduduk',type:'noun'},
+  {jp:'じんこう',rom:'jinkō',kanji:'人口',meaning:'jumlah penduduk',type:'noun'},
   {jp:'におい',rom:'nioi',kanji:'—',meaning:'bau',type:'noun'},
   {jp:'かがく',rom:'kagaku',kanji:'科学',meaning:'ilmu pengetahuan',type:'noun'},
   {jp:'いがく',rom:'igaku',kanji:'医学',meaning:'ilmu kedokteran',type:'noun'},
   {jp:'ぶんがく',rom:'bungaku',kanji:'文学',meaning:'sastra',type:'noun'},
-  {jp:'パトカー',rom:'patokaa',kanji:'—',meaning:'mobil patrol',type:'noun'},
-  {jp:'きゅうきゅうしゃ',rom:'kyūkyūsha',kanji:'救急車',meaning:'mobil ambulan',type:'noun'},
-  {jp:'さんせい',rom:'sansei',kanji:'賛成',meaning:'persetujuan',type:'noun'},
-  {jp:'はんたい',rom:'hantai',kanji:'反対',meaning:'menentang',type:'noun'},
-  {jp:'だいとうりょう',rom:'daitoryo',kanji:'大統領',meaning:'Presiden',type:'noun'},
-  {jp:'〜によると',rom:'~ni yoru to',kanji:'—',meaning:'menurut 〜 (menyatakan sumber informasi)',type:'expr'},
-  {jp:'こんやくします III',rom:'konyakushimasu',kanji:'婚約します',meaning:'bertunangan',type:'verb',note:'《会話》'},
-  {jp:'どうも',rom:'dōmo',kanji:'—',meaning:'rupanya, sepertinya (dipakai ketika menyatakan dugaan)',type:'expr'},
-  {jp:'こいびと',rom:'koibito',kanji:'恋人',meaning:'pacar',type:'noun'},
-  {jp:'あいて',rom:'aite',kanji:'相手',meaning:'pasangan',type:'noun'},
-  {jp:'しりあいます I',rom:'shiri aimasu',kanji:'知り合います',meaning:'berkenalan',type:'verb'},
-  {jp:'けしょう',rom:'keshou',kanji:'化粧',meaning:'dandan (〜をします: berdandan)',type:'noun',note:'《読み物》'},
-  {jp:'せわを します III',rom:'sewa wo shimasu',kanji:'世話を します',meaning:'menjaga, membantu',type:'verb'},
-  {jp:'じょせい',rom:'josei',kanji:'女性',meaning:'wanita',type:'noun'},
-  {jp:'だんせい',rom:'dansei',kanji:'男性',meaning:'pria',type:'noun'},
-  {jp:'ながいき',rom:'nagai ki',kanji:'長生き',meaning:'panjang umur (〜します: berumur panjang)',type:'noun'},
-  {jp:'りゆう',rom:'riyuu',kanji:'理由',meaning:'alasan',type:'noun'},
-  {jp:'かんけい',rom:'kankei',kanji:'関係',meaning:'hubungan',type:'noun'},
+  {jp:'さんせい',rom:'sansei',kanji:'賛成',meaning:'setuju',type:'noun'},
+  {jp:'はんたい',rom:'hantai',kanji:'反対',meaning:'menentang, menolak',type:'noun'},
+  {jp:'だいとうりょう',rom:'daitoryo',kanji:'大統領',meaning:'presiden (negara)',type:'noun'},
+  {jp:'〜によると',rom:'~ni yoru to',kanji:'—',meaning:'menurut 〜',type:'expr'},
 ]}],
 
 48: [{ num:'48', title:'Kosakata Utama', jp:'第48課', rows:[
   {jp:'おろします I',rom:'oroshimasu',kanji:'降ろします、下ろします',meaning:'menurunkan',type:'verb'},
   {jp:'とどけます II',rom:'todokemasu',kanji:'届けます',meaning:'mengantarkan',type:'verb'},
   {jp:'せわを します III',rom:'sewa wo shimasu',kanji:'世話を します',meaning:'menjaga, membantu',type:'verb'},
-  {jp:'ろくおんします III',rom:'rokuonshimasu',kanji:'録音します',meaning:'merekam',type:'verb'},
-  {jp:'いや [な]',rom:'iya [na]',kanji:'嫌[な]',meaning:'tidak senang, tidak suka',type:'adj'},
-  {jp:'じゅく',rom:'juku',kanji:'塾',meaning:'les',type:'noun'},
-  {jp:'せいと',rom:'seito',kanji:'生徒',meaning:'murid',type:'noun'},
-  {jp:'ファイル',rom:'fairu',kanji:'—',meaning:'map',type:'noun'},
+  {jp:'ろくおんします III',rom:'rokuonshimasu',kanji:'録音します',meaning:'merekam suara',type:'verb'},
+  {jp:'いや [な]',rom:'iya [na]',kanji:'嫌[な]',meaning:'tidak suka, enggan',type:'adj'},
+  {jp:'じゅく',rom:'juku',kanji:'塾',meaning:'les privat, bimbel',type:'noun'},
+  {jp:'せいと',rom:'seito',kanji:'生徒',meaning:'murid, siswa',type:'noun'},
+  {jp:'ファイル',rom:'fairu',kanji:'—',meaning:'berkas, file',type:'noun'},
   {jp:'じゆうに',rom:'jiyuuni',kanji:'自由に',meaning:'dengan bebas',type:'expr'},
   {jp:'〜かん',rom:'~kan',kanji:'〜間',meaning:'selama 〜',type:'expr'},
-  {jp:'いい ことですね。',rom:'ii koto desu ne',kanji:'—',meaning:'Bagus, ya.',type:'expr'},
-  {jp:'おいそがしいですか。',rom:'oisogashii desu ka',kanji:'—',meaning:'Apakah sibuk? (dipakai ketika mengajak bicara kepada orang yang berpangkat tinggi)',type:'expr',note:'《会話》'},
-  {jp:'えいぎょう',rom:'eigyou',kanji:'営業',meaning:'perdagangan',type:'noun'},
-  {jp:'それまでに',rom:'sore made ni',kanji:'—',meaning:'sebelumnya',type:'expr'},
+  {jp:'えいぎょう',rom:'eigyou',kanji:'営業',meaning:'perdagangan, operasional bisnis',type:'noun'},
   {jp:'かまいません。',rom:'kamaimasen',kanji:'—',meaning:'Tidak apa-apa.',type:'expr'},
   {jp:'たのしみます I',rom:'tanoshimimasu',kanji:'楽しみます',meaning:'menikmati',type:'verb'},
-  {jp:'おや',rom:'oya',kanji:'親',meaning:'orang tua',type:'noun',note:'《読み物》'},
-  {jp:'しょうがくせい',rom:'shougakusei',kanji:'小学生',meaning:'murid SD',type:'noun'},
-  {jp:'そのつぎ',rom:'sono tsugi',kanji:'—',meaning:'yang berikut',type:'expr'},
   {jp:'しゅうじ',rom:'shuuji',kanji:'習字',meaning:'kaligrafi',type:'noun'},
-  {jp:'ふつうの',rom:'futsuu no',kanji:'—',meaning:'biasa',type:'adj'},
 ]}],
 
 49: [{ num:'49', title:'Kosakata Utama', jp:'第49課', rows:[
-  {jp:'りようします III',rom:'riyōshimasu',kanji:'利用します',meaning:'menggunakan',type:'verb'},
-  {jp:'つとめます II',rom:'tsutomemasu',kanji:'勤めます',meaning:'bekerja [di perusahaan]',type:'verb',note:'[かいしゃに〜]'},
-  {jp:'かけます II',rom:'kakemasu',kanji:'掛けます',meaning:'duduk [di kursi]',type:'verb',note:'[いすに〜]'},
-  {jp:'すごします I',rom:'sugoshimasu',kanji:'過ごします',meaning:'menghabiskan, melewatkan',type:'verb'},
-  {jp:'いらっしゃいます I',rom:'irasshaimasu',kanji:'—',meaning:'ada, pergi, datang (Kata Hormat dari います, いきます, きます)',type:'verb'},
-  {jp:'めしあがります I',rom:'meshiagarimasu',kanji:'召し上がります',meaning:'makan, minum (Kata Hormat dari たべます, のみます)',type:'verb'},
-  {jp:'おっしゃいます I',rom:'osshaimasu',kanji:'—',meaning:'berkata (Kata Hormat dari いいます)',type:'verb'},
-  {jp:'なさいます I',rom:'nasaimasu',kanji:'—',meaning:'melakukan (Kata Hormat dari します)',type:'verb'},
-  {jp:'ごらんに なります I',rom:'goran ni narimasu',kanji:'ご覧に なります',meaning:'melihat (Kata Hormat dari みます)',type:'verb'},
-  {jp:'ごぞんじです',rom:'gozonjideshu',kanji:'ご存じです',meaning:'mengetahui (Kata Hormat dari しっています)',type:'verb'},
-  {jp:'あいさつ',rom:'aisatsu',kanji:'—',meaning:'salam (〜をします: memberi salam sepatah kata pada)',type:'noun'},
-  {jp:'りょかん',rom:'ryokan',kanji:'旅館',meaning:'penginapan',type:'noun'},
-  {jp:'バスてい',rom:'basu tei',kanji:'バス停',meaning:'halte',type:'noun'},
-  {jp:'おくさま',rom:'okusama',kanji:'奥様',meaning:'Nyonya (Kata Hormat dari おくさん, terhadap istri orang iain)',type:'noun'},
-  {jp:'〜さま',rom:'~sama',kanji:'〜様',meaning:'Kepada Yth. 〜, Bapak 〜, Ibu 〜, Sdr. 〜 (Kata Hormat dari 〜さん)',type:'expr'},
+  {jp:'りようします III',rom:'riyōshimasu',kanji:'利用します',meaning:'menggunakan, memanfaatkan',type:'verb'},
+  {jp:'つとめます II',rom:'tsutomemasu',kanji:'勤めます',meaning:'bekerja (di perusahaan)',type:'verb'},
+  {jp:'かけます II',rom:'kakemasu',kanji:'掛けます',meaning:'duduk (di kursi)',type:'verb'},
+  {jp:'すごします I',rom:'sugoshimasu',kanji:'過ごします',meaning:'menghabiskan waktu',type:'verb'},
+  {jp:'いらっしゃいます I',rom:'irasshaimasu',kanji:'—',meaning:'ada, pergi, datang (Bahasa Hormat)',type:'verb'},
+  {jp:'めしあがります I',rom:'meshiagarimasu',kanji:'召し上がります',meaning:'makan, minum (Bahasa Hormat)',type:'verb'},
+  {jp:'おっしゃいます I',rom:'osshaimasu',kanji:'—',meaning:'berkata (Bahasa Hormat dari いいます)',type:'verb'},
+  {jp:'なさいます I',rom:'nasaimasu',kanji:'—',meaning:'melakukan (Bahasa Hormat dari します)',type:'verb'},
+  {jp:'ごらんに なります I',rom:'goran ni narimasu',kanji:'ご覧に なります',meaning:'melihat (Bahasa Hormat dari みます)',type:'verb'},
+  {jp:'ごぞんじです',rom:'gozonjideshu',kanji:'ご存じです',meaning:'mengetahui (Bahasa Hormat dari しっています)',type:'verb'},
+  {jp:'あいさつ',rom:'aisatsu',kanji:'挨拶',meaning:'salam, sapaan',type:'noun'},
+  {jp:'りょかん',rom:'ryokan',kanji:'旅館',meaning:'penginapan tradisional Jepang',type:'noun'},
+  {jp:'バスてい',rom:'basu tei',kanji:'バス停',meaning:'halte bus',type:'noun'},
+  {jp:'おくさま',rom:'okusama',kanji:'奥様',meaning:'istri orang lain (Bahasa Hormat)',type:'noun'},
+  {jp:'〜さま',rom:'~sama',kanji:'〜様',meaning:'Kepada Yth. 〜 (Bahasa Hormat dari 〜さん)',type:'expr'},
   {jp:'たまに',rom:'tama ni',kanji:'—',meaning:'kadang-kadang',type:'expr'},
-  {jp:'どなたでも',rom:'donata demo',kanji:'—',meaning:'siapa saja (Kata Hormat dari だれでも)',type:'expr'},
-  {jp:'〜と いいます',rom:'~to iimasu',kanji:'—',meaning:'bernama 〜',type:'expr'},
-  {jp:'いちねんいちくみ',rom:'ichi nen ichi kumi',kanji:'一年一組',meaning:'kelas 〜',type:'noun',note:'《会話》'},
-  {jp:'だします I',rom:'dashimasu',kanji:'—',meaning:'menjadi [demam]',type:'verb',note:'[ねつを〜]'},
-  {jp:'よろしく お伝え ください。',rom:'yoroshiku o-tsutae kudasai',kanji:'—',meaning:'Tolong sampaikan salam saya.',type:'expr'},
-  {jp:'しつれい いたします。',rom:'shitsureii tashimasu',kanji:'—',meaning:'Permisi. (Kata Merendahkan Diri dari しつれいします)',type:'expr'},
-  {jp:'けいれき',rom:'keireki',kanji:'経歴',meaning:'riwayat hidup, CV',type:'noun',note:'《読み物》'},
-  {jp:'いがくぶ',rom:'igakubu',kanji:'医学部',meaning:'fakultas kedokteran',type:'noun'},
-  {jp:'めざします I',rom:'mezashimasu',kanji:'—',meaning:'menargetkan',type:'verb'},
-  {jp:'すすみます I',rom:'susumimasu',kanji:'進みます',meaning:'lanjut kuliah di',type:'verb'},
-  {jp:'iPS さいぼう',rom:'iPS saibou',kanji:'iPS細胞',meaning:'sel iPS',type:'noun'},
-  {jp:'かいはつします III',rom:'kaihatsu shimasu',kanji:'開発します',meaning:'mengembangkan',type:'verb'},
-  {jp:'マウス',rom:'mausu',kanji:'—',meaning:'tikus percobaan',type:'noun'},
-  {jp:'ヒト',rom:'hito',kanji:'—',meaning:'manusia',type:'noun'},
-  {jp:'じゅしょうします III',rom:'jushōshimasu',kanji:'受賞します',meaning:'meraih',type:'verb'},
-  {jp:'こうえんかい',rom:'kōenkai',kanji:'講演会',meaning:'seminar',type:'noun'},
+  {jp:'どなたでも',rom:'donata demo',kanji:'—',meaning:'siapa saja (Bahasa Hormat dari だれでも)',type:'expr'},
 ]}],
 
 50: [{ num:'50', title:'Kosakata Utama', jp:'第50課', rows:[
-  {jp:'まいります I',rom:'mairimasu',kanji:'参ります',meaning:'pergi, datang (Kata Merendahkan Diri dari いきます, きます)',type:'verb'},
-  {jp:'おります I',rom:'orimasu',kanji:'—',meaning:'ada (Kata Merendahkan Diri dari います)',type:'verb'},
-  {jp:'いただきます I',rom:'itadakimasu',kanji:'—',meaning:'makan, minum, menerima (Kata Merendahkan Diri dari たべます, のみます, もらいます)',type:'verb'},
-  {jp:'もうします I',rom:'moushimasu',kanji:'申します',meaning:'bernama (Kata Merendahkan Diri dari いいます)',type:'verb'},
-  {jp:'いたします I',rom:'itashimasu',kanji:'—',meaning:'melakukan (Kata Merendahkan Diri dari します)',type:'verb'},
-  {jp:'はいけんします III',rom:'haikenshimasu',kanji:'拝見します',meaning:'melihat (Kata Merendahkan Diri dari みます)',type:'verb'},
-  {jp:'ぞんじます II',rom:'zonjimasu',kanji:'存じます',meaning:'mengenal (Kata Merendahkan Diri dari しります)',type:'verb'},
-  {jp:'うかがいます I',rom:'ukagaimasu',kanji:'伺います',meaning:'bertanya, mendengar, berkunjung (Kata Merendahkan Diri dari ききます, いきます)',type:'verb'},
-  {jp:'おめに かかります I',rom:'ome ni kakarimasu',kanji:'お目に かかります',meaning:'bertemu (Kata Merendahkan Diri dari あいます)',type:'verb'},
-  {jp:'いれます II',rom:'iremasu',kanji:'—',meaning:'membuat [kopi] (menyiram air panas dari membuat cairan)',type:'verb',note:'[コーヒーを〜]'},
-  {jp:'よういします III',rom:'yōishimasu',kanji:'用意します',meaning:'menyediakan',type:'verb'},
-  {jp:'わたくし',rom:'watakushi',kanji:'私',meaning:'saya (Kata Merendahkan Diri dari わたし)',type:'noun'},
+  {jp:'まいります I',rom:'mairimasu',kanji:'参ります',meaning:'pergi, datang (Bahasa Rendah dari いきます/きます)',type:'verb'},
+  {jp:'おります I',rom:'orimasu',kanji:'—',meaning:'ada (Bahasa Rendah dari います)',type:'verb'},
+  {jp:'いただきます I',rom:'itadakimasu',kanji:'頂きます',meaning:'makan, minum, menerima (Bahasa Rendah)',type:'verb'},
+  {jp:'もうします I',rom:'moushimasu',kanji:'申します',meaning:'bernama, berkata (Bahasa Rendah dari いいます)',type:'verb'},
+  {jp:'いたします I',rom:'itashimasu',kanji:'—',meaning:'melakukan (Bahasa Rendah dari します)',type:'verb'},
+  {jp:'はいけんします III',rom:'haikenshimasu',kanji:'拝見します',meaning:'melihat (Bahasa Rendah dari みます)',type:'verb'},
+  {jp:'ぞんじます II',rom:'zonjimasu',kanji:'存じます',meaning:'mengenal (Bahasa Rendah dari しります)',type:'verb'},
+  {jp:'うかがいます I',rom:'ukagaimasu',kanji:'伺います',meaning:'bertanya, berkunjung (Bahasa Rendah)',type:'verb'},
+  {jp:'おめに かかります I',rom:'ome ni kakarimasu',kanji:'お目に かかります',meaning:'bertemu (Bahasa Rendah dari あいます)',type:'verb'},
+  {jp:'よういします III',rom:'yōishimasu',kanji:'用意します',meaning:'menyediakan, menyiapkan',type:'verb'},
+  {jp:'わたくし',rom:'watakushi',kanji:'私',meaning:'saya (Bahasa Rendah dari わたし)',type:'noun'},
   {jp:'ガイド',rom:'gaido',kanji:'—',meaning:'pemandu',type:'noun'},
-  {jp:'メールアドレス',rom:'meeru adoresu',kanji:'—',meaning:'alamat e-mail',type:'noun'},
   {jp:'スケジュール',rom:'sukejuuru',kanji:'—',meaning:'jadwal',type:'noun'},
   {jp:'さらいしゅう',rom:'sarai shu',kanji:'さ来週',meaning:'dua minggu lagi',type:'noun'},
   {jp:'さらいげつ',rom:'sarai getsu',kanji:'さ来月',meaning:'dua bulan lagi',type:'noun'},
   {jp:'さらいねん',rom:'sarai nen',kanji:'さ来年',meaning:'dua tahun lagi',type:'noun'},
   {jp:'はじめに',rom:'hajime ni',kanji:'初めに',meaning:'pertama-tama',type:'expr'},
-  {jp:'きんちょうします III',rom:'kinchoushimasu',kanji:'—',meaning:'tegang',type:'verb',note:'《会話》'},
-  {jp:'きん',rom:'kin',kanji:'金',meaning:'hadiah uang',type:'noun'},
-  {jp:'きりん',rom:'kirin',kanji:'—',meaning:'jerapah',type:'noun'},
-  {jp:'ころ',rom:'koro',kanji:'—',meaning:'ketika (contoh: ketika anak, ketika mahasiswa)',type:'expr'},
-  {jp:'かないます I',rom:'kanaimasu',kanji:'—',meaning:'[impian] terkabul',type:'verb',note:'[ゆめが〜]'},
-  {jp:'おうえんします III',rom:'ouen shimasu',kanji:'応援します',meaning:'mendukung',type:'verb'},
   {jp:'こころから',rom:'kokoro kara',kanji:'心から',meaning:'dari segenap hati',type:'expr'},
   {jp:'かんしゃします III',rom:'kanshashimasu',kanji:'感謝します',meaning:'berterima kasih',type:'verb'},
-  {jp:'おれい',rom:'orei',kanji:'お礼',meaning:'ucapan terima kasih',type:'noun',note:'《読み物》'},
-  {jp:'めいわくを かけます II',rom:'meiwaku wo kakemasu',kanji:'迷惑を かけます',meaning:'mengganggu',type:'verb'},
-  {jp:'いかします I',rom:'ikashimasu',kanji:'生かします',meaning:'menggunakan (contoh: menggunakan pengalaman)',type:'verb'},
-]}]
+  {jp:'おれい',rom:'orei',kanji:'お礼',meaning:'ucapan terima kasih',type:'noun'},
+  {jp:'おうえんします III',rom:'ouen shimasu',kanji:'応援します',meaning:'mendukung, menyemangati',type:'verb'},
+  {jp:'かないます I',rom:'kanaimasu',kanji:'叶います',meaning:'(impian) terkabul, terwujud',type:'verb'},
+]}],
 };
 
-// ═══ STATE ═══
-let currentBab='all', searchQ='', activeFilter='all';
+// ═══════════════════ DATA KANJI N4 ═══════════════════
+const kanjiN4 = [
+  // Kegiatan
+  {char:'送',on:'ソウ',kun:'おく',meaning:'mengirim',strokes:9,cat:'kegiatan',ex:'送ります・送別'},
+  {char:'受',on:'ジュ',kun:'う',meaning:'menerima',strokes:8,cat:'kegiatan',ex:'受けます・受験'},
+  {char:'集',on:'シュウ',kun:'あつ',meaning:'berkumpul',strokes:12,cat:'kegiatan',ex:'集まります・集中'},
+  {char:'決',on:'ケツ',kun:'き',meaning:'memutuskan',strokes:7,cat:'kegiatan',ex:'決めます・決定'},
+  {char:'続',on:'ゾク',kun:'つづ',meaning:'melanjutkan',strokes:13,cat:'kegiatan',ex:'続けます・続きます'},
+  {char:'始',on:'シ',kun:'はじ',meaning:'mulai',strokes:8,cat:'kegiatan',ex:'始まります・始めます'},
+  {char:'終',on:'シュウ',kun:'お',meaning:'selesai, berakhir',strokes:11,cat:'kegiatan',ex:'終わります・終了'},
+  {char:'変',on:'ヘン',kun:'か',meaning:'berubah',strokes:9,cat:'kegiatan',ex:'変わります・変化'},
+  {char:'走',on:'ソウ',kun:'はし',meaning:'berlari',strokes:7,cat:'kegiatan',ex:'走ります・走者'},
+  {char:'飛',on:'ヒ',kun:'と',meaning:'terbang',strokes:9,cat:'kegiatan',ex:'飛びます・飛行機'},
+  {char:'落',on:'ラク',kun:'お',meaning:'jatuh',strokes:12,cat:'kegiatan',ex:'落とします・落ち葉'},
+  {char:'起',on:'キ',kun:'お',meaning:'bangun, terjadi',strokes:10,cat:'kegiatan',ex:'起きます・起こします'},
+  {char:'返',on:'ヘン',kun:'かえ',meaning:'kembali, mengembalikan',strokes:7,cat:'kegiatan',ex:'返します・返事'},
+  {char:'止',on:'シ',kun:'と',meaning:'berhenti',strokes:4,cat:'kegiatan',ex:'止まります・止めます'},
+  {char:'引',on:'イン',kun:'ひ',meaning:'menarik',strokes:4,cat:'kegiatan',ex:'引きます・引っ越し'},
+  {char:'押',on:'オウ',kun:'お',meaning:'menekan, mendorong',strokes:8,cat:'kegiatan',ex:'押します・押入れ'},
+  {char:'開',on:'カイ',kun:'ひら/あ',meaning:'buka',strokes:12,cat:'kegiatan',ex:'開きます・開けます'},
+  {char:'閉',on:'ヘイ',kun:'し/と',meaning:'tutup',strokes:11,cat:'kegiatan',ex:'閉まります・閉じます'},
+  {char:'使',on:'シ',kun:'つか',meaning:'menggunakan',strokes:8,cat:'kegiatan',ex:'使います・使用'},
+  {char:'習',on:'シュウ',kun:'なら',meaning:'belajar',strokes:11,cat:'kegiatan',ex:'習います・習慣'},
+  {char:'練',on:'レン',kun:'ね',meaning:'berlatih',strokes:14,cat:'kegiatan',ex:'練習します・練習'},
+  {char:'教',on:'キョウ',kun:'おし',meaning:'mengajar',strokes:11,cat:'kegiatan',ex:'教えます・教育'},
+  {char:'説',on:'セツ',kun:'と',meaning:'menjelaskan',strokes:14,cat:'kegiatan',ex:'説明します・説明書'},
+  {char:'話',on:'ワ',kun:'はな',meaning:'berbicara, cerita',strokes:13,cat:'kegiatan',ex:'話します・会話'},
+  {char:'答',on:'トウ',kun:'こた',meaning:'menjawab',strokes:12,cat:'kegiatan',ex:'答えます・回答'},
+  {char:'聞',on:'ブン',kun:'き',meaning:'mendengar',strokes:14,cat:'kegiatan',ex:'聞きます・聞こえます'},
+  {char:'言',on:'ゲン',kun:'い',meaning:'berkata',strokes:7,cat:'kegiatan',ex:'言います・言葉'},
+  {char:'書',on:'ショ',kun:'か',meaning:'menulis',strokes:10,cat:'kegiatan',ex:'書きます・書類'},
+  {char:'読',on:'ドク',kun:'よ',meaning:'membaca',strokes:14,cat:'kegiatan',ex:'読みます・読書'},
+  {char:'考',on:'コウ',kun:'かんが',meaning:'berpikir',strokes:6,cat:'kegiatan',ex:'考えます・考え方'},
+  {char:'思',on:'シ',kun:'おも',meaning:'merasa, berpikir',strokes:9,cat:'kegiatan',ex:'思います・思い出'},
+  {char:'知',on:'チ',kun:'し',meaning:'mengetahui',strokes:8,cat:'kegiatan',ex:'知ります・知識'},
+  {char:'見',on:'ケン',kun:'み',meaning:'melihat',strokes:7,cat:'kegiatan',ex:'見ます・見えます'},
+  {char:'食',on:'ショク',kun:'た',meaning:'makan',strokes:9,cat:'kegiatan',ex:'食べます・食事'},
+  {char:'飲',on:'イン',kun:'の',meaning:'minum',strokes:12,cat:'kegiatan',ex:'飲みます・飲み物'},
+  {char:'買',on:'バイ',kun:'か',meaning:'membeli',strokes:12,cat:'kegiatan',ex:'買います・買い物'},
+  {char:'売',on:'バイ',kun:'う',meaning:'menjual',strokes:7,cat:'kegiatan',ex:'売ります・売り場'},
+  {char:'乗',on:'ジョウ',kun:'の',meaning:'naik, menumpang',strokes:9,cat:'kegiatan',ex:'乗ります・乗り物'},
+  {char:'降',on:'コウ',kun:'お/ふ',meaning:'turun, hujan',strokes:10,cat:'kegiatan',ex:'降ります・降ろします'},
+  {char:'入',on:'ニュウ',kun:'い/はい',meaning:'masuk',strokes:2,cat:'kegiatan',ex:'入れます・入学'},
+  {char:'出',on:'シュツ',kun:'で/だ',meaning:'keluar',strokes:5,cat:'kegiatan',ex:'出ます・出かけます'},
+  {char:'帰',on:'キ',kun:'かえ',meaning:'pulang',strokes:10,cat:'kegiatan',ex:'帰ります・帰宅'},
+  {char:'来',on:'ライ',kun:'く',meaning:'datang',strokes:7,cat:'kegiatan',ex:'来ます・来月'},
+  {char:'行',on:'コウ',kun:'い',meaning:'pergi',strokes:6,cat:'kegiatan',ex:'行きます・行動'},
+  {char:'作',on:'サク',kun:'つく',meaning:'membuat',strokes:7,cat:'kegiatan',ex:'作ります・作文'},
+  {char:'建',on:'ケン',kun:'た',meaning:'membangun',strokes:9,cat:'kegiatan',ex:'建てます・建物'},
+  {char:'洗',on:'セン',kun:'あら',meaning:'mencuci',strokes:9,cat:'kegiatan',ex:'洗います・洗濯'},
+  {char:'切',on:'セツ',kun:'き',meaning:'memotong',strokes:4,cat:'kegiatan',ex:'切ります・切符'},
+  {char:'貸',on:'タイ',kun:'か',meaning:'meminjamkan',strokes:12,cat:'kegiatan',ex:'貸します・貸し出し'},
+  {char:'借',on:'シャク',kun:'か',meaning:'meminjam',strokes:10,cat:'kegiatan',ex:'借ります・借用'},
+  {char:'待',on:'タイ',kun:'ま',meaning:'menunggu',strokes:9,cat:'kegiatan',ex:'待ちます・待合室'},
+  {char:'会',on:'カイ',kun:'あ',meaning:'bertemu',strokes:6,cat:'kegiatan',ex:'会います・会社'},
+  {char:'住',on:'ジュウ',kun:'す',meaning:'tinggal',strokes:7,cat:'kegiatan',ex:'住みます・住所'},
+  {char:'働',on:'ドウ',kun:'はたら',meaning:'bekerja',strokes:13,cat:'kegiatan',ex:'働きます・労働'},
+  {char:'泳',on:'エイ',kun:'およ',meaning:'berenang',strokes:8,cat:'kegiatan',ex:'泳ぎます・水泳'},
+  {char:'歩',on:'ホ',kun:'ある',meaning:'berjalan',strokes:8,cat:'kegiatan',ex:'歩きます・散歩'},
+  // Orang
+  {char:'父',on:'フ',kun:'ちち',meaning:'ayah',strokes:4,cat:'orang',ex:'父・父親'},
+  {char:'母',on:'ボ',kun:'はは',meaning:'ibu',strokes:5,cat:'orang',ex:'母・母親'},
+  {char:'兄',on:'ケイ',kun:'あに',meaning:'kakak laki-laki',strokes:5,cat:'orang',ex:'兄・お兄さん'},
+  {char:'姉',on:'シ',kun:'あね',meaning:'kakak perempuan',strokes:8,cat:'orang',ex:'姉・お姉さん'},
+  {char:'弟',on:'テイ',kun:'おとうと',meaning:'adik laki-laki',strokes:7,cat:'orang',ex:'弟・弟さん'},
+  {char:'妹',on:'マイ',kun:'いもうと',meaning:'adik perempuan',strokes:8,cat:'orang',ex:'妹・妹さん'},
+  {char:'祖',on:'ソ',kun:'',meaning:'leluhur, kakek/nenek',strokes:9,cat:'orang',ex:'祖父・祖母'},
+  {char:'孫',on:'ソン',kun:'まご',meaning:'cucu',strokes:10,cat:'orang',ex:'孫・お孫さん'},
+  {char:'友',on:'ユウ',kun:'とも',meaning:'teman',strokes:4,cat:'orang',ex:'友だち・友人'},
+  {char:'客',on:'キャク',kun:'',meaning:'tamu',strokes:9,cat:'orang',ex:'お客さん・客室'},
+  {char:'医',on:'イ',kun:'',meaning:'dokter, medis',strokes:7,cat:'orang',ex:'医者・医学'},
+  {char:'者',on:'シャ',kun:'もの',meaning:'orang',strokes:8,cat:'orang',ex:'医者・学者'},
+  {char:'員',on:'イン',kun:'',meaning:'anggota, staf',strokes:10,cat:'orang',ex:'店員・会社員'},
+  {char:'家',on:'カ',kun:'いえ/や',meaning:'rumah, ahli',strokes:10,cat:'orang',ex:'家・家族・音楽家'},
+  // Waktu
+  {char:'週',on:'シュウ',kun:'',meaning:'minggu',strokes:11,cat:'waktu',ex:'今週・来週・毎週'},
+  {char:'月',on:'ゲツ',kun:'つき',meaning:'bulan, bulan (langit)',strokes:4,cat:'waktu',ex:'今月・来月・毎月'},
+  {char:'年',on:'ネン',kun:'とし',meaning:'tahun',strokes:6,cat:'waktu',ex:'今年・来年・毎年'},
+  {char:'朝',on:'チョウ',kun:'あさ',meaning:'pagi',strokes:12,cat:'waktu',ex:'今朝・朝ごはん'},
+  {char:'昼',on:'チュウ',kun:'ひる',meaning:'siang',strokes:9,cat:'waktu',ex:'昼ごはん・昼間'},
+  {char:'夜',on:'ヤ',kun:'よる',meaning:'malam',strokes:8,cat:'waktu',ex:'今夜・夜中'},
+  {char:'晩',on:'バン',kun:'',meaning:'malam hari',strokes:12,cat:'waktu',ex:'今晩・毎晩'},
+  {char:'前',on:'ゼン',kun:'まえ',meaning:'sebelum, depan',strokes:9,cat:'waktu',ex:'午前・以前・前'},
+  {char:'後',on:'ゴ',kun:'あと/うし',meaning:'setelah, belakang',strokes:9,cat:'waktu',ex:'午後・以後・後ろ'},
+  {char:'間',on:'カン',kun:'あいだ/ま',meaning:'antara, selama',strokes:12,cat:'waktu',ex:'時間・この間・間に合います'},
+  {char:'頃',on:'ケイ',kun:'ごろ',meaning:'kira-kira (waktu)',strokes:11,cat:'waktu',ex:'このごろ・ころ'},
+  {char:'最',on:'サイ',kun:'もっと',meaning:'paling, ter-',strokes:12,cat:'waktu',ex:'最近・最後・最初'},
+  {char:'近',on:'キン',kun:'ちか',meaning:'dekat, belakangan',strokes:7,cat:'waktu',ex:'最近・近く・近所'},
+  // Tempat
+  {char:'国',on:'コク',kun:'くに',meaning:'negara',strokes:8,cat:'tempat',ex:'国・外国・国際'},
+  {char:'町',on:'チョウ',kun:'まち',meaning:'kota kecil, kawasan',strokes:7,cat:'tempat',ex:'町・下町'},
+  {char:'村',on:'ソン',kun:'むら',meaning:'desa',strokes:7,cat:'tempat',ex:'村・農村'},
+  {char:'島',on:'トウ',kun:'しま',meaning:'pulau',strokes:10,cat:'tempat',ex:'島・半島'},
+  {char:'港',on:'コウ',kun:'みなと',meaning:'pelabuhan',strokes:12,cat:'tempat',ex:'港・空港'},
+  {char:'海',on:'カイ',kun:'うみ',meaning:'laut',strokes:9,cat:'tempat',ex:'海・海外・海岸'},
+  {char:'山',on:'サン',kun:'やま',meaning:'gunung',strokes:3,cat:'tempat',ex:'山・山登り'},
+  {char:'川',on:'セン',kun:'かわ',meaning:'sungai',strokes:3,cat:'tempat',ex:'川・川沿い'},
+  {char:'池',on:'チ',kun:'いけ',meaning:'kolam',strokes:6,cat:'tempat',ex:'池・池袋'},
+  {char:'道',on:'ドウ',kun:'みち',meaning:'jalan',strokes:12,cat:'tempat',ex:'道・道路・北海道'},
+  {char:'駅',on:'エキ',kun:'',meaning:'stasiun',strokes:14,cat:'tempat',ex:'駅・駅前'},
+  {char:'橋',on:'キョウ',kun:'はし',meaning:'jembatan',strokes:16,cat:'tempat',ex:'橋・陸橋'},
+  {char:'館',on:'カン',kun:'',meaning:'gedung, wisma',strokes:16,cat:'tempat',ex:'図書館・旅館'},
+  {char:'場',on:'ジョウ',kun:'ば',meaning:'tempat, lapangan',strokes:12,cat:'tempat',ex:'場所・会場・工場'},
+  {char:'室',on:'シツ',kun:'',meaning:'ruangan',strokes:9,cat:'tempat',ex:'教室・号室'},
+  {char:'区',on:'ク',kun:'',meaning:'distrik, blok',strokes:4,cat:'tempat',ex:'区・地区'},
+  // Alam
+  {char:'空',on:'クウ',kun:'そら',meaning:'langit, kosong',strokes:8,cat:'alam',ex:'空・空気・空港'},
+  {char:'雨',on:'ウ',kun:'あめ',meaning:'hujan',strokes:8,cat:'alam',ex:'雨・雨量'},
+  {char:'雪',on:'セツ',kun:'ゆき',meaning:'salju',strokes:11,cat:'alam',ex:'雪・雪山'},
+  {char:'風',on:'フウ',kun:'かぜ',meaning:'angin',strokes:9,cat:'alam',ex:'風・台風・風邪'},
+  {char:'雷',on:'ライ',kun:'かみなり',meaning:'petir, guntur',strokes:13,cat:'alam',ex:'雷・雷雨'},
+  {char:'葉',on:'ヨウ',kun:'は',meaning:'daun',strokes:12,cat:'alam',ex:'葉・落ち葉'},
+  {char:'花',on:'カ',kun:'はな',meaning:'bunga',strokes:7,cat:'alam',ex:'花・花見'},
+  {char:'草',on:'ソウ',kun:'くさ',meaning:'rumput',strokes:9,cat:'alam',ex:'草・草花'},
+  {char:'木',on:'ボク',kun:'き',meaning:'pohon, kayu',strokes:4,cat:'alam',ex:'木・木曜日'},
+  {char:'星',on:'セイ',kun:'ほし',meaning:'bintang',strokes:9,cat:'alam',ex:'星・星座'},
+  {char:'太',on:'タイ',kun:'ふと',meaning:'tebal, besar',strokes:4,cat:'alam',ex:'太陽・太い'},
+  // Benda
+  {char:'物',on:'ブツ',kun:'もの',meaning:'benda, barang',strokes:8,cat:'benda',ex:'物・食べ物・買い物'},
+  {char:'品',on:'ヒン',kun:'しな',meaning:'barang, produk',strokes:9,cat:'benda',ex:'品物・作品・食品'},
+  {char:'荷',on:'カ',kun:'に',meaning:'muatan, barang bawaan',strokes:10,cat:'benda',ex:'荷物・手荷物'},
+  {char:'服',on:'フク',kun:'',meaning:'pakaian',strokes:8,cat:'benda',ex:'服・洋服・制服'},
+  {char:'紙',on:'シ',kun:'かみ',meaning:'kertas',strokes:10,cat:'benda',ex:'紙・手紙・新聞紙'},
+  {char:'箱',on:'ソウ',kun:'はこ',meaning:'kotak',strokes:15,cat:'benda',ex:'箱・郵便箱'},
+  {char:'鍵',on:'ケン',kun:'かぎ',meaning:'kunci',strokes:17,cat:'benda',ex:'鍵・鍵をかけます'},
+  {char:'窓',on:'ソウ',kun:'まど',meaning:'jendela',strokes:11,cat:'benda',ex:'窓・窓口'},
+  {char:'袋',on:'タイ',kun:'ふくろ',meaning:'kantong, tas',strokes:11,cat:'benda',ex:'袋・手袋・土袋'},
+  {char:'鏡',on:'キョウ',kun:'かがみ',meaning:'cermin',strokes:19,cat:'benda',ex:'鏡・鏡台'},
+  {char:'薬',on:'ヤク',kun:'くすり',meaning:'obat',strokes:16,cat:'benda',ex:'薬・薬局'},
+  {char:'石',on:'セキ',kun:'いし',meaning:'batu',strokes:5,cat:'benda',ex:'石・石油・宝石'},
+  {char:'米',on:'ベイ',kun:'こめ',meaning:'beras, Amerika',strokes:6,cat:'benda',ex:'米・米国'},
+  {char:'油',on:'ユ',kun:'あぶら',meaning:'minyak',strokes:8,cat:'benda',ex:'石油・油絵'},
+  {char:'布',on:'フ',kun:'ぬの',meaning:'kain',strokes:5,cat:'benda',ex:'布・財布'},
+  // Sifat/Kondisi
+  {char:'強',on:'キョウ',kun:'つよ',meaning:'kuat',strokes:11,cat:'sifat',ex:'強い・強化'},
+  {char:'弱',on:'ジャク',kun:'よわ',meaning:'lemah',strokes:10,cat:'sifat',ex:'弱い・弱点'},
+  {char:'重',on:'ジュウ',kun:'おも/かさ',meaning:'berat, penting',strokes:9,cat:'sifat',ex:'重い・重要・重なります'},
+  {char:'軽',on:'ケイ',kun:'かる',meaning:'ringan',strokes:12,cat:'sifat',ex:'軽い・軽食'},
+  {char:'太',on:'タイ',kun:'ふと',meaning:'gemuk, tebal',strokes:4,cat:'sifat',ex:'太い・太ります'},
+  {char:'細',on:'サイ',kun:'ほそ/こま',meaning:'tipis, kecil, halus',strokes:11,cat:'sifat',ex:'細い・細かい'},
+  {char:'正',on:'セイ',kun:'ただ/まさ',meaning:'benar, tepat',strokes:5,cat:'sifat',ex:'正しい・正直'},
+  {char:'危',on:'キ',kun:'あぶ',meaning:'bahaya',strokes:6,cat:'sifat',ex:'危険・危ない'},
+  {char:'安',on:'アン',kun:'やす',meaning:'aman, murah',strokes:6,cat:'sifat',ex:'安全・安い・安心'},
+  {char:'全',on:'ゼン',kun:'すべ',meaning:'seluruh, lengkap',strokes:6,cat:'sifat',ex:'全部・安全・全員'},
+  {char:'特',on:'トク',kun:'',meaning:'khusus',strokes:10,cat:'sifat',ex:'特別・特に'},
+  {char:'別',on:'ベツ',kun:'わか',meaning:'terpisah, berbeda',strokes:7,cat:'sifat',ex:'特別・別れます'},
+  {char:'同',on:'ドウ',kun:'おな',meaning:'sama',strokes:6,cat:'sifat',ex:'同じ・同時・同僚'},
+  {char:'違',on:'イ',kun:'ちが',meaning:'berbeda, salah',strokes:13,cat:'sifat',ex:'違います・違い'},
+  // Angka/Ukuran
+  {char:'度',on:'ド',kun:'たび',meaning:'derajat, kali',strokes:9,cat:'angka',ex:'温度・何度・今度'},
+  {char:'回',on:'カイ',kun:'まわ',meaning:'kali, putaran',strokes:6,cat:'angka',ex:'一回・何回も'},
+  {char:'番',on:'バン',kun:'',meaning:'nomor, giliran',strokes:12,cat:'angka',ex:'番号・一番'},
+  {char:'号',on:'ゴウ',kun:'',meaning:'nomor, tanda',strokes:5,cat:'angka',ex:'号・号室'},
+  {char:'倍',on:'バイ',kun:'',meaning:'kali lipat',strokes:10,cat:'angka',ex:'二倍・倍増'},
+  {char:'半',on:'ハン',kun:'なか',meaning:'setengah',strokes:5,cat:'angka',ex:'半分・半年・半'},
+  {char:'以',on:'イ',kun:'',meaning:'lebih dari, sejak',strokes:5,cat:'angka',ex:'以上・以下・以前'},
+  {char:'数',on:'スウ',kun:'かず',meaning:'angka, jumlah',strokes:13,cat:'angka',ex:'数字・人数'},
+  {char:'量',on:'リョウ',kun:'',meaning:'jumlah, ukuran',strokes:12,cat:'angka',ex:'量・雨量'},
+  {char:'長',on:'チョウ',kun:'なが',meaning:'panjang, pemimpin',strokes:8,cat:'angka',ex:'長さ・長い・社長'},
+  {char:'短',on:'タン',kun:'みじか',meaning:'pendek',strokes:12,cat:'angka',ex:'短い・短所'},
+  {char:'広',on:'コウ',kun:'ひろ',meaning:'luas, lebar',strokes:5,cat:'angka',ex:'広い・広場'},
+  {char:'深',on:'シン',kun:'ふか',meaning:'dalam',strokes:11,cat:'angka',ex:'深い・深夜'},
+  {char:'高',on:'コウ',kun:'たか',meaning:'tinggi, mahal',strokes:10,cat:'angka',ex:'高さ・高い・高校'},
+  {char:'低',on:'テイ',kun:'ひく',meaning:'rendah',strokes:7,cat:'angka',ex:'低い・低下'},
+];
 
-// ═══ INIT ═══
+// ═══════════════════ DATA BUNPOU N4 ═══════════════════
+const allBunpou = {
+26:{title:'Menyampaikan Perintah & Permintaan Tidak Langsung',jp:'間接表現',patterns:[
+  {formula:'〔動詞〕ように　いいます／たのみます',roma:'[Kata Kerja] yō ni iimasu / tanomimasu',meaning:'Menyuruh/meminta agar [melakukan sesuatu]. Digunakan untuk menyampaikan perintah atau permintaan orang lain secara tidak langsung.',type:'verb',examples:[
+    {jp:'せんせいは まいにち れんしゅうする<span class="highlight">ように いいました</span>。',rom:'Sensei wa mainichi renshū suru yō ni iimashita.',id:'Guru menyuruh murid agar berlatih setiap hari.'},
+    {jp:'はは に はやく かえる<span class="highlight">ように いわれました</span>。',rom:'Haha ni hayaku kaeru yō ni iwaremashita.',id:'Saya diperintahkan ibu untuk pulang cepat.'},
+  ]},
+  {formula:'〔動詞・否定〕ないように　いいます',roma:'[Kata Kerja negatif] nai yō ni iimasu',meaning:'Menyuruh/meminta agar [tidak melakukan sesuatu]. Melarang secara tidak langsung.',type:'verb',note:'Bandingkan: するように (supaya melakukan) vs しないように (supaya tidak melakukan)',examples:[
+    {jp:'いしゃに たばこを すわない<span class="highlight">ように いわれました</span>。',rom:'Isha ni tabako wo suwanai yō ni iwaremashita.',id:'Dokter menyuruh saya agar tidak merokok.'},
+  ]},
+  {formula:'〔動詞〕ために　〔動詞〕ます',roma:'[Kata Kerja] tame ni [Kata Kerja] masu',meaning:'Melakukan sesuatu dengan tujuan/untuk [mencapai sesuatu]. Menyatakan tujuan konkret.',type:'verb',examples:[
+    {jp:'にほんごを べんきょうする<span class="highlight">ために</span>、にほんへ いきます。',rom:'Nihongo wo benkyō suru tame ni, Nihon e ikimasu.',id:'Saya pergi ke Jepang untuk belajar bahasa Jepang.'},
+  ]},
+]},
+27:{title:'Kata Kerja Berpotensi & Ekspresi Bisa/Tidak Bisa',jp:'可能表現',patterns:[
+  {formula:'〔名詞〕が　みえます／きこえます',roma:'[Kata Benda] ga miemasu / kikoemasu',meaning:'[Benda] terlihat / terdengar. Menyatakan kemampuan indra untuk menangkap sesuatu, bukan tindakan aktif melihat/mendengar.',type:'verb',note:'みます (aktif: sengaja melihat) vs みえます (bisa terlihat). ききます vs きこえます sama polanya.',examples:[
+    {jp:'この へやから うみが <span class="highlight">みえます</span>。',rom:'Kono heya kara umi ga miemasu.',id:'Laut terlihat dari kamar ini.'},
+    {jp:'となりの へやから おとが <span class="highlight">きこえます</span>。',rom:'Tonari no heya kara oto ga kikoemasu.',id:'Terdengar suara dari kamar sebelah.'},
+  ]},
+  {formula:'〔名詞〕が　できます',roma:'[Kata Benda] ga dekimasu',meaning:'Bisa melakukan [sesuatu] / [sesuatu] selesai dibuat. Menyatakan kemampuan atau selesainya sesuatu.',type:'verb',examples:[
+    {jp:'わたしは にほんごが <span class="highlight">できます</span>。',rom:'Watashi wa Nihongo ga dekimasu.',id:'Saya bisa berbahasa Jepang.'},
+    {jp:'あたらしい どうろが <span class="highlight">できました</span>。',rom:'Atarashii dōro ga dekimashita.',id:'Jalan baru sudah jadi.'},
+  ]},
+]},
+28:{title:'Kalimat Pertimbangan & Memilih',jp:'比較・選択',patterns:[
+  {formula:'〔名詞〕は　〔形容詞〕し、〔形容詞〕し',roma:'[Kata Benda] wa [KS] shi, [KS] shi',meaning:'[Benda] itu [sifat A], dan juga [sifat B]. Digunakan untuk menyebutkan beberapa alasan/sifat sekaligus.',type:'adj',examples:[
+    {jp:'この レストランは やすい<span class="highlight">し</span>、おいしい<span class="highlight">し</span>、よく いきます。',rom:'Kono resutoran wa yasui shi, oishii shi, yoku ikimasu.',id:'Restoran ini murah dan enak, jadi saya sering pergi ke sana.'},
+  ]},
+  {formula:'〔動詞・普通〕し、〔動詞・普通〕し',roma:'[Kata Kerja biasa] shi, [Kata Kerja biasa] shi',meaning:'[melakukan A], dan juga [melakukan B]. Memberikan beberapa alasan dengan し.',type:'verb',examples:[
+    {jp:'かれは せが たかい<span class="highlight">し</span>、かおも いい<span class="highlight">し</span>、にんきが あります。',rom:'Kare wa se ga takai shi, kao mo ii shi, ninki ga arimasu.',id:'Dia tinggi dan wajahnya juga tampan, jadi populer.'},
+  ]},
+]},
+29:{title:'Menyatakan Perubahan Keadaan (Kata Kerja Intransitif vs Transitif)',jp:'自動詞・他動詞',patterns:[
+  {formula:'〔名詞〕が　〔自動詞〕て　います',roma:'[Kata Benda] ga [Kata Kerja Intransitif] te imasu',meaning:'[Benda] sedang dalam keadaan [terjadi sendiri]. Kata kerja intransitif menggambarkan kondisi benda tanpa subjek pelaku.',type:'verb',note:'自動詞 (kata kerja intransitif): subjek melakukan sendiri. 他動詞 (kata kerja transitif): ada pelaku yang melakukan sesuatu ke objek.',examples:[
+    {jp:'ドアが <span class="highlight">あいています</span>。',rom:'Doa ga aite imasu.',id:'Pintunya (dalam keadaan) terbuka.'},
+    {jp:'でんきが <span class="highlight">きえています</span>。',rom:'Denki ga kiete imasu.',id:'Lampunya (dalam keadaan) padam.'},
+  ]},
+  {formula:'〔名詞〕を　〔他動詞〕て　ください',roma:'[Kata Benda] wo [Kata Kerja Transitif] te kudasai',meaning:'Tolong [lakukan sesuatu] pada [benda]. Menggunakan kata kerja transitif untuk meminta tindakan.',type:'verb',examples:[
+    {jp:'ドアを <span class="highlight">あけて ください</span>。',rom:'Doa wo akete kudasai.',id:'Tolong buka pintunya.'},
+    {jp:'でんきを <span class="highlight">けして ください</span>。',rom:'Denki wo keshite kudasai.',id:'Tolong padamkan lampunya.'},
+  ]},
+]},
+30:{title:'Menyatakan Hasil & Kondisi Setelah Tindakan',jp:'結果表現',patterns:[
+  {formula:'〔場所〕に　〔名詞〕を　〔他動詞〕',roma:'[Tempat] ni [Kata Benda] wo [Kata Kerja Transitif]',meaning:'Menaruh/memasang [benda] di [tempat]. Menyatakan lokasi hasil dari tindakan.',type:'verb',examples:[
+    {jp:'かべに ポスターを <span class="highlight">はりました</span>。',rom:'Kabe ni posutā wo harimashita.',id:'Saya menempelkan poster di dinding.'},
+    {jp:'つくえの うえに ほんを <span class="highlight">ならべました</span>。',rom:'Tsukue no ue ni hon wo narabemashita.',id:'Saya menata buku di atas meja.'},
+  ]},
+  {formula:'〔動詞て形〕おきます',roma:'[Kata Kerja te-kei] okimasu',meaning:'Melakukan sesuatu terlebih dahulu (sebagai persiapan). Menyatakan tindakan yang dilakukan sebagai persiapan untuk sesuatu.',type:'verb',examples:[
+    {jp:'パーティーの まえに　りょうりを つくって <span class="highlight">おきます</span>。',rom:'Pāti no mae ni ryōri wo tsukutte okimasu.',id:'Saya akan memasak terlebih dahulu sebelum pesta.'},
+  ]},
+]},
+31:{title:'Kalimat dengan Seandainya',jp:'仮定表現 (たら)',patterns:[
+  {formula:'〔動詞た形〕ら、〔文〕',roma:'[Kata Kerja ta-kei] ra, [kalimat]',meaning:'Kalau/Setelah [melakukan], maka [hasil/rencana]. Menyatakan kondisi atau urutan waktu.',type:'conj',examples:[
+    {jp:'しごとが おわっ<span class="highlight">たら</span>、いっしょに のみましょう。',rom:'Shigoto ga owattara, issho ni nomimashō.',id:'Kalau pekerjaan sudah selesai, mari kita minum bersama.'},
+    {jp:'にほんへ いっ<span class="highlight">たら</span>、ふじさんを みたいです。',rom:'Nihon e ittara, Fujisan wo mitai desu.',id:'Kalau pergi ke Jepang, saya ingin melihat Gunung Fuji.'},
+  ]},
+  {formula:'〔い形容詞〕かったら、〔文〕',roma:'[Kata Sifat -i] kattara, [kalimat]',meaning:'Kalau [kondisi/sifat], maka [hasil]. Bentuk たら dari kata sifat -i.',type:'adj',examples:[
+    {jp:'やす<span class="highlight">かったら</span>、かいます。',rom:'Yasukattara, kaimasu.',id:'Kalau murah, saya akan beli.'},
+  ]},
+  {formula:'〔な形容詞・名詞〕だったら、〔文〕',roma:'[KS-na / Kata Benda] dattara, [kalimat]',meaning:'Kalau [kondisi], maka [hasil]. Bentuk たら dari kata sifat -na dan kata benda.',type:'adj',examples:[
+    {jp:'ひまだっ<span class="highlight">たら</span>、てつだって ください。',rom:'Hima dattara, tetsudatte kudasai.',id:'Kalau tidak sibuk, tolong bantu saya.'},
+  ]},
+]},
+32:{title:'Menyatakan Perubahan Bertahap',jp:'変化表現',patterns:[
+  {formula:'〔動詞・否定〕なくなります',roma:'[Kata Kerja negatif] naku narimasu',meaning:'Tidak lagi [melakukan]. Menyatakan berhentinya kebiasaan atau kondisi.',type:'verb',examples:[
+    {jp:'さいきん、たばこを すわ<span class="highlight">なくなりました</span>。',rom:'Saikin, tabako wo suwanaku narimashita.',id:'Belakangan ini saya tidak lagi merokok.'},
+  ]},
+  {formula:'〔い形容詞〕くなります',roma:'[Kata Sifat -i] ku narimasu',meaning:'Menjadi [sifat]. Menyatakan perubahan ke arah sifat tersebut.',type:'adj',examples:[
+    {jp:'そとが <span class="highlight">あたたかくなりました</span>。',rom:'Soto ga atatakaku narimashita.',id:'Cuaca di luar menjadi hangat.'},
+  ]},
+  {formula:'〔な形容詞〕に　なります',roma:'[Kata Sifat -na] ni narimasu',meaning:'Menjadi [kondisi/sifat]. Perubahan kondisi dengan kata sifat -na.',type:'adj',examples:[
+    {jp:'にほんごが <span class="highlight">じょうずに なりました</span>。',rom:'Nihongo ga jōzu ni narimashita.',id:'Bahasa Jepang saya menjadi lebih lancar.'},
+  ]},
+]},
+33:{title:'Menyatakan Larangan & Izin',jp:'禁止・許可表現',patterns:[
+  {formula:'〔動詞て形〕は　いけません',roma:'[Kata Kerja te-kei] wa ikemasen',meaning:'Tidak boleh [melakukan]. Larangan keras.',type:'neg',examples:[
+    {jp:'ここで たばこを すっ<span class="highlight">ては いけません</span>。',rom:'Koko de tabako wo sutte wa ikemasen.',id:'Tidak boleh merokok di sini.'},
+  ]},
+  {formula:'〔動詞て形〕も　いいです',roma:'[Kata Kerja te-kei] mo ii desu',meaning:'Boleh [melakukan]. Memberikan izin.',type:'part',examples:[
+    {jp:'ここで しゃしんを とっ<span class="highlight">ても いいです</span>。',rom:'Koko de shashin wo totte mo ii desu.',id:'Boleh mengambil foto di sini.'},
+  ]},
+  {formula:'〔動詞て形〕も　かまいません',roma:'[Kata Kerja te-kei] mo kamaimasen',meaning:'Tidak apa-apa (jika melakukan). Versi lebih sopan dari てもいいです.',type:'part',examples:[
+    {jp:'もう かえっ<span class="highlight">ても かまいません</span>。',rom:'Mō kaette mo kamaimasen.',id:'Tidak apa-apa kalau sudah pulang.'},
+  ]},
+]},
+34:{title:'Cara Memberikan Instruksi Urutan',jp:'手順表現',patterns:[
+  {formula:'まず〜。つぎに〜。それから〜。さいごに〜。',roma:'Mazu~. Tsugi ni~. Sorekara~. Saigo ni~.',meaning:'Pertama~. Lalu~. Kemudian~. Terakhir~. Menyatakan urutan langkah-langkah.',type:'conj',examples:[
+    {jp:'<span class="highlight">まず</span>、みずを わかします。<span class="highlight">つぎに</span>、やさいを きります。',rom:'Mazu, mizu wo wakashimasu. Tsugi ni, yasai wo kirimasu.',id:'Pertama, didihkan air. Lalu, potong sayuran.'},
+  ]},
+  {formula:'〔動詞て形〕から、〔動詞〕ます',roma:'[Kata Kerja te-kei] kara, [Kata Kerja] masu',meaning:'Setelah [melakukan A], baru [melakukan B]. Menunjukkan urutan kegiatan.',type:'conj',examples:[
+    {jp:'しゅくだいを して<span class="highlight">から</span>、テレビを みます。',rom:'Shukudai wo shite kara, terebi wo mimasu.',id:'Setelah mengerjakan PR, baru nonton TV.'},
+  ]},
+]},
+35:{title:'Menyatakan Perubahan yang Diperlukan',jp:'変化・必要表現',patterns:[
+  {formula:'〔名詞〕に　します',roma:'[Kata Benda] ni shimasu',meaning:'Memutuskan/memilih [sesuatu]. Juga: menjadikan [benda] sebagai [kondisi].',type:'verb',examples:[
+    {jp:'のみものは コーヒー<span class="highlight">に します</span>。',rom:'Nomimono wa kōhī ni shimasu.',id:'Untuk minuman, saya pilih kopi.'},
+  ]},
+  {formula:'〔動詞・普通〕ことに　します',roma:'[Kata Kerja biasa] koto ni shimasu',meaning:'Memutuskan untuk [melakukan]. Menyatakan keputusan pribadi.',type:'verb',examples:[
+    {jp:'まいにち はしる<span class="highlight">ことに しました</span>。',rom:'Mainichi hashiru koto ni shimashita.',id:'Saya memutuskan untuk berlari setiap hari.'},
+  ]},
+  {formula:'〔動詞・普通〕ことに　なります',roma:'[Kata Kerja biasa] koto ni narimasu',meaning:'Menjadi diputuskan (dari luar) untuk [melakukan]. Situasi yang terjadi bukan karena keputusan sendiri.',type:'verb',note:'〜ことにします = keputusan sendiri. 〜ことになります = diputuskan oleh situasi/orang lain.',examples:[
+    {jp:'らいねん おおさかに ひっこす<span class="highlight">ことに なりました</span>。',rom:'Rainen Ōsaka ni hikkosukoto ni narimashita.',id:'Ternyata (sudah diputuskan) saya akan pindah ke Osaka tahun depan.'},
+  ]},
+]},
+36:{title:'Menyatakan Kebiasaan & Usaha',jp:'習慣・努力表現',patterns:[
+  {formula:'〔動詞〕ようにします',roma:'[Kata Kerja] yō ni shimasu',meaning:'Berusaha untuk [melakukan]. Menyatakan usaha mengubah kebiasaan atau perilaku.',type:'verb',examples:[
+    {jp:'まいにち あさ はやく おきる<span class="highlight">ようにしています</span>。',rom:'Mainichi asa hayaku okiru yō ni shite imasu.',id:'Saya berusaha bangun pagi setiap hari.'},
+    {jp:'やさいを たべる<span class="highlight">ようにしてください</span>。',rom:'Yasai wo taberu yō ni shite kudasai.',id:'Tolong usahakan makan sayuran.'},
+  ]},
+  {formula:'〔動詞・否定〕ないようにします',roma:'[Kata Kerja negatif] nai yō ni shimasu',meaning:'Berusaha untuk tidak [melakukan]. Menyatakan usaha menghindari sesuatu.',type:'verb',examples:[
+    {jp:'ちこくしない<span class="highlight">ようにしています</span>。',rom:'Chikoku shinai yō ni shite imasu.',id:'Saya berusaha untuk tidak terlambat.'},
+  ]},
+]},
+37:{title:'Kalimat Pasif',jp:'受身表現',patterns:[
+  {formula:'〔名詞〕に　〔動詞・受身〕',roma:'[Kata Benda (pelaku)] ni [Kata Kerja pasif]',meaning:'Dikenai [tindakan] oleh [seseorang]. Kalimat pasif — subjek adalah pihak yang menerima tindakan.',type:'verb',note:'Bentuk pasif: 書く→書かれる, 食べる→食べられる, する→される, くる→こられる',examples:[
+    {jp:'わたしは せんせいに <span class="highlight">ほめられました</span>。',rom:'Watashi wa sensei ni homeraremashita.',id:'Saya dipuji oleh guru.'},
+    {jp:'あめに <span class="highlight">ふられました</span>。',rom:'Ame ni furaremashita.',id:'Saya kehujanan.'},
+  ]},
+  {formula:'〔名詞〕は　〔名詞〕によって　〔受身動詞〕',roma:'[Benda] wa [pelaku] ni yotte [Kata Kerja pasif]',meaning:'[Benda] dibuat/ditemukan oleh [pelaku]. Bentuk pasif formal untuk menjelaskan siapa yang menciptakan/menemukan sesuatu.',type:'verb',examples:[
+    {jp:'でんわは ベルによって <span class="highlight">はつめいされました</span>。',rom:'Denwa wa Beru ni yotte hatsumei saremashita.',id:'Telepon ditemukan oleh Bell.'},
+  ]},
+]},
+38:{title:'Kalimat Pemberian & Penerimaan',jp:'授受表現',patterns:[
+  {formula:'〔人〕に　〔もの〕を　あげます',roma:'[Orang] ni [benda] wo agemasu',meaning:'Memberikan [benda] kepada [orang]. Pembicara atau pihak dalam kelompok memberikan ke luar.',type:'verb',examples:[
+    {jp:'ともだちに プレゼントを <span class="highlight">あげました</span>。',rom:'Tomodachi ni purezento wo agemashita.',id:'Saya memberi hadiah kepada teman.'},
+  ]},
+  {formula:'〔人〕に　〔もの〕を　もらいます',roma:'[Orang] ni [benda] wo moraimasu',meaning:'Menerima [benda] dari [orang]. Subjek menerima dari orang lain.',type:'verb',examples:[
+    {jp:'ともだちに プレゼントを <span class="highlight">もらいました</span>。',rom:'Tomodachi ni purezento wo moraimashita.',id:'Saya menerima hadiah dari teman.'},
+  ]},
+  {formula:'〔人〕が／は　〔もの〕を　くれます',roma:'[Orang] ga/wa [benda] wo kuremasu',meaning:'[Orang] memberikan [benda] kepada saya. Pihak luar memberikan ke pembicara atau kelompoknya.',type:'verb',examples:[
+    {jp:'ともだちが プレゼントを <span class="highlight">くれました</span>。',rom:'Tomodachi ga purezento wo kuremashita.',id:'Teman memberikan hadiah kepada saya.'},
+  ]},
+  {formula:'〔動詞て形〕あげます',roma:'[KK te-kei] agemasu',meaning:'Melakukan sesuatu untuk (orang lain). Menyatakan berbuat baik kepada orang lain.',type:'verb',examples:[
+    {jp:'ともだちに にほんごを おしえて<span class="highlight">あげました</span>。',rom:'Tomodachi ni Nihongo wo oshiete agemashita.',id:'Saya mengajarkan bahasa Jepang kepada teman.'},
+  ]},
+  {formula:'〔動詞て形〕もらいます',roma:'[KK te-kei] moraimasu',meaning:'Mendapatkan orang lain melakukan sesuatu (untuk kita). Meminta/mendapat bantuan.',type:'verb',examples:[
+    {jp:'ともだちに にほんごを おしえて<span class="highlight">もらいました</span>。',rom:'Tomodachi ni Nihongo wo oshiete moraimashita.',id:'Saya mendapat ajaran bahasa Jepang dari teman.'},
+  ]},
+  {formula:'〔動詞て形〕くれます',roma:'[KK te-kei] kuremasu',meaning:'(Orang lain) melakukan sesuatu untuk saya. Menunjukkan rasa terima kasih atas kebaikan orang.',type:'verb',examples:[
+    {jp:'ともだちが にほんごを おしえて<span class="highlight">くれました</span>。',rom:'Tomodachi ga Nihongo wo oshiete kuremashita.',id:'Teman (baik hati) mengajarkan bahasa Jepang kepada saya.'},
+  ]},
+]},
+39:{title:'Menyatakan Perubahan Emosi & Kalimat Kausalitas',jp:'感情・因果表現',patterns:[
+  {formula:'〔文〕から、〔感情〕',roma:'[kalimat] kara, [perasaan]',meaning:'Karena [alasan], [perasaan]. Menyatakan penyebab perasaan atau reaksi.',type:'conj',examples:[
+    {jp:'ごうかく した<span class="highlight">から</span>、うれしいです。',rom:'Gōkaku shita kara, ureshii desu.',id:'Karena lulus, saya senang.'},
+  ]},
+  {formula:'〔い形容詞〕くて、〔い形容詞〕です',roma:'[KS-i] kute, [KS-i] desu',meaning:'[Sifat A] dan [Sifat B]. Menghubungkan dua kata sifat -i.',type:'adj',examples:[
+    {jp:'この かばんは かる<span class="highlight">くて</span>、じょうぶです。',rom:'Kono kaban wa karukute, jōbu desu.',id:'Tas ini ringan dan kuat.'},
+  ]},
+]},
+40:{title:'Menyatakan Kondisi Bila / Jika',jp:'条件表現 (ば)',patterns:[
+  {formula:'〔動詞・ば形〕ば、〔文〕',roma:'[Kata Kerja ba-kei] ba, [kalimat]',meaning:'Kalau/Jika [melakukan A], maka [B]. Kondisi yang dianggap logis atau hipotetis.',type:'conj',note:'Bentuk ば: 書く→書けば, 食べる→食べれば, する→すれば, くる→くれば',examples:[
+    {jp:'もっと れんしゅうすれ<span class="highlight">ば</span>、じょうずに なります。',rom:'Motto renshū sureba, jōzu ni narimasu.',id:'Kalau lebih banyak berlatih, pasti akan lebih mahir.'},
+    {jp:'えきを でれ<span class="highlight">ば</span>、みぎに まがってください。',rom:'Eki wo dereba, migi ni magatte kudasai.',id:'Kalau sudah keluar dari stasiun, belok kanan.'},
+  ]},
+  {formula:'〔い形容詞〕ければ、〔文〕',roma:'[KS-i] kereba, [kalimat]',meaning:'Kalau [bersifat A], maka [B]. Bentuk ば dari kata sifat -i.',type:'adj',examples:[
+    {jp:'やす<span class="highlight">ければ</span>、かいます。',rom:'Yasukereba, kaimasu.',id:'Kalau murah, saya beli.'},
+  ]},
+]},
+41:{title:'Kalimat Pemberian & Penerimaan — Lanjutan',jp:'授受表現 応用',patterns:[
+  {formula:'〔動詞て形〕いただきます',roma:'[KK te-kei] itadakimasu',meaning:'Mendapat (seseorang) melakukan sesuatu untuk kita (Bahasa Rendah dari もらいます). Lebih sopan dari てもらいます.',type:'verb',examples:[
+    {jp:'せんせいに かんじを おしえて<span class="highlight">いただきました</span>。',rom:'Sensei ni kanji wo oshiete itadakimashita.',id:'Saya mendapat ajaran kanji dari guru (dengan hormat).'},
+  ]},
+  {formula:'〔動詞て形〕くださいます',roma:'[KK te-kei] kudasaimasu',meaning:'(Seseorang yang dihormati) melakukan sesuatu untuk kita (Bahasa Hormat dari くれます).',type:'verb',examples:[
+    {jp:'せんせいが かんじを おしえて<span class="highlight">くださいました</span>。',rom:'Sensei ga kanji wo oshiete kudasaimashita.',id:'Guru (dengan baik) mengajarkan kanji kepada saya.'},
+  ]},
+]},
+42:{title:'Menyatakan Tujuan & Kegunaan',jp:'目的・用途表現',patterns:[
+  {formula:'〔名詞〕は　〔動詞〕のに　つかいます',roma:'[Kata Benda] wa [Kata Kerja] no ni tsukaimasu',meaning:'[Benda] digunakan untuk [melakukan]. Menyatakan kegunaan benda.',type:'verb',examples:[
+    {jp:'このナイフは やさいを きる<span class="highlight">のに つかいます</span>。',rom:'Kono naifu wa yasai wo kiru no ni tsukaimasu.',id:'Pisau ini digunakan untuk memotong sayuran.'},
+  ]},
+  {formula:'〔動詞〕のに　〔時間・お金〕が　かかります',roma:'[Kata Kerja] no ni [waktu/uang] ga kakarimasu',meaning:'Membutuhkan [waktu/uang] untuk [melakukan]. Menyatakan biaya atau waktu yang diperlukan.',type:'verb',examples:[
+    {jp:'とうきょうから おおさかまで いく<span class="highlight">のに</span> 2じかん <span class="highlight">かかります</span>。',rom:'Tōkyō kara Ōsaka made iku no ni 2 jikan kakarimasu.',id:'Butuh 2 jam untuk pergi dari Tokyo ke Osaka.'},
+  ]},
+]},
+43:{title:'Menyatakan Pendapat & Pikiran',jp:'意見・考え表現',patterns:[
+  {formula:'〔文〕と　おもいます',roma:'[kalimat] to omoimasu',meaning:'Saya pikir/rasa [sesuatu]. Menyatakan pendapat atau dugaan.',type:'verb',examples:[
+    {jp:'かれは くるとおも<span class="highlight">います</span>。',rom:'Kare wa kuru to omoimasu.',id:'Saya pikir dia akan datang.'},
+    {jp:'むずかしい<span class="highlight">と おもいます</span>。',rom:'Muzukashii to omoimasu.',id:'Saya rasa itu sulit.'},
+  ]},
+  {formula:'〔文〕と　いっています',roma:'[kalimat] to itte imasu',meaning:'Mengatakan bahwa [sesuatu]. Menyampaikan perkataan orang lain.',type:'verb',examples:[
+    {jp:'やまださんは にほんへ いきたい<span class="highlight">と いっています</span>。',rom:'Yamada-san wa Nihon e ikitai to itte imasu.',id:'Yamada-san mengatakan ingin pergi ke Jepang.'},
+  ]},
+]},
+44:{title:'Kalimat Harapan & Keinginan',jp:'希望表現',patterns:[
+  {formula:'〔動詞〕といいですね',roma:'[Kata Kerja] to ii desu ne',meaning:'Semoga [terjadi]. Harapan untuk orang lain atau situasi.',type:'verb',examples:[
+    {jp:'はやく よくなる<span class="highlight">といいですね</span>。',rom:'Hayaku yoku naru to ii desu ne.',id:'Semoga cepat sembuh ya.'},
+    {jp:'あした はれる<span class="highlight">といいですね</span>。',rom:'Ashita hareru to ii desu ne.',id:'Semoga besok cerah ya.'},
+  ]},
+  {formula:'〔動詞〕といいんですが',roma:'[Kata Kerja] to ii n desu ga',meaning:'Seandainya [terjadi]... (harapan untuk diri sendiri dengan sedikit keraguan).',type:'verb',examples:[
+    {jp:'しけんに うかる<span class="highlight">といいんですが</span>。',rom:'Shiken ni ukaru to ii n desu ga.',id:'Seandainya bisa lulus ujian...'},
+  ]},
+]},
+45:{title:'Menyatakan Penyampaian Informasi',jp:'伝達表現',patterns:[
+  {formula:'〔文〕そうです（伝聞）',roma:'[kalimat] sō desu (kabar dari orang)',meaning:'Katanya [begitu]. Informasi yang didengar dari sumber lain.',type:'verb',note:'Bedakan: 〜そうです (mendengar kabar) vs 〜みたいです (terlihat seperti) vs 〜らしいです (sepertinya/rupanya)',examples:[
+    {jp:'あした あめが ふる<span class="highlight">そうです</span>。',rom:'Ashita ame ga furu sō desu.',id:'Katanya besok akan hujan.'},
+    {jp:'かれは びょうきだ<span class="highlight">そうです</span>。',rom:'Kare wa byōki da sō desu.',id:'Katanya dia sakit.'},
+  ]},
+  {formula:'〔い形容詞語幹〕そうです（様態）',roma:'[Batang KS-i] sō desu (penampilan)',meaning:'Kelihatannya [sifat]. Berdasarkan penampilan atau dugaan.',type:'adj',note:'〜そうです (様態) = kelihatannya. Bentuk: おいしい→おいしそう, あぶない→あぶなそう, よい→よさそう',examples:[
+    {jp:'このケーキは おいしい<span class="highlight">そうです</span>。',rom:'Kono kēki wa oishisō desu.',id:'Kue ini kelihatannya enak.'},
+  ]},
+]},
+46:{title:'Menyatakan Perubahan yang Terjadi',jp:'変化・結果表現',patterns:[
+  {formula:'〔動詞て形〕しまいました',roma:'[Kata Kerja te-kei] shimaimashita',meaning:'Sudah (terlanjur) [melakukan], (menyesal/tidak disengaja). Menyatakan sesuatu yang sudah terjadi, sering ada nuansa penyesalan.',type:'verb',examples:[
+    {jp:'さいふを わすれて<span class="highlight">しまいました</span>。',rom:'Saifu wo wasurete shimaimashita.',id:'Saya lupa (tidak sengaja) membawa dompet.'},
+    {jp:'レポートを なくして<span class="highlight">しまいました</span>。',rom:'Repōto wo nakushite shimaimashita.',id:'Saya (tidak sengaja) kehilangan laporan.'},
+  ]},
+  {formula:'〔動詞て形〕しまう → ちゃう（口語）',roma:'[te-kei] shimau → chau (bahasa sehari-hari)',meaning:'Bentuk percakapan informal dari てしまう.',type:'verb',note:'てしまう → ちゃう（男女）, でしまう → じゃう',examples:[
+    {jp:'もう たべちゃった。',rom:'Mō tabechatta.',id:'Sudah terlanjur dimakan (informal).'},
+  ]},
+]},
+47:{title:'Menyatakan Situasi Berdasarkan Laporan',jp:'伝聞・推量表現',patterns:[
+  {formula:'〔文・普通〕らしいです',roma:'[kalimat biasa] rashii desu',meaning:'Rupanya/sepertinya [begitu]. Berdasarkan informasi tidak langsung atau kesan umum.',type:'verb',examples:[
+    {jp:'やまださんは けっこんする<span class="highlight">らしいです</span>。',rom:'Yamada-san wa kekkon suru rashii desu.',id:'Rupanya Yamada-san akan menikah.'},
+    {jp:'あの えいがは おもしろい<span class="highlight">らしいです</span>。',rom:'Ano eiga wa omoshiroi rashii desu.',id:'Sepertinya film itu menarik.'},
+  ]},
+  {formula:'〔文・普通〕みたいです',roma:'[kalimat biasa] mitai desu',meaning:'Kelihatannya [seperti]. Perkiraan berdasarkan penampilan atau keadaan yang terlihat.',type:'verb',examples:[
+    {jp:'かれは びょうき<span class="highlight">みたいです</span>。',rom:'Kare wa byōki mitai desu.',id:'Kelihatannya dia sakit.'},
+  ]},
+]},
+48:{title:'Kalimat Permohonan & Harapan (Keigo Dasar)',jp:'敬語基礎',patterns:[
+  {formula:'〔動詞〕て　いただけませんか',roma:'[Kata Kerja te-kei] itadakemasen ka',meaning:'Bisakah (Anda) melakukan [sesuatu]? Permohonan yang sangat sopan.',type:'verb',note:'Tingkat kesopanan: ください < てもらえませんか < ていただけませんか',examples:[
+    {jp:'ここに なまえを かいて<span class="highlight">いただけませんか</span>。',rom:'Koko ni namae wo kaite itadakemasen ka.',id:'Bisakah Anda menuliskan nama di sini?'},
+  ]},
+  {formula:'お〔動詞〕ください',roma:'o-[Kata Kerja] kudasai',meaning:'Tolong [lakukan] (hormat). Permintaan sopan menggunakan kata hormat.',type:'verb',examples:[
+    {jp:'こちらへ <span class="highlight">おはいりください</span>。',rom:'Kochira e ohairi kudasai.',id:'Tolong masuk ke sini.'},
+    {jp:'しばらく <span class="highlight">おまちください</span>。',rom:'Shibaraku omachi kudasai.',id:'Tolong tunggu sebentar.'},
+  ]},
+]},
+49:{title:'Bahasa Hormat (Sonkeigo)',jp:'尊敬語',patterns:[
+  {formula:'いらっしゃいます（います・いきます・きます の尊敬語）',roma:'Irasshaimasu (Bahasa Hormat dari います/いきます/きます)',meaning:'Ada/pergi/datang. Digunakan untuk menghormati orang lain.',type:'verb',examples:[
+    {jp:'せんせいは いま どちらに <span class="highlight">いらっしゃいますか</span>。',rom:'Sensei wa ima dochira ni irasshaimasu ka.',id:'Sekarang Sensei ada di mana?'},
+  ]},
+  {formula:'おっしゃいます（いいます の尊敬語）',roma:'Osshaimasu (Bahasa Hormat dari いいます)',meaning:'Berkata (hormat).',type:'verb',examples:[
+    {jp:'せんせいが <span class="highlight">おっしゃった</span> とおりです。',rom:'Sensei ga osshatta tōri desu.',id:'Seperti yang dikatakan Sensei.'},
+  ]},
+  {formula:'めしあがります（たべます・のみます の尊敬語）',roma:'Meshiagarimasu (Bahasa Hormat dari たべます/のみます)',meaning:'Makan/minum (hormat).',type:'verb',examples:[
+    {jp:'もう ごはんを <span class="highlight">めしあがりましたか</span>。',rom:'Mō gohan wo meshiagarimashita ka.',id:'Apakah sudah makan?'},
+  ]},
+]},
+50:{title:'Bahasa Merendah (Kenjōgo)',jp:'謙譲語',patterns:[
+  {formula:'まいります（いきます・きます の謙譲語）',roma:'Mairimasu (Bahasa Merendah dari いきます/きます)',meaning:'Pergi/datang (merendah).',type:'verb',examples:[
+    {jp:'では、これで <span class="highlight">まいります</span>。',rom:'Dewa, kore de mairimasu.',id:'Kalau begitu, saya pamit pergi.'},
+  ]},
+  {formula:'いたします（します の謙譲語）',roma:'Itashimasu (Bahasa Merendah dari します)',meaning:'Melakukan (merendah).',type:'verb',examples:[
+    {jp:'ご案内<span class="highlight">いたします</span>。',rom:'Go-annai itashimasu.',id:'Saya akan memandu Anda.'},
+  ]},
+  {formula:'はいけんします（みます の謙譲語）',roma:'Haikenshimasu (Bahasa Merendah dari みます)',meaning:'Melihat (merendah, untuk melihat milik/dokumen orang yang dihormati).',type:'verb',examples:[
+    {jp:'しょるいを <span class="highlight">はいけんしても よろしいですか</span>。',rom:'Shorui wo haikenshite mo yoroshii desu ka.',id:'Bolehkah saya melihat dokumennya?'},
+  ]},
+  {formula:'うかがいます（きく・たずねる・いく の謙譲語）',roma:'Ukagaimasu (Bahasa Merendah dari きく/たずねる/いく)',meaning:'Bertanya/mengunjungi (merendah).',type:'verb',examples:[
+    {jp:'あした おたくに <span class="highlight">うかがっても よろしいですか</span>。',rom:'Ashita otaku ni ukagatte mo yoroshii desu ka.',id:'Bolehkah saya mengunjungi rumah Anda besok?'},
+  ]},
+]},
+};
+
+// ═══════════════════ STATE & INIT ═══════════════════
+let currentMode='vocab', currentBab='all', searchQ='', activeFilter='all', activeKcat='all', currentBunpouBab=26;
+
+// Init bab buttons vocab
 const babScroller = document.getElementById('babScroller');
 const babKeys = Object.keys(allBabs).map(Number).sort((a,b)=>a-b);
 babKeys.forEach(b=>{
@@ -1289,6 +1472,40 @@ babKeys.forEach(b=>{
   babScroller.appendChild(btn);
 });
 
+// Init bab buttons bunpou
+const babBtnsBunpou = document.getElementById('babBtnsBunpou');
+Object.keys(allBunpou).map(Number).sort((a,b)=>a-b).forEach(b=>{
+  const btn=document.createElement('button');
+  btn.className='bab-btn'+(b===26?' active':'');
+  btn.textContent=b;
+  btn.onclick=()=>{
+    currentBunpouBab=b;
+    document.querySelectorAll('#babBtnsBunpou .bab-btn').forEach(x=>x.classList.remove('active'));
+    btn.classList.add('active');
+    renderBunpou();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  babBtnsBunpou.appendChild(btn);
+});
+
+function switchMode(mode){
+  currentMode=mode;
+  document.getElementById('vocabPanel').style.display=mode==='vocab'?'':'none';
+  document.getElementById('kanjiPanel').style.display=mode==='kanji'?'':'none';
+  document.getElementById('bunpouPanel').style.display=mode==='bunpou'?'':'none';
+  document.getElementById('subbarVocab').style.display=mode==='vocab'?'':'none';
+  document.getElementById('subbarKanji').style.display=mode==='kanji'?'':'none';
+  document.getElementById('subbarBunpou').style.display=mode==='bunpou'?'':'none';
+  document.getElementById('tabVocab').classList.toggle('active',mode==='vocab');
+  document.getElementById('tabKanji').classList.toggle('active',mode==='kanji');
+  document.getElementById('tabBunpou').classList.toggle('active',mode==='bunpou');
+  document.getElementById('search').placeholder=mode==='kanji'?'Cari kanji...':mode==='bunpou'?'Cari pola kalimat...':'Cari kosakata...';
+  if(mode==='kanji'){renderKanji();}
+  else if(mode==='bunpou'){renderBunpou();}
+  else renderVocab();
+  window.scrollTo({top:0});
+}
+
 function selectBab(b){
   currentBab=b;
   document.getElementById('babAll').classList.toggle('active',b==='all');
@@ -1296,18 +1513,27 @@ function selectBab(b){
     const el=document.getElementById('bab'+k);
     if(el)el.classList.toggle('active',k===b);
   });
-  render();
+  renderVocab();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function onSearch(v){searchQ=v.trim().toLowerCase();render();}
+function onSearch(v){
+  searchQ=v.trim().toLowerCase();
+  if(currentMode==='vocab')renderVocab();
+  else if(currentMode==='kanji')renderKanji();
+  else renderBunpou();
+}
 
 function setFilter(f){
   activeFilter=f;
-  document.querySelectorAll('.filter-pill').forEach(p=>{
-    p.classList.toggle('active',p.dataset.filter===f);
-  });
-  render();
+  document.querySelectorAll('.filter-pill').forEach(p=>{p.classList.toggle('active',p.dataset.filter===f);});
+  renderVocab();
+}
+
+function setKcat(cat){
+  activeKcat=cat;
+  document.querySelectorAll('.kcat-pill').forEach(p=>{p.classList.toggle('active',p.dataset.kcat===cat);});
+  renderKanji();
 }
 
 function toggleTheme(){
@@ -1317,7 +1543,7 @@ function toggleTheme(){
 }
 
 function hl(text){
-  if(!searchQ)return text;
+  if(!searchQ||!text)return text;
   const re=new RegExp('('+searchQ.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
   return String(text).replace(re,'<mark>$1</mark>');
 }
@@ -1328,15 +1554,16 @@ function matchRow(r){
   return r.jp.includes(q)||r.rom.toLowerCase().includes(q)||r.meaning.toLowerCase().includes(q)||r.kanji.toLowerCase().includes(q)||(r.note&&r.note.toLowerCase().includes(q));
 }
 
-const typeLabel={verb:'動詞',adj:'形容詞',noun:'名詞',expr:'表現',place:'場所'};
+const typeLabel={verb:'Kata Kerja',adj:'Kata Sifat',noun:'Kata Benda',expr:'Ungkapan',place:'Tempat'};
 
 function getBabsToRender(){
-  if(currentBab==='all') return babKeys.map(k=>({bab:k,sections:allBabs[k]}));
-  if(allBabs[currentBab]) return [{bab:currentBab,sections:allBabs[currentBab]}];
+  if(currentBab==='all')return babKeys.map(k=>({bab:k,sections:allBabs[k]}));
+  if(allBabs[currentBab])return [{bab:currentBab,sections:allBabs[currentBab]}];
   return [];
 }
 
-function render(){
+// ═══ RENDER VOCAB ═══
+function renderVocab(){
   const container=document.getElementById('vocabSections');
   const empty=document.getElementById('emptyVocab');
   const babs=getBabsToRender();
@@ -1391,7 +1618,7 @@ function render(){
                 <th>Hiragana / Katakana</th>
                 <th>Kanji</th>
                 <th>Arti Bahasa Indonesia</th>
-                <th style="width:68px">Tipe</th>
+                <th style="width:80px">Jenis Kata</th>
               </tr></thead>
               <tbody>${tableRows}</tbody>
             </table>
@@ -1406,7 +1633,112 @@ function render(){
   empty.style.display=total===0?'block':'none';
 }
 
-render();
+// ═══ RENDER KANJI ═══
+function renderKanji(){
+  const q=searchQ.toLowerCase();
+  const filtered=kanjiN4.filter(k=>{
+    const catOk=activeKcat==='all'||k.cat===activeKcat;
+    const searchOk=!q||k.char.includes(q)||k.on.toLowerCase().includes(q)||k.kun.toLowerCase().includes(q)||k.meaning.toLowerCase().includes(q)||k.ex.toLowerCase().includes(q);
+    return catOk&&searchOk;
+  });
+  document.getElementById('count').textContent=filtered.length+' kanji';
+  const catNames={orang:'Orang',waktu:'Waktu',tempat:'Tempat',kegiatan:'Kegiatan',alam:'Alam',benda:'Benda',sifat:'Sifat',angka:'Angka/Ukuran'};
+  const cats=activeKcat==='all'?Object.keys(catNames):[activeKcat];
+  const grid=document.getElementById('kanjiGrid');
+  let html='';
+  cats.forEach(cat=>{
+    const items=filtered.filter(k=>k.cat===cat);
+    if(!items.length)return;
+    html+=`<div class="kanji-section">
+      <div class="kanji-section-head">
+        <span class="kanji-section-tag">${catNames[cat]||cat}</span>
+        <span style="font-size:0.72rem;color:var(--text3);font-family:'JetBrains Mono',monospace;">${items.length} kanji</span>
+      </div>
+      <div class="kanji-section-body">
+        <div class="kanji-grid">
+          ${items.map((k,i)=>`<div class="kanji-card" style="animation-delay:${i*0.01}s">
+            <span class="k-char">${k.char}</span>
+            <span class="k-on">音：${k.on}</span>
+            <span class="k-kun">訓：${k.kun||'—'}</span>
+            <div class="k-meaning">${k.meaning}</div>
+            <div class="k-stroke">${k.strokes} coretan</div>
+            <div class="k-example">${k.ex}</div>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+  });
+  grid.innerHTML=html||'<div class="empty-state"><div class="e-icon">🔍</div><p>Tidak ada kanji yang cocok.</p></div>';
+  document.getElementById('emptyKanji').style.display='none';
+}
+
+// ═══ RENDER BUNPOU ═══
+const typeInfo={
+  cop:{label:'Kopula',cls:'badge-cop'},
+  verb:{label:'Kata Kerja',cls:'badge-verb'},
+  adj:{label:'Kata Sifat',cls:'badge-adj'},
+  neg:{label:'Negatif',cls:'badge-neg'},
+  q:{label:'Tanya',cls:'badge-q'},
+  part:{label:'Partikel',cls:'badge-part'},
+  conj:{label:'Konjungsi',cls:'badge-conj'},
+};
+function matchPattern(p){
+  if(!searchQ)return true;
+  const s=searchQ.toLowerCase();
+  return (p.formula&&p.formula.toLowerCase().includes(s))||
+         (p.roma&&p.roma.toLowerCase().includes(s))||
+         (p.meaning&&p.meaning.toLowerCase().includes(s))||
+         (p.note&&p.note.toLowerCase().includes(s))||
+         (p.examples&&p.examples.some(e=>e.id.toLowerCase().includes(s)||e.rom.toLowerCase().includes(s)));
+}
+function renderBunpou(){
+  const sec=allBunpou[currentBunpouBab];
+  const el=document.getElementById('patternSections');
+  const empty=document.getElementById('emptyBunpou');
+  if(!sec){
+    el.innerHTML=`<div class="empty-state"><div class="e-icon">準備中</div><p>Pola kalimat untuk bab ini sedang disiapkan.</p></div>`;
+    document.getElementById('count').textContent='—';
+    return;
+  }
+  const patterns=sec.patterns.filter(matchPattern);
+  document.getElementById('count').textContent=patterns.length+' pola';
+  empty.style.display=patterns.length===0?'block':'none';
+  if(patterns.length===0){el.innerHTML='';return;}
+  el.innerHTML=`<div class="section" style="animation-delay:0s">
+    <div class="section-card">
+      <div class="section-head">
+        <span class="section-tag">Bab ${currentBunpouBab}</span>
+        <span class="section-name">${sec.title}</span>
+        <span class="section-jp-label">${sec.jp} · 文法</span>
+      </div>
+      <div class="pattern-list">
+        ${patterns.map((p,idx)=>{
+          const t=typeInfo[p.type]||{label:p.type,cls:'badge-cop'};
+          return`<div class="pattern-item" style="animation:fadeUp 0.25s ease ${idx*0.04}s both">
+            <div class="p-header">
+              <span class="p-num">${String(idx+1).padStart(2,'0')}</span>
+              <div class="p-main">
+                <div class="p-formula">${hl(p.formula)}</div>
+                <div class="p-roma">${hl(p.roma)}</div>
+              </div>
+              <span class="p-type-badge ${t.cls}">${t.label}</span>
+            </div>
+            <div class="p-meaning">${hl(p.meaning)}</div>
+            ${p.note?`<div class="p-note">💡 ${hl(p.note)}</div>`:''}
+            <div class="p-examples">${p.examples.map(e=>`
+              <div class="example">
+                <div class="example-jp">${e.jp}</div>
+                <div class="example-rom">${e.rom}</div>
+                <div class="example-id">${hl(e.id)}</div>
+              </div>`).join('')}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+renderVocab();
 </script>
 </body>
 </html>
