@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — Minna 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:#0d0f1a;
+  color:#e8eaf6;
+  min-height:100vh;
+  padding:24px 16px;
+}
+
+.topbar {
+  max-width:700px;
+  margin:0 auto 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo {
+  font-size:1.1rem;
+  font-weight:800;
+  color:#c4b5fd;
+}
+
+.logout-btn {
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;
+  padding:7px 14px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.78rem;
+  color:rgba(255,255,255,0.5);
+  cursor:pointer;
+}
+.logout-btn:hover { color:#fff; }
+
+.page { max-width:700px; margin:0 auto; }
+
+h1 {
+  font-size:1.5rem;
+  font-weight:800;
+  margin-bottom:6px;
+}
+.subtitle { color:rgba(255,255,255,0.35); font-size:0.85rem; margin-bottom:28px; }
+
+/* Sections */
+.section {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:20px;
+}
+
+.section-title {
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  color:rgba(255,255,255,0.4);
+  margin-bottom:18px;
+  text-transform:uppercase;
+}
+
+.row { display:flex; gap:12px; flex-wrap:wrap; }
+
+.field { flex:1; min-width:200px; }
+.field label { display:block; font-size:0.72rem; font-weight:600; color:rgba(255,255,255,0.4); margin-bottom:6px; letter-spacing:0.05em; }
+.field input {
+  width:100%;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;
+  padding:11px 14px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.88rem;
+  color:#fff;
+  outline:none;
+}
+.field input:focus { border-color:#7c3aed; box-shadow:0 0 0 3px rgba(124,58,237,0.15); }
+
+.btn {
+  display:inline-block;
+  padding:11px 22px;
+  border-radius:10px;
+  border:none;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.88rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.btn-primary { background:linear-gradient(135deg,#7c3aed,#db2777); color:#fff; }
+.btn-primary:hover { opacity:0.9; transform:translateY(-1px); }
+.btn-primary:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+.btn-danger { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#fca5a5; }
+.btn-danger:hover { background:rgba(239,68,68,0.25); }
+
+.msg {
+  padding:10px 14px;
+  border-radius:9px;
+  font-size:0.82rem;
+  margin-top:14px;
+  display:none;
+}
+.msg.ok { background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); color:#86efac; display:block; }
+.msg.err { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#fca5a5; display:block; }
+
+/* User list */
+.user-list { display:flex; flex-direction:column; gap:10px; }
+.user-item {
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:12px;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.user-avatar {
+  width:38px;height:38px;
+  background:linear-gradient(135deg,#7c3aed,#db2777);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.9rem;
+  flex-shrink:0;
+}
+.user-info { flex:1; min-width:0; }
+.user-email { font-size:0.88rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.user-meta { font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:2px; }
+.user-status {
+  font-size:0.68rem;
+  font-weight:700;
+  padding:3px 9px;
+  border-radius:20px;
+}
+.status-aktif { background:rgba(34,197,94,0.15); color:#86efac; border:1px solid rgba(34,197,94,0.3); }
+.status-offline { background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.3); border:1px solid rgba(255,255,255,0.08); }
+
+.empty-state {
+  text-align:center;
+  padding:40px;
+  color:rgba(255,255,255,0.25);
+  font-size:0.85rem;
+}
+
+/* Admin login gate */
+#admin-gate {
+  max-width:400px;
+  margin:80px auto 0;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;
+  padding:32px;
+  text-align:center;
+}
+#admin-gate h2 { font-size:1.2rem; margin-bottom:6px; }
+#admin-gate p { color:rgba(255,255,255,0.4); font-size:0.82rem; margin-bottom:24px; }
+#admin-panel { display:none; }
+
+.spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin 0.7s linear infinite; margin-right:6px; vertical-align:middle; }
+@keyframes spin { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- Admin Gate (login dulu) -->
+<div id="admin-gate">
+  <h2>🔐 Admin Panel</h2>
+  <p>Masuk dengan akun admin untuk mengelola user.</p>
+  <div class="field" style="margin-bottom:12px;">
+    <label>EMAIL ADMIN</label>
+    <input type="email" id="admin-email" placeholder="admin@gmail.com">
+  </div>
+  <div class="field" style="margin-bottom:16px;">
+    <label>PASSWORD</label>
+    <input type="password" id="admin-pass" placeholder="••••••••">
+  </div>
+  <button class="btn btn-primary" id="btn-admin-login" onclick="adminLogin()" style="width:100%;">Masuk sebagai Admin</button>
+  <div id="gate-msg" class="msg"></div>
+</div>
+
+<!-- Admin Panel (setelah login) -->
+<div id="admin-panel">
+  <div class="topbar">
+    <div class="logo">⚙️ Admin Panel — Minna 2</div>
+    <button class="logout-btn" onclick="doLogout()">Logout</button>
+  </div>
+
+  <div class="page">
+    <h1>Kelola Akun User</h1>
+    <p class="subtitle">Buat akun premium untuk pembeli, lihat sesi aktif, dan hapus akun.</p>
+
+    <!-- Buat akun baru -->
+    <div class="section">
+      <div class="section-title">➕ Buat Akun Baru</div>
+      <div class="row">
+        <div class="field">
+          <label>EMAIL USER</label>
+          <input type="email" id="new-email" placeholder="user@gmail.com">
+        </div>
+        <div class="field">
+          <label>PASSWORD</label>
+          <input type="text" id="new-pass" placeholder="min. 8 karakter" value="">
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <button class="btn btn-primary" id="btn-create" onclick="createUser()">Buat Akun</button>
+        <button class="btn" style="background:rgba(255,255,255,0.06);margin-left:8px;" onclick="genPass()">🎲 Generate Password</button>
+      </div>
+      <div id="create-msg" class="msg"></div>
+    </div>
+
+    <!-- Daftar user -->
+    <div class="section">
+      <div class="section-title">👥 Daftar User Terdaftar</div>
+      <div id="user-list" class="user-list">
+        <div class="empty-state">Memuat data...</div>
+      </div>
+    </div>
+
+    <!-- Sesi aktif -->
+    <div class="section">
+      <div class="section-title">📡 Sesi Aktif Saat Ini</div>
+      <div id="session-list" class="user-list">
+        <div class="empty-state">Memuat sesi...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// =============================================
+// 🔧 KONFIGURASI FIREBASE — SAMA DENGAN login.html
+// =============================================
+const firebaseConfig = {
+  apiKey: "GANTI_API_KEY_KAMU",
+  authDomain: "GANTI_PROJECT_ID.firebaseapp.com",
+  projectId: "GANTI_PROJECT_ID",
+  storageBucket: "GANTI_PROJECT_ID.appspot.com",
+  messagingSenderId: "GANTI_MESSAGING_SENDER_ID",
+  appId: "GANTI_APP_ID"
+};
+
+// Email admin yang boleh akses halaman ini
+const ADMIN_EMAIL = "GANTI_EMAIL_ADMIN_KAMU@gmail.com";
+// =============================================
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+async function adminLogin() {
+  const email = document.getElementById('admin-email').value.trim();
+  const pass = document.getElementById('admin-pass').value;
+  const btn = document.getElementById('btn-admin-login');
+  const msg = document.getElementById('gate-msg');
+
+  if (email !== ADMIN_EMAIL) {
+    msg.textContent = 'Akun ini bukan admin.';
+    msg.className = 'msg err';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Masuk...';
+
+  try {
+    await auth.signInWithEmailAndPassword(email, pass);
+    showPanel();
+  } catch(e) {
+    msg.textContent = e.message;
+    msg.className = 'msg err';
+    btn.disabled = false;
+    btn.textContent = 'Masuk sebagai Admin';
+  }
+}
+
+auth.onAuthStateChanged(user => {
+  if (user && user.email === ADMIN_EMAIL) {
+    showPanel();
+  }
+});
+
+function showPanel() {
+  document.getElementById('admin-gate').style.display = 'none';
+  document.getElementById('admin-panel').style.display = 'block';
+  loadUsers();
+  loadSessions();
+}
+
+function doLogout() {
+  auth.signOut();
+  location.reload();
+}
+
+function genPass() {
+  const chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  let pass = '';
+  for(let i = 0; i < 10; i++) pass += chars[Math.floor(Math.random()*chars.length)];
+  document.getElementById('new-pass').value = pass;
+}
+
+async function createUser() {
+  const email = document.getElementById('new-email').value.trim();
+  const pass = document.getElementById('new-pass').value;
+  const msg = document.getElementById('create-msg');
+  const btn = document.getElementById('btn-create');
+
+  if (!email || pass.length < 6) {
+    msg.textContent = 'Email valid dan password min. 6 karakter dibutuhkan.';
+    msg.className = 'msg err';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Membuat...';
+
+  try {
+    // Simpan admin saat ini
+    const adminUser = auth.currentUser;
+
+    // Buat user baru via Firebase Auth REST API
+    // (karena createUserWithEmailAndPassword akan sign-in sebagai user baru)
+    const resp = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${firebaseConfig.apiKey}`,
+      {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ email, password: pass, returnSecureToken: false })
+      }
+    );
+    const data = await resp.json();
+
+    if (data.error) throw new Error(data.error.message);
+
+    // Simpan info user di Firestore
+    await db.collection('users').doc(email.replace(/[.@]/g, '_')).set({
+      email,
+      createdAt: Date.now(),
+      active: true
+    });
+
+    msg.textContent = `✅ Akun berhasil dibuat!\nEmail: ${email}\nPassword: ${pass}`;
+    msg.className = 'msg ok';
+    msg.style.whiteSpace = 'pre-line';
+    document.getElementById('new-email').value = '';
+    document.getElementById('new-pass').value = '';
+    loadUsers();
+  } catch(e) {
+    const errMap = {
+      'EMAIL_EXISTS': 'Email sudah terdaftar.',
+      'INVALID_EMAIL': 'Format email tidak valid.',
+      'WEAK_PASSWORD : Password should be at least 6 characters': 'Password min. 6 karakter.',
+    };
+    msg.textContent = '❌ ' + (errMap[e.message] || e.message);
+    msg.className = 'msg err';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Buat Akun';
+}
+
+async function loadUsers() {
+  const el = document.getElementById('user-list');
+  el.innerHTML = '<div class="empty-state">Memuat...</div>';
+  try {
+    const snap = await db.collection('users').orderBy('createdAt','desc').get();
+    if (snap.empty) {
+      el.innerHTML = '<div class="empty-state">Belum ada user.</div>';
+      return;
+    }
+    el.innerHTML = '';
+    snap.forEach(doc => {
+      const d = doc.data();
+      const initials = d.email.slice(0,2).toUpperCase();
+      const date = new Date(d.createdAt).toLocaleDateString('id-ID');
+      el.innerHTML += `
+        <div class="user-item">
+          <div class="user-avatar">${initials}</div>
+          <div class="user-info">
+            <div class="user-email">${d.email}</div>
+            <div class="user-meta">Dibuat: ${date}</div>
+          </div>
+          <button class="btn btn-danger" style="font-size:0.75rem;padding:7px 12px;" onclick="deleteUser('${d.email}','${doc.id}')">Hapus</button>
+        </div>`;
+    });
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state">Error: ' + e.message + '</div>';
+  }
+}
+
+async function loadSessions() {
+  const el = document.getElementById('session-list');
+  try {
+    const snap = await db.collection('sessions').get();
+    if (snap.empty) {
+      el.innerHTML = '<div class="empty-state">Tidak ada sesi aktif.</div>';
+      return;
+    }
+    el.innerHTML = '';
+    const now = Date.now();
+    snap.forEach(doc => {
+      const d = doc.data();
+      const age = now - (d.lastSeen || 0);
+      const isActive = age < 10 * 60 * 1000;
+      const timeStr = isActive ? 'Aktif sekarang' : Math.floor(age/60000) + ' menit lalu';
+      el.innerHTML += `
+        <div class="user-item">
+          <div class="user-avatar" style="background:${isActive?'linear-gradient(135deg,#059669,#10b981)':'rgba(255,255,255,0.1)'}">
+            ${isActive?'📡':'💤'}
+          </div>
+          <div class="user-info">
+            <div class="user-email">${d.email||doc.id}</div>
+            <div class="user-meta">${timeStr} · ${(d.device||'').slice(0,50)}</div>
+          </div>
+          <span class="user-status ${isActive?'status-aktif':'status-offline'}">${isActive?'AKTIF':'OFFLINE'}</span>
+          <button class="btn btn-danger" style="font-size:0.75rem;padding:7px 12px;" onclick="kickSession('${doc.id}')">Kick</button>
+        </div>`;
+    });
+  } catch(e) {
+    el.innerHTML = '<div class="empty-state">Error memuat sesi.</div>';
+  }
+}
+
+async function kickSession(id) {
+  if(!confirm('Putus sesi ini?')) return;
+  await db.collection('sessions').doc(id).delete();
+  loadSessions();
+}
+
+async function deleteUser(email, docId) {
+  if(!confirm('Hapus akun ' + email + '? (Akun Firebase Auth tidak dihapus otomatis)')) return;
+  await db.collection('users').doc(docId).delete();
+  // Hapus sesi juga
+  const sessionKey = email.replace(/[.@]/g, '_');
+  await db.collection('sessions').doc(sessionKey).delete().catch(()=>{});
+  loadUsers();
+}
+
+// Refresh sesi tiap 30 detik
+setInterval(() => {
+  if(document.getElementById('admin-panel').style.display !== 'none') {
+    loadSessions();
+  }
+}, 30000);
+</script>
+</body>
+</html>
