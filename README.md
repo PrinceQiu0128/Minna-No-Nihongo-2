@@ -1,1 +1,0 @@
-# Minna-No-Nihongo-2
